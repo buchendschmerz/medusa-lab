@@ -1,0 +1,130 @@
+{
+  "queries": [
+    "LLM",
+    "sound symbolism",
+    "language evolution",
+    "naming game language convergence"
+  ],
+  "literature": [
+    {
+      "key": "steels1995selforganizing",
+      "title": "A self-organizing spatial vocabulary",
+      "authors": [
+        "Luc Steels"
+      ],
+      "year": 1995,
+      "venue": "Artificial Life 2(3):319-332",
+      "url": "",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "baronchelli2006sharp",
+      "title": "Sharp transition towards shared vocabularies in multi-agent systems",
+      "authors": [
+        "Andrea Baronchelli",
+        "Maddalena Felici",
+        "Vittorio Loreto",
+        "Emanuele Caglioti",
+        "Luc Steels"
+      ],
+      "year": 2006,
+      "venue": "Journal of Statistical Mechanics: Theory and Experiment, P06014",
+      "url": "https://doi.org/10.1088/1742-5468/2006/06/P06014",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "10.1088/1742-5468/2006/06/P06014",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "dallasta2006nonequilibrium",
+      "title": "Nonequilibrium dynamics of language games on complex networks",
+      "authors": [
+        "Luca Dall'Asta",
+        "Andrea Baronchelli",
+        "Alain Barrat",
+        "Vittorio Loreto"
+      ],
+      "year": 2006,
+      "venue": "Physical Review E 74, 036105",
+      "url": "",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "centola2015spontaneous",
+      "title": "The spontaneous emergence of conventions: An experimental study of cultural evolution",
+      "authors": [
+        "Damon Centola",
+        "Andrea Baronchelli"
+      ],
+      "year": 2015,
+      "venue": "PNAS 112(7):1989-1994",
+      "url": "https://doi.org/10.1073/pnas.1418838112",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "10.1073/pnas.1418838112",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    }
+  ],
+  "problems": [
+    {
+      "id": "P1",
+      "statement": "How does the structure of real (online) social networks change how fast new words become conventions?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    },
+    {
+      "id": "P2",
+      "statement": "Do human groups follow the N^{3/2} consensus-time scaling predicted for well-mixed naming games?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    },
+    {
+      "id": "P3",
+      "statement": "How much lexical memory do speakers need during the negotiation phase?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    }
+  ],
+  "summary": "Offline scouting: 0 retrieved paper(s) plus the foundational literature of Naming Game model of lexical convention formation. Gaps were extracted heuristically from abstract sentences that state open questions.",
+  "sources_used": [],
+  "notes": [
+    "arxiv search failed for 'LLM': HTTPError: HTTP Error 406: Not Acceptable",
+    "openalex search failed for 'LLM': HTTPError: HTTP Error 429: Too Many Requests",
+    "arxiv search failed for 'sound symbolism': HTTPError: HTTP Error 406: Not Acceptable",
+    "openalex search failed for 'sound symbolism': HTTPError: HTTP Error 429: Too Many Requests",
+    "arxiv search failed for 'language evolution': HTTPError: HTTP Error 406: Not Acceptable",
+    "openalex search failed for 'language evolution': HTTPError: HTTP Error 429: Too Many Requests",
+    "arxiv search failed for 'naming game language convergence': HTTPError: HTTP Error 406: Not Acceptable",
+    "openalex search failed for 'naming game language convergence': HTTPError: HTTP Error 429: Too Many Requests"
+  ]
+}

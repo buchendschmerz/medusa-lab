@@ -1,0 +1,57 @@
+{
+  "E1": {
+    "reviewer": "Reviewer 1 (Methodologist)",
+    "persona": "methodologist",
+    "target": "proposal:E1",
+    "scores": {
+      "novelty": 3.5,
+      "rigor": 3.5,
+      "clarity": 4.0,
+      "reproducibility": 3.5,
+      "significance": 3.5
+    },
+    "summary": "実施可能性の高い提案です（平均 3.6/5）。パイロットと事前登録を経て実施を推奨します。",
+    "strengths": [
+      "検出力分析に基づくサンプルサイズ（各条件 n=12）が示されている。",
+      "倫理的配慮のチェックリストが具体的。",
+      "シミュレーション予測との接続が明確で、理論と実証の往復になっている。"
+    ],
+    "weaknesses": [
+      "想定効果量 d=1.2 は大きめ。パイロット研究で確認すべき。"
+    ],
+    "requests": [
+      "小規模なパイロットで効果量と手続きの理解度を確認する。",
+      "主要指標・除外基準・分析を実施前に事前登録する。",
+      "条件への割り当てを完全ランダム化し、割り当て手続きを記録する。"
+    ],
+    "decision": "minor_revision",
+    "confidence": 3,
+    "round": 1
+  },
+  "E2": {
+    "reviewer": "Reviewer 1 (Methodologist)",
+    "persona": "methodologist",
+    "target": "proposal:E2",
+    "scores": {
+      "novelty": 3.5,
+      "rigor": 3.5,
+      "clarity": 4.0,
+      "reproducibility": 3.5,
+      "significance": 3.5
+    },
+    "summary": "実施可能性の高い提案です（平均 3.6/5）。パイロットと事前登録を経て実施を推奨します。",
+    "strengths": [
+      "検出力分析に基づくサンプルサイズ（各条件 n=64）が示されている。",
+      "倫理的配慮のチェックリストが具体的。",
+      "シミュレーション予測との接続が明確で、理論と実証の往復になっている。"
+    ],
+    "weaknesses": [],
+    "requests": [
+      "主要指標・除外基準・分析を実施前に事前登録する。",
+      "条件への割り当てを完全ランダム化し、割り当て手続きを記録する。"
+    ],
+    "decision": "accept",
+    "confidence": 3,
+    "round": 1
+  }
+}

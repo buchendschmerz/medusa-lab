@@ -1,0 +1,20 @@
+{
+  "in_silico": [
+    "H1",
+    "H2"
+  ],
+  "human": [
+    "H3",
+    "H4"
+  ],
+  "deferred": [],
+  "reasons": {
+    "H1": "The claim concerns the model's own dynamics and is settled by simulation.",
+    "H2": "The claim concerns the model's own dynamics and is settled by simulation.",
+    "H3": "Needs human participants: モデルのエージェントは記憶も好みも持たない。実際の人間は覚えやすさ・面白さ・評判で語を選ぶため、予測が人間集団でも成り立つかは人間で確かめるしかない。",
+    "H4": "Needs human participants: 直感や予測の偏りは人間からしか測れない。モデルの結果を『正解』として使える稀有な機会でもある。"
+  },
+  "run_simulation": true,
+  "write_paper": true,
+  "write_proposals": true
+}
