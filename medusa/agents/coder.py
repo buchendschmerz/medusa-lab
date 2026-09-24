@@ -59,7 +59,8 @@ class CoderAgent(Agent):
     def __init__(self, ctx) -> None:  # type: ignore[no-untyped-def]
         super().__init__(ctx)
         cc = self.cfg.coder
-        self.sandbox = Sandbox(mode=cc.sandbox, timeout_sec=cc.timeout_sec, memory_mb=cc.memory_mb)
+        self.sandbox = Sandbox(mode=cc.sandbox, timeout_sec=cc.timeout_sec, memory_mb=cc.memory_mb,
+                               require_isolation=cc.require_isolation)
         self._attempt = 1
 
     def run(self, analysis: AnalysisReport, recipe: Recipe) -> SimulationResult:

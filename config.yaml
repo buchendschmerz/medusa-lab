@@ -54,6 +54,7 @@ coder:
   timeout_sec: 300            # 1回のシミュレーション実行の制限時間
   max_attempts: 3             # 生成コードの自己デバッグ回数
   sandbox: basic              # basic | strict
+  require_isolation: false    # strict が使えない環境では失敗させる（CI では MEDUSA_REQUIRE_ISOLATION=1）
   memory_mb: 2048
   quick: false
 

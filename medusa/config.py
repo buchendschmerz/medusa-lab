@@ -74,6 +74,7 @@ class CoderConfig:
     timeout_sec: float = 300.0
     max_attempts: int = 3
     sandbox: str = "basic"
+    require_isolation: bool = False  # strict mode: fail instead of falling back to basic isolation
     memory_mb: int = 2048
     quick: bool = False
 
@@ -236,6 +237,8 @@ class Config:
             self.scout.network = False
         if env_flag("MEDUSA_QUICK", env):
             self.coder.quick = True
+        if env_flag("MEDUSA_REQUIRE_ISOLATION", env):
+            self.coder.require_isolation = True
 
     def validate(self) -> None:
         checks = [

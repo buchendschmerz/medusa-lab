@@ -34,6 +34,8 @@ def test_offline_hybrid_cycle_produces_everything(cfg) -> None:  # type: ignore[
     snap = orch.board.snapshot
     assert snap.cycle_status == "done" and snap.director.state == "reviewing"
     assert all(v in ("done", "skipped") for v in snap.stages.values())
+    # nobody is left "working" once the cycle is published
+    assert all(a.style.tone in ("done", "wait", "idle") for a in snap.agents.values()), snap.agents
     history = read_json(cfg.outputs_dir / "history.json")
     assert history[-1]["cycle_id"] == "2026-W39"
     assert (cfg.outputs_dir / "index.html").exists() and (cfg.dashboard_dir / "lab.svg").exists()

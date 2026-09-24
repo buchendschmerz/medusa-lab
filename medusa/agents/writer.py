@@ -474,6 +474,9 @@ class WriterAgent(Agent):
         index += [f"- [{d.idea_id}: {d.title}]({Path(d.path).name}) — n = {d.sample_size} "
                   f"{PROPOSAL_LABELS[lang]['per_condition']}" for d in docs]
         (out / "README.md").write_text("\n".join(index) + "\n", encoding="utf-8")
+        if reviews:
+            self.status(AgentState.DONE, self.msg(f"査読コメントを反映した提案書{len(docs)}件",
+                                                  f"{len(docs)} proposal(s) with review comments"), 1.0)
         return docs
 
 

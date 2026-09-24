@@ -112,6 +112,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MEDUSA_SANDBOX: strict      # generated code: no network, runs as `nobody`
+          MEDUSA_REQUIRE_ISOLATION: "1"  # fail closed if strict isolation is unavailable (e.g. no sudo)
           MEDUSA_OFFLINE: ${{ inputs.offline && '1' || '' }}
           THEME_FILE: ${{ steps.theme.outputs.theme_file }}
         run: python -m medusa run --theme-file "$THEME_FILE"
@@ -126,7 +127,7 @@ jobs:
           body-path: ${{ steps.cycle.outputs.pr_body }}
           commit-message: "research(${{ steps.cycle.outputs.cycle_id }}): paper, proposals and pixel-art dashboard"
           add-paths: |
-            outputs/**
+            outputs
             README.md
           labels: medusa:paper
           delete-branch: true

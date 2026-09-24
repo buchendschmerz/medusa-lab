@@ -61,9 +61,18 @@ jobs:
       - name: Run the offline demo cycle (strict sandbox)
         env:
           MEDUSA_SANDBOX: strict
+          MEDUSA_REQUIRE_ISOLATION: "1"
         run: python -m medusa demo --outputs demo-outputs
-      - name: Check the paper PDF exists
-        run: ls -la demo-outputs/weeks/*/paper/paper.pdf
+      - name: Check the paper PDF and the strict sandbox
+        run: |
+          ls -la demo-outputs/weeks/*/paper/paper.pdf
+          python - <<'PY'
+          import glob, json
+          sim = json.load(open(glob.glob("demo-outputs/weeks/*/coder/simulation.json")[0]))
+          assert sim["status"] == "success", sim
+          assert sim["isolation"] == "strict", f"strict sandbox not active: {sim['isolation']}"
+          print("strict sandbox OK")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: medusa-offline-demo
