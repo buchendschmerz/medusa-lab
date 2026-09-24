@@ -50,6 +50,15 @@ def rich(text: str) -> str:
     return re.sub(r"(?<=[A-Za-z0-9)])\^(-?[A-Za-z0-9.]+)", r"<sup>\1</sup>", out)
 
 
+_HTTP_URL = re.compile(r"^https?://[^\s<>\"']+$", re.IGNORECASE)
+
+
+def safe_url(url: str | None) -> str:
+    """Escaped href for an http(s) URL only. Retrieved-literature URLs are untrusted, so a
+    ``javascript:`` / ``data:`` scheme (which ``html.escape`` does not neutralise) is dropped."""
+    return html.escape(url) if url and _HTTP_URL.match(url) else ""
+
+
 def read_table(path: Path) -> tuple[list[str], list[list[float]]]:
     lines = [ln.split() for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
     if not lines:
@@ -442,8 +451,9 @@ def render_cycle_report(cycle_dir: Path, record: CycleRecord, *, lang: str = "ja
         parts.append(f'<h2>{"文献" if ja else "Literature"}</h2><ul class="refs">')
         for it in lit:
             title = _e(it.get("title"))
-            if it.get("url"):
-                title = f'<a href="{_e(it["url"])}">{title}</a>'
+            href = safe_url(it.get("url"))
+            if href:
+                title = f'<a href="{href}" rel="noopener nofollow">{title}</a>'
             tag = ' <span class="muted">(foundational)</span>' if it.get("foundational") else ""
             parts.append(f'<li>{_e(", ".join(it.get("authors", [])[:3]))} ({_e(it.get("year"))}). {title}. '
                          f'<span class="muted">{_e(it.get("venue"))}</span>{tag}</li>')

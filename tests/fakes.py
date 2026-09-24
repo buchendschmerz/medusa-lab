@@ -42,12 +42,13 @@ class FakeLLM(LLM):
 
     offline = False
 
-    def __init__(self, *, bad_code_first: bool = True, review_decision: str = "minor_revision",
-                 review_score: float = 4.0) -> None:
+    def __init__(self, *, bad_code_first: bool = True, always_bad_code: bool = False,
+                 review_decision: str = "minor_revision", review_score: float = 4.0) -> None:
         super().__init__()
         self.model = "fake-claude"
         self.calls: list[dict[str, Any]] = []
         self.bad_code_first = bad_code_first
+        self.always_bad_code = always_bad_code
         self.review_decision = review_decision
         self.review_score = review_score
         self._code_calls = 0
@@ -100,7 +101,7 @@ class FakeLLM(LLM):
             }
         if "code" in props:
             self._code_calls += 1
-            if self.bad_code_first and self._code_calls == 1:
+            if self.always_bad_code or (self.bad_code_first and self._code_calls == 1):
                 return {"code": BAD_CODE, "explanation": "first try"}
             return {"code": GOOD_CODE, "explanation": "random walk sweep"}
         if "response_to_reviewers" in props:

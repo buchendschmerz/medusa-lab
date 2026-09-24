@@ -184,14 +184,26 @@ class CoderAgent(Agent):
         if problems:
             result.error = "Invalid results: " + "; ".join(problems)
             return result
+        try:
+            metrics = data.get("metrics", {})
+            metric_notes = {str(k): str(v) for k, v in (data.get("metric_notes") or {}).items()}
+            tables = data.get("tables", {})
+            figures = [FigureSpec.from_dict(f) for f in data.get("figures", [])]
+            findings = [str(f) for f in data.get("findings", []) if str(f).strip()]
+            seed = int(data.get("seed") or result.seed)
+        except (TypeError, ValueError, KeyError) as exc:
+            # a wrong type in the metadata (e.g. sim.figure(labels=[1])) is a bug in the
+            # generated script, not a crash of the cycle — count it as a failed attempt
+            result.error = f"Malformed results.json ({type(exc).__name__}: {exc})."
+            return result
         result.status = "success"
-        result.metrics = data.get("metrics", {})
-        result.metric_notes = {str(k): str(v) for k, v in (data.get("metric_notes") or {}).items()}
-        result.tables = data.get("tables", {})
-        result.figures = [FigureSpec.from_dict(f) for f in data.get("figures", [])]
+        result.metrics = metrics
+        result.metric_notes = metric_notes
+        result.tables = tables
+        result.figures = figures
         result.summary = str(data.get("summary", ""))
-        result.findings = [str(f) for f in data.get("findings", [])]
-        result.seed = int(data.get("seed") or result.seed)
+        result.findings = findings
+        result.seed = seed
         return result
 
     @staticmethod

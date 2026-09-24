@@ -186,6 +186,8 @@ class ClaudeLLM(LLM):
             raise LLMError(f"API error {exc.status_code}: {exc.message}") from exc
         except sdk.APIConnectionError as exc:
             raise LLMError(f"connection error: {exc}") from exc
+        except Exception as exc:  # a drop *mid-stream* surfaces as a raw transport error, not an SDK error
+            raise LLMError(f"streaming failed: {type(exc).__name__}: {exc}") from exc
 
         usage = Usage(calls=1)
         u = getattr(message, "usage", None)

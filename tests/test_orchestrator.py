@@ -96,6 +96,30 @@ def test_llm_major_revision_triggers_rewrite(cfg) -> None:  # type: ignore[no-un
     assert "Response to reviewers" in (outcome.cycle_dir / "paper/paper.tex").read_text()
 
 
+def test_recipe_fallback_paper_describes_the_recipe(cfg) -> None:  # type: ignore[no-untyped-def]
+    # Every LLM code attempt is a screening-rejected payload, so the Coder falls back to the vetted
+    # recipe. The paper must then describe the recipe's model/equations, not the abandoned LLM design.
+    cfg.coder.max_attempts = 2
+    fake = FakeLLM(always_bad_code=True)
+    _, outcome = _run(cfg, "How slang words spread", Mode.IN_SILICO, llm=fake)
+    sim = read_json(outcome.cycle_dir / "coder/simulation.json")
+    assert sim["source"] == "recipe-fallback"
+    analysis = read_json(outcome.cycle_dir / "analyst/analysis.json")
+    recipe_id = analysis["recipe"]
+    # the persisted model was rewritten to the recipe's, and every in-silico hypothesis matches it
+    from medusa.agents.analyst import insilico_from_recipe
+    from medusa.recipes import get_recipe
+
+    model, _, hyps = insilico_from_recipe(get_recipe(recipe_id), cfg.coder.quick)
+    assert analysis["model"]["name"] == model.name
+    assert analysis["model"]["equations"] == model.equations
+    # the equations block is rendered from analysis.model, so the abandoned LLM equation must be gone
+    # and the recipe's own equations present (the LLM's free-text title/prose is not our concern here)
+    tex = (outcome.cycle_dir / "paper/paper.tex").read_text()
+    assert "x_{t+1}" not in tex
+    assert any(frag in tex for frag in ("N_w", "convergence", "consensus"))  # naming-game observables
+
+
 @pytest.mark.skipif(not have_latex(), reason="no LaTeX engine installed")
 def test_offline_cycle_builds_pdf(cfg) -> None:  # type: ignore[no-untyped-def]
     cfg.writer.compile_pdf = True

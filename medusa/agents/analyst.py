@@ -98,6 +98,24 @@ def model_from_recipe(recipe: Recipe, quick: bool = False) -> TheoryModel:
                        observables=list(recipe.observables), recipe=recipe.id)
 
 
+def insilico_from_recipe(recipe: Recipe, quick: bool = False) -> tuple[TheoryModel, SimulationPlan, list[Hypothesis]]:
+    """The model, simulation plan and in-silico hypotheses that describe the recipe's own simulation.
+
+    Used both by the offline analyst and to re-describe the study when the Coder falls back to the
+    vetted recipe, so the paper's model, equations and hypotheses match the code that actually ran."""
+    run_params = recipe.run_params(quick)
+    plan = SimulationPlan(sweep_parameter=recipe.sweep_parameter, sweep_values=recipe.sweep_values(quick),
+                          replicates=int(run_params.get("replicates", 3)), params=run_params,
+                          metrics=list(recipe.observables), notes=f"Recipe '{recipe.id}' ({recipe.script}).")
+    hyps = [Hypothesis(
+        id=f"H{i}", statement=tpl.statement, rationale=tpl.rationale, track=Track.IN_SILICO,
+        predictions=list(tpl.predictions), independent_variable=tpl.independent_variable,
+        dependent_variable=tpl.dependent_variable,
+        routing_reason="The claim concerns the model's own dynamics and is settled by simulation.")
+        for i, tpl in enumerate(recipe.hypotheses, 1)]
+    return model_from_recipe(recipe, quick), plan, hyps
+
+
 class AnalystAgent(Agent):
     key = "analyst"
 
@@ -129,13 +147,8 @@ class AnalystAgent(Agent):
         recipe = match.recipe
         lang = self.ctx.lang
         acfg = self.cfg.analyst
-        hypotheses: list[Hypothesis] = []
-        for i, tpl in enumerate(recipe.hypotheses, 1):
-            hypotheses.append(Hypothesis(
-                id=f"H{i}", statement=tpl.statement, rationale=tpl.rationale, track=Track.IN_SILICO,
-                predictions=list(tpl.predictions), independent_variable=tpl.independent_variable,
-                dependent_variable=tpl.dependent_variable,
-                routing_reason="The claim concerns the model's own dynamics and is settled by simulation."))
+        quick = self.cfg.coder.quick
+        model, plan, hypotheses = insilico_from_recipe(recipe, quick)
         ideas: list[HumanExperimentIdea] = []
         templates = [*recipe.human_ideas, INTUITION_IDEA][: max(0, acfg.max_human_proposals)]
         for j, tpl in enumerate(templates, 1):
@@ -152,11 +165,6 @@ class AnalystAgent(Agent):
                 dependent_variable=idea.measures[0] if idea.measures else "",
                 routing_reason="Needs human participants: " + idea.why_human))
         hypotheses = hypotheses[: max(acfg.max_hypotheses, len(recipe.hypotheses) + len(ideas))]
-        quick = self.cfg.coder.quick
-        run_params = recipe.run_params(quick)
-        plan = SimulationPlan(sweep_parameter=recipe.sweep_parameter, sweep_values=recipe.sweep_values(quick),
-                              replicates=int(run_params.get("replicates", 3)), params=run_params,
-                              metrics=list(recipe.observables), notes=f"Recipe '{recipe.id}' ({recipe.script}).")
         framing = ("No model in the offline catalogue matched the theme, so the generic contagion model is used as a "
                    "stand-in; enable LLM mode for a tailored model." if match.is_default else
                    f"The theme maps onto the {recipe.title} (matched terms: {', '.join(match.matched_terms)}).")

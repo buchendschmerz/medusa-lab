@@ -45,6 +45,14 @@ def _set_output(path: str | None, values: dict[str, Any]) -> None:
             fh.write(f"{key}={' '.join(text.split())}\n")
 
 
+def _mark_notified(cycle_dir: Path) -> None:
+    """Record that this cycle's outcome was already reported, so a later notify-complete skips it."""
+    record = read_json(cycle_dir / "cycle.json", {}) or {}
+    if record:
+        record["notified"] = True
+        write_json(cycle_dir / "cycle.json", record)
+
+
 # ------------------------------------------------------------------------------ prompt
 def cmd_prompt(args: argparse.Namespace) -> int:
     from .orchestrator import Orchestrator
@@ -113,6 +121,15 @@ def cmd_resolve_theme(args: argparse.Namespace) -> int:
     if cmd is not None:
         theme = cmd.to_theme(cycle_id=cycle_hint or iso_week(tz=cfg.lab.timezone), source=source,
                              issue_number=issue_number, requested_by=author)
+        # Reserve a free cycle id now — checking remote medusa/<week>* branches of open PRs, which the
+        # research-cycle checkout of the default branch cannot see — so two different themes in one week
+        # do not land on the same PR branch. Best-effort; falls back to the plain week on any error.
+        try:
+            from .orchestrator import Orchestrator
+            theme.cycle_id = Orchestrator(cfg, console=False).reserve_cycle_id(theme, Notifier(cfg).github)
+        except Exception as exc:  # noqa: BLE001 - reservation must never block resolving the theme
+            import logging
+            logging.getLogger("medusa.cli").warning("cycle-id reservation failed (%s); using %s", exc, theme.cycle_id)
         out = Path(args.out)
         write_json(out, {**theme.to_dict(), "comment_id": comment_id})
         outputs.update({"should_run": True, "theme_file": str(out), "cycle_id": theme.cycle_id,
@@ -188,6 +205,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         summary = (cycle_dir / "summary.md").read_text(encoding="utf-8") if (cycle_dir / "summary.md").exists() else str(exc)
         if theme.issue_number:
             notifier.finish(theme.issue_number, summary, comment_id=comment_id, ok=False)
+        _mark_notified(cfg.cycle_dir(theme.cycle_id))  # so the workflow's notify-complete step won't repeat it
         _set_output(os.environ.get("GITHUB_OUTPUT"), {"ok": False, "cycle_id": theme.cycle_id})
         return 1
     if live:
@@ -293,9 +311,16 @@ def cmd_notify_complete(args: argparse.Namespace) -> int:
     if args.pr_url and record:
         record["pr_url"] = args.pr_url
         write_json(cycle_dir / "cycle.json", record)
+    if record.get("notified") and not args.pr_url:
+        # The run step already reported this outcome (a failure has no PR to add); don't repeat it.
+        print("📨 already reported by the run step")
+        return 0
     issue = args.issue or (record.get("theme") or {}).get("issue_number")
     Notifier(cfg).finish(int(issue) if issue else None, summary, pr_url=args.pr_url or "",
                          comment_id=args.comment_id, ok=record.get("status") == "done")
+    if record:
+        record["notified"] = True
+        write_json(cycle_dir / "cycle.json", record)
     print("📨 notified")
     return 0
 

@@ -3,12 +3,22 @@
 Defence in depth — none of these layers is a perfect sandbox on its own:
 
 1. **Static screening** (:func:`screen_code`): an AST check with an import
-   allow-list and a ban on dynamic/introspective builtins, dunder access and
-   file/OS/pickle-style attributes. It stops accidental or naive misuse and
-   prompt-injected payloads early, with a readable error the Coder can fix.
+   allow-list and a ban on dynamic/introspective builtins (as calls *and* as
+   aliases), dunder access (as names *and* as string literals, so ``__builtins__``
+   can't be reached by subscript) and file/OS/ctypes/socket/pickle-style
+   attributes. It stops accidental and easy-to-write misuse early with a readable
+   error the Coder can fix, but a deny-list can never be complete against the full
+   numpy/scipy/networkx surface — treat it as a speed bump, not the boundary.
 2. **Process isolation** (:class:`Sandbox`): a fresh working directory, an
    environment with *no* secrets, ``python -I``, resource limits (CPU time,
    memory, file size, open files, no core dumps) and a hard wall-clock timeout.
+   The *child's* environment is scrubbed, but in basic mode the child shares the
+   parent's uid and could otherwise read the parent's ``/proc/<pid>/environ``
+   (which still holds the exec-time secrets even after ``os.environ`` is edited),
+   so constructing a :class:`Sandbox` marks this process non-dumpable on Linux —
+   that hands ``/proc/<pid>`` to root and denies the same-uid read. This is
+   best-effort defence in depth; basic mode is for development, and any run that
+   holds real secrets should use strict mode (below) with ``require_isolation``.
 3. **strict mode** (recommended on CI): additionally runs the process in a new
    network namespace (no network at all) as the unprivileged ``nobody`` user
    via ``unshare`` + ``setpriv`` (needs root or passwordless ``sudo``). Running
@@ -20,8 +30,10 @@ from __future__ import annotations
 
 import ast
 import contextlib
+import ctypes
 import logging
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -47,19 +59,36 @@ BANNED_CALLS = frozenset({
     "vars", "getattr", "setattr", "delattr", "memoryview", "exit", "quit", "help",
 })
 # attribute / imported names that reach the file system, processes, the network,
-# serialisation, frame introspection or string-based attribute lookup
+# serialisation, frame introspection or string-based attribute lookup.
+# The screener is defence layer 1: it stops naive and easy-to-write payloads with a
+# readable error, but it can never be a complete deny-list against the full numpy/
+# scipy/networkx surface — the real containment is the OS isolation of strict mode.
 BANNED_ATTRS = frozenset({
     "load", "loads", "loadtxt", "save", "savez", "savez_compressed", "savetxt", "savefig", "fromfile",
     "tofile", "genfromtxt", "fromregex", "memmap", "DataSource", "ctypes", "ctypeslib", "dump", "dumps",
-    "system", "popen", "fork", "kill", "killpg", "remove", "unlink", "rmdir", "mkdir", "makedirs", "rename",
-    "chmod", "chown", "environ", "getenv", "putenv", "listdir", "scandir", "imread", "imsave", "readwrite",
-    "datasets", "attrgetter", "methodcaller", "get_type_hints", "ForwardRef", "f_globals", "f_locals",
+    "system", "popen", "fork", "forkpty", "kill", "killpg", "remove", "unlink", "rmdir", "mkdir", "makedirs",
+    "rename", "chmod", "chown", "environ", "environb", "getenv", "getenvb", "putenv", "unsetenv",
+    "listdir", "scandir", "walk", "fwalk", "imread", "imsave", "readwrite", "datasets",
+    # low-level file/descriptor and process primitives (os.*, ctypes.*)
+    "open", "openat", "read", "write", "pread", "pwrite", "fdopen", "fdatasync", "fsync", "dup", "dup2",
+    "pipe", "pipe2", "mkfifo", "mknod", "symlink", "link", "readlink", "truncate", "ftruncate", "sendfile",
+    "access", "stat", "lstat", "fstat", "statvfs", "getppid", "getpid", "getuid", "geteuid", "setuid",
+    "chdir", "chroot", "fchdir", "getcwd", "getcwdb", "execv", "execve", "execvp", "execvpe", "execl",
+    "execle", "execlp", "posix_spawn", "posix_spawnp", "startfile", "device_encoding",
+    "dlopen", "LoadLibrary", "CDLL", "WinDLL", "OleDLL", "PyDLL", "cast", "string_at", "wstring_at",
+    "addressof", "memmove", "memset", "POINTER", "pointer", "create_string_buffer", "mmap",
+    # sockets / urllib
+    "socket", "socketpair", "create_connection", "connect", "urlopen", "urlretrieve",
+    # frame / code / function introspection
+    "attrgetter", "methodcaller", "get_type_hints", "ForwardRef", "f_globals", "f_locals",
     "f_builtins", "f_back", "gi_frame", "gi_code", "cr_frame", "ag_frame", "tb_frame", "tb_next", "co_code",
-    "func_globals",
+    "func_globals", "__reduce__", "__reduce_ex__",
 })
-BANNED_ATTR_PREFIXES = ("read_", "write_", "load_", "save_", "open_", "to_pickle", "from_pickle", "spawn")
+BANNED_ATTR_PREFIXES = ("read_", "write_", "load_", "save_", "open_", "to_pickle", "from_pickle", "spawn",
+                        "system")
 BANNED_SUBMODULES = frozenset({"io", "ctypeslib", "lib", "testing", "distutils", "f2py", "_core", "datasets",
                                "readwrite", "misc"})
+_DUNDER_STR = re.compile(r"^__\w+__$")  # e.g. "__builtins__", "__globals__", "__subclasses__"
 SIM_MODULE = "medusa_sim"
 
 # Runs inside the child before the script: resource limits, umask, then the script itself.
@@ -93,6 +122,23 @@ class ScreeningError(ValueError):
     def __init__(self, problems: list[str]) -> None:
         super().__init__("; ".join(problems))
         self.problems = problems
+
+
+_HARDENED = False
+
+
+def _harden_process() -> None:
+    """Mark this (trusted parent) process non-dumpable so a same-uid sandbox child
+    cannot read its ``/proc/<pid>/environ`` (API keys). Linux-only, best-effort, once."""
+    global _HARDENED
+    if _HARDENED or not sys.platform.startswith("linux"):
+        return
+    _HARDENED = True
+    try:  # PR_SET_DUMPABLE = 4, SUID_DUMP_DISABLE = 0
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        libc.prctl(4, 0, 0, 0, 0)
+    except (OSError, AttributeError, ValueError) as exc:  # pragma: no cover - platform dependent
+        log.debug("could not set the process non-dumpable: %s", exc)
 
 
 def _attr_banned(name: str) -> bool:
@@ -137,10 +183,15 @@ def screen_code(source: str, extra_allowed: frozenset[str] = frozenset()) -> lis
                 for alias in node.names:
                     if alias.name == "*" or alias.name in BANNED_SUBMODULES or _attr_banned(alias.name):
                         problems.append(f"{where(node)}: importing '{alias.name}' from '{module}' is not allowed")
-        elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in BANNED_CALLS:
-            problems.append(f"{where(node)}: call to '{node.func.id}()' is not allowed")
-        elif isinstance(node, ast.Name) and node.id.startswith("__") and node.id != "__name__":
-            problems.append(f"{where(node)}: access to '{node.id}' is not allowed")
+        elif isinstance(node, ast.Name):
+            # catch both calls and aliasing (e.g. ``e = eval``); a call's callee is also a Name node
+            if node.id in BANNED_CALLS:
+                problems.append(f"{where(node)}: use of '{node.id}' is not allowed")
+            elif node.id.startswith("__") and node.id != "__name__":
+                problems.append(f"{where(node)}: access to '{node.id}' is not allowed")
+        elif isinstance(node, ast.Constant) and isinstance(node.value, str) and _DUNDER_STR.match(node.value):
+            # a dunder string reaches builtins/globals/type internals via subscript or getattr
+            problems.append(f"{where(node)}: the string {node.value!r} is not allowed")
         elif isinstance(node, ast.Attribute):
             if isinstance(node.value, ast.Name) and node.value.id in sim_aliases:
                 if node.attr.startswith("_"):
@@ -183,6 +234,7 @@ class Sandbox:
         self.memory_mb = int(memory_mb)
         self.python = python or sys.executable
         self.require_isolation = require_isolation
+        _harden_process()
 
     # ------------------------------------------------------------------ strict mode
     def _strict_prefix(self) -> list[str] | None:

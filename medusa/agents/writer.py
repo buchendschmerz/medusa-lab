@@ -243,7 +243,9 @@ class WriterAgent(Agent):
         sweep = next((p for p in analysis.model.parameters if p.name == plan.sweep_parameter), None)
         sweep_desc = f"{sweep.description} ${sweep.symbol}$" if sweep else plan.sweep_parameter
         values = ", ".join(f"{v:g}" for v in (plan.sweep_values or (sweep.sweep if sweep else []))) or "several values"
-        findings = [mathify(f) for f in (sim.findings or [sim.summary])]
+        findings = [mathify(f) for f in (sim.findings or [sim.summary]) if f and f.strip()]
+        if not findings:
+            findings = [f"the {recipe.title} was simulated and its standard behaviour reproduced"]
         retrieved = [it for it in scout.literature if not it.foundational]
         human = [i for i in analysis.human_ideas if i.hypothesis_id in routing.human]
         in_silico = [h for h in analysis.hypotheses if h.id in routing.in_silico]

@@ -81,6 +81,14 @@ class GitHubAPI:
         issues = self.request("GET", f"{self.base}/issues?labels={quote(label)}&state={state}&per_page=50") or []
         return [i for i in issues if "pull_request" not in i]
 
+    def matching_branches(self, prefix: str) -> list[str]:
+        """Branch names (``heads/`` stripped) that start with ``prefix`` — includes branches of
+        still-open PRs, which a fresh checkout of the default branch cannot see locally."""
+        from urllib.parse import quote
+
+        refs = self.request("GET", f"{self.base}/git/matching-refs/heads/{quote(prefix)}") or []
+        return [r["ref"].split("refs/heads/", 1)[-1] for r in refs if isinstance(r, dict) and r.get("ref")]
+
     def comment(self, number: int, body: str) -> dict[str, Any]:
         return self.request("POST", f"{self.base}/issues/{number}/comments", {"body": body})
 
@@ -264,10 +272,15 @@ class IssueLiveReporter:
         self.failed = False
 
     def body(self, snap: LabSnapshot) -> str:
-        head = ("🧪 **研究サイクル進行中** — このコメントは自動で更新されます。" if self.lang == "ja" else
-                "🧪 **Research cycle in progress** — this comment updates automatically.")
-        if snap.cycle_status == "done":
-            head = "✅ **研究サイクル完了**" if self.lang == "ja" else "✅ **Research cycle finished**"
+        ja = self.lang == "ja"
+        heads = {
+            "done": "✅ **研究サイクル完了**" if ja else "✅ **Research cycle finished**",
+            "error": "❌ **研究サイクルは失敗しました**" if ja else "❌ **Research cycle failed**",
+            "waiting": "💤 **所長のテーマ待ち**" if ja else "💤 **Waiting for the Director's theme**",
+        }
+        head = heads.get(snap.cycle_status,
+                         "🧪 **研究サイクル進行中** — このコメントは自動で更新されます。" if ja else
+                         "🧪 **Research cycle in progress** — this comment updates automatically.")
         run = f"\n\n⚙️ {self.run_url}" if self.run_url else ""
         return f"{head}\n\n{render_status_markdown(snap, lang=self.lang, image_url=self.image_url or None)}{run}"
 
@@ -287,6 +300,6 @@ class IssueLiveReporter:
                 self.comment_id = self.api.comment(self.issue_number, self.body(snap))["id"]
             else:
                 self.api.update_comment(self.comment_id, self.body(snap))
-        except (GitHubError, OSError, KeyError) as exc:
+        except Exception as exc:  # runs inside StatusBoard notifications — must never break the cycle
             log.warning("live status comment disabled: %s", exc)
             self.failed = True

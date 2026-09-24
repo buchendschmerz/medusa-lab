@@ -23,6 +23,16 @@ RUNTIME = (ROOT / "medusa" / "runtime" / "medusa_sim.py").read_text()
     "g = (i for i in [1])\ng.gi_frame.f_globals",
     "import medusa_sim as sim\nsim._RESULTS.clear()",
     "import socket",
+    # aliasing a banned builtin must not slip past the call-only check
+    "e = eval\ne('1 + 1')",
+    "g = getattr\ng(object, 'x')",
+    # reaching builtins/globals through a dunder *string* (subscript or getattr)
+    "d = {}\nb = d['__builtins__']",
+    "k = '__globals__'",
+    # low-level os/ctypes/frame primitives as attributes
+    "import numpy\nnumpy.getppid()",
+    "import numpy\nnumpy.arange(3).read(0)",
+    "x = (1).__reduce__()",
 ])
 def test_screen_rejects(code: str) -> None:
     assert screen_code(code)
@@ -32,6 +42,32 @@ def test_screen_accepts_normal_simulation() -> None:
     code = ("import math, random\nimport medusa_sim as sim\nclass A:\n    def __init__(self):\n        self.spread = 1\n"
             "sim.seed(1)\nsim.save_table('t', ['x', 'y'], [[1, 2]])\nsim.finish('ok')\n")
     assert screen_code(code) == []
+
+
+def test_screen_accepts_every_recipe_script() -> None:
+    from medusa.recipes import all_recipes
+
+    for recipe in all_recipes():
+        assert screen_code(recipe.script_source()) == [], recipe.id
+
+
+def test_figure_metadata_is_coerced_so_bad_types_cannot_crash_parsing(tmp_path: Path, monkeypatch) -> None:
+    # A generated script passing a non-string label/caption must not raise TypeError in FigureSpec.from_dict;
+    # medusa_sim.figure() coerces the metadata to strings so the cycle survives (counts as a normal figure).
+    import importlib.util
+
+    from medusa.models import FigureSpec
+
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "params.json").write_text("{}")
+    runtime_path = ROOT / "medusa" / "runtime" / "medusa_sim.py"
+    spec = importlib.util.spec_from_file_location("medusa_sim_test", runtime_path)
+    sim = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sim)
+    sim.save_table("t", ["a", "b"], [[1, 2]])
+    sim.figure("fig_x", "t", "a", ["b"], labels=[1], caption=42)
+    figures = [FigureSpec.from_dict(f) for f in sim._RESULTS["figures"]]
+    assert figures[0].labels == ["1"] and figures[0].caption == "42"
 
 
 def test_sandbox_runs_and_collects(tmp_path: Path) -> None:

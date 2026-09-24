@@ -178,17 +178,44 @@ class Orchestrator:
             example_keywords="naming game, language evolution, social network")
 
     # ================================================================== cycle
-    def allocate_cycle_id(self, theme: ResearchTheme) -> str:
+    def _cycle_id_free_locally(self, candidate: str, theme: ResearchTheme) -> bool:
+        """True if no local cycle owns ``candidate``, or the only one is our own unfinished cycle."""
+        existing = read_json(self.cfg.cycle_dir(candidate) / "cycle.json")
+        if not existing:
+            return True
+        same = existing.get("theme", {}).get("title") == theme.title
+        return bool(same and existing.get("status") != "done")
+
+    def reserve_cycle_id(self, theme: ResearchTheme, github: Any | None = None) -> str:
+        """Pick a cycle id free both locally and (when ``github`` is given) against the remote
+        ``medusa/<week>*`` branches of still-open PRs, so two different themes in the same week can't
+        collide on one branch. Best-effort: on any API error it falls back to the local-only check."""
         base = theme.cycle_id or iso_week(tz=self.cfg.lab.timezone)
         week = week_of(base)
-        for n in range(1, 20):
+        taken_remote: set[str] = set()
+        if github is not None:
+            try:
+                taken_remote = set(github.matching_branches(f"medusa/{week}"))
+            except Exception as exc:  # network/permission issue: degrade to local-only reservation
+                log.warning("could not list remote medusa/%s branches: %s", week, exc)
+        for n in range(1, 40):
             candidate = week if n == 1 else f"{week}-{n}"
-            existing = read_json(self.cfg.cycle_dir(candidate) / "cycle.json")
-            if not existing:
+            if self._cycle_id_free_locally(candidate, theme) and f"medusa/{candidate}" not in taken_remote:
                 return candidate
-            same = existing.get("theme", {}).get("title") == theme.title
-            if same and existing.get("status") != "done":
-                return candidate  # resume the unfinished cycle with this theme
+        raise RuntimeError(f"too many cycles in {week}")
+
+    def allocate_cycle_id(self, theme: ResearchTheme) -> str:
+        # Honor an id already reserved for us (e.g. by ``resolve-theme``, which also checks remote
+        # branches of open PRs — invisible in a fresh checkout of the default branch). Only fall back
+        # to searching for a free suffix when the id is locally taken by a different/finished cycle.
+        base = theme.cycle_id or iso_week(tz=self.cfg.lab.timezone)
+        if self._cycle_id_free_locally(base, theme):
+            return base
+        week = week_of(base)
+        for n in range(2, 40):
+            candidate = f"{week}-{n}"
+            if self._cycle_id_free_locally(candidate, theme):
+                return candidate
         raise RuntimeError(f"too many cycles in {week}")
 
     def run_cycle(self, theme: ResearchTheme, *, resume: bool = False,
@@ -203,6 +230,13 @@ class Orchestrator:
         record.status = "running"
         record.started_at = record.started_at or iso_now()
         record.error = ""
+        # per-run outputs are re-derived each run; clear them so a resume that yields no paper
+        # this time does not keep the previous attempt's title/decision/counts.
+        record.paper_title = record.paper_tex = record.paper_pdf = ""
+        record.decision = ""
+        record.review_score = 0.0
+        record.proposals = []
+        record.counts = {}
         record.llm_mode = "offline" if self.llm.offline else "anthropic"
         record.model = self.llm.describe()
         if not resume:
@@ -243,6 +277,10 @@ class Orchestrator:
                 sim = self._phase(record, cycle_dir, "coder", resume, SimulationResult, "coder/simulation.json",
                                   lambda: CoderAgent(ctx).run(analysis, recipe))
                 self.board.counter("figures", len(sim.figures))
+                if sim.source == "recipe-fallback":
+                    # The bespoke code failed and the vetted recipe ran instead, so the paper must
+                    # describe the recipe's model/plan/hypotheses (not the abandoned LLM design).
+                    self._adopt_recipe_model(analysis, recipe, cycle_dir, ctx)
             else:
                 sim = SimulationResult(status="skipped")
                 self.board.stage("coder", "skipped")
@@ -354,11 +392,28 @@ class Orchestrator:
                 return kind.from_dict(data)  # type: ignore[attr-defined]
         self.board.stage(name, "active")
         result = run()
-        self.board.stage(name, "done")
-        if name not in record.phases_done:
+        ok = getattr(result, "ok", True)  # e.g. a failed SimulationResult must not be cached as "done"
+        self.board.stage(name, "done" if ok else "error")
+        if ok and name not in record.phases_done:
             record.phases_done.append(name)
         write_json(cycle_dir / "cycle.json", record.to_dict())
         return result
+
+    def _adopt_recipe_model(self, analysis: AnalysisReport, recipe: Any, cycle_dir: Path,
+                            ctx: AgentContext) -> None:
+        """Rewrite the in-silico half of the analysis to match the recipe the Coder fell back to,
+        keeping the human hypotheses and proposal ideas (which the simulation does not touch)."""
+        from .agents.analyst import insilico_from_recipe
+
+        model, plan, insilico = insilico_from_recipe(recipe, self.cfg.coder.quick)
+        human = [h for h in analysis.hypotheses if h.track != Track.IN_SILICO]
+        analysis.model = model
+        analysis.plan = plan
+        analysis.hypotheses = insilico + human
+        analysis.recipe = recipe.id
+        ctx.notes.append(f"The bespoke simulation could not be produced; the paper reports the vetted "
+                         f"'{recipe.id}' model and simulation instead.")
+        write_json(cycle_dir / "analyst" / "analysis.json", analysis.to_dict())
 
     def _msg(self, ja: str, en: str) -> str:
         return ja if self.cfg.lab.language == "ja" else en

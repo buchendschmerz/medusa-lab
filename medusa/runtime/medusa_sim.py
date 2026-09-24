@@ -200,8 +200,10 @@ def figure(fig_id: str, table: str, x: str, y, *, xlabel: str = "", ylabel: str 
     if not _NAME_RE.match(fig_id):
         raise ValueError(f"invalid figure id {fig_id!r}")
     _RESULTS["figures"].append({
-        "id": fig_id, "table": table, "x": x, "y": ys, "title": title, "xlabel": xlabel, "ylabel": ylabel,
-        "caption": caption, "labels": list(labels or ys), "lower": list(lower or []), "upper": list(upper or []),
+        "id": fig_id, "table": table, "x": str(x), "y": [str(c) for c in ys],
+        "title": str(title), "xlabel": str(xlabel), "ylabel": str(ylabel), "caption": str(caption),
+        "labels": [str(v) for v in (labels or ys)],
+        "lower": [str(c) for c in (lower or [])], "upper": [str(c) for c in (upper or [])],
         "logx": bool(logx), "logy": bool(logy),
     })
 
