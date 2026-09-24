@@ -1,0 +1,186 @@
+{
+  "reviews": [
+    {
+      "reviewer": "Reviewer 1 (Methodologist)",
+      "persona": "methodologist",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 3.5,
+        "clarity": 3.5,
+        "reproducibility": 4.5,
+        "significance": 3.0
+      },
+      "summary": "Reviewer 1 (Methodologist) (checklist review, round 1): the study runs end to end; mean score 3.50.",
+      "strengths": [
+        "Systematic parameter sweep with 5 replicates per setting.",
+        "Seeded, archived code and raw data make the figures reproducible."
+      ],
+      "weaknesses": [
+        "No overclaiming language: confirm that."
+      ],
+      "requests": [
+        "Report the uncertainty of fitted quantities (e.g. confidence intervals for exponents).",
+        "Show robustness to the main modelling choices (system size, update rule)."
+      ],
+      "decision": "minor_revision",
+      "confidence": 3,
+      "round": 1
+    },
+    {
+      "reviewer": "Reviewer 2 (Domain expert)",
+      "persona": "domain_expert",
+      "target": "paper",
+      "scores": {
+        "novelty": 2.5,
+        "rigor": 3.5,
+        "clarity": 3.5,
+        "reproducibility": 4.0,
+        "significance": 3.5
+      },
+      "summary": "Reviewer 2 (Domain expert) (checklist review, round 1): the study runs end to end; mean score 3.40.",
+      "strengths": [
+        "The model is a well-established baseline and its known behaviour is reproduced.",
+        "Human-experiment proposals connect the simulation to real behaviour."
+      ],
+      "weaknesses": [
+        "The mapping from the weekly theme to a classic model is stylised; novelty is modest.",
+        "No overclaiming language: confirm that."
+      ],
+      "requests": [
+        "Relate the results to empirical data on the theme ('LLMはオノマトペを接地・創発できるか').",
+        "Position the findings against the retrieved recent literature more explicitly."
+      ],
+      "decision": "minor_revision",
+      "confidence": 3,
+      "round": 1
+    },
+    {
+      "reviewer": "Reviewer 3 (Skeptic)",
+      "persona": "skeptic",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 3.0,
+        "clarity": 3.5,
+        "reproducibility": 4.0,
+        "significance": 2.5
+      },
+      "summary": "Reviewer 3 (Skeptic) (checklist review, round 1): the study runs end to end; mean score 3.20.",
+      "strengths": [
+        "Limitations are stated candidly."
+      ],
+      "weaknesses": [
+        "A stylised model can reproduce the macro pattern for many different micro reasons.",
+        "No overclaiming language: confirm that."
+      ],
+      "requests": [
+        "Avoid generalising from the stylised model to real-world behaviour without data.",
+        "Discuss at least one alternative mechanism that would produce the same pattern."
+      ],
+      "decision": "major_revision",
+      "confidence": 3,
+      "round": 1
+    }
+  ],
+  "meta": {
+    "decision": "minor_revision",
+    "mean_score": 3.37,
+    "summary": "Round 1: mean score 3.37/5 across 3 reviewers (votes: minor_revision, minor_revision, major_revision). Decision: minor revision.",
+    "required_changes": [
+      "Report the uncertainty of fitted quantities (e.g. confidence intervals for exponents).",
+      "Show robustness to the main modelling choices (system size, update rule).",
+      "Relate the results to empirical data on the theme ('LLMはオノマトペを接地・創発できるか').",
+      "Position the findings against the retrieved recent literature more explicitly.",
+      "Avoid generalising from the stylised model to real-world behaviour without data.",
+      "Discuss at least one alternative mechanism that would produce the same pattern."
+    ],
+    "checks": [
+      {
+        "id": "simulation",
+        "label": "Simulation ran successfully",
+        "passed": true,
+        "detail": "recipe, 2.0s",
+        "severity": "major"
+      },
+      {
+        "id": "figures",
+        "label": "At least one figure from archived data",
+        "passed": true,
+        "detail": "2 figure(s)",
+        "severity": "major"
+      },
+      {
+        "id": "replicates",
+        "label": "Three or more replicates per setting",
+        "passed": true,
+        "detail": "5 replicates",
+        "severity": "major"
+      },
+      {
+        "id": "uncertainty",
+        "label": "Uncertainty reported (confidence bands)",
+        "passed": true,
+        "detail": "95% intervals in figures",
+        "severity": "minor"
+      },
+      {
+        "id": "seed",
+        "label": "Random seed recorded",
+        "passed": true,
+        "detail": "seed 20260901",
+        "severity": "minor"
+      },
+      {
+        "id": "references",
+        "label": "Three or more references",
+        "passed": true,
+        "detail": "4 references",
+        "severity": "minor"
+      },
+      {
+        "id": "sections",
+        "label": "All sections written",
+        "passed": true,
+        "detail": "complete",
+        "severity": "major"
+      },
+      {
+        "id": "limitations",
+        "label": "Limitations discussed",
+        "passed": true,
+        "detail": "72 words",
+        "severity": "minor"
+      },
+      {
+        "id": "hypotheses",
+        "label": "Every in-silico hypothesis discussed",
+        "passed": true,
+        "detail": "all mentioned",
+        "severity": "minor"
+      },
+      {
+        "id": "overclaiming",
+        "label": "No overclaiming language",
+        "passed": false,
+        "detail": "confirm that",
+        "severity": "minor"
+      },
+      {
+        "id": "pdf",
+        "label": "PDF compiled",
+        "passed": true,
+        "detail": "latexmk/lualatex",
+        "severity": "minor"
+      },
+      {
+        "id": "own_code",
+        "label": "Simulation written for this study (not a fallback)",
+        "passed": true,
+        "detail": "recipe",
+        "severity": "minor"
+      }
+    ],
+    "round": 1
+  }
+}

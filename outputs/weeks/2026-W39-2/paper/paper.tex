@@ -1,0 +1,246 @@
+
+
+
+
+
+
+
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{luatexja}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{fillbetween}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+\definecolor{medusablue}{HTML}{2A78D6}
+\definecolor{c1}{HTML}{2A78D6}
+\definecolor{c2}{HTML}{EB6834}
+\definecolor{c3}{HTML}{1BAF7A}
+\definecolor{muted}{HTML}{52514E}
+\usepackage[colorlinks=true,linkcolor=medusablue,citecolor=medusablue,urlcolor=medusablue]{hyperref}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\small\scshape A Preprint \textemdash{} Medusa Lab 2026-W39-2}
+\rhead{\small\scshape 2026-09-24}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+\title{Naming Game model of lexical convention formation: an in-silico study}
+\author{%
+  Medusa Lab agents: Scout, Analyst, Coder, Writer and Reviewer\\
+  {\small Autonomous multi-agent research lab \quad Director: 所長}}
+\date{2026-09-24\\[2pt] {\small Weekly theme: LLMはオノマトペを接地・創発できるか}}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{abstract}
+Medusa Lab's weekly research theme, “LLMはオノマトペを接地・創発できるか”, was mapped onto the Naming Game model of lexical convention formation. Agents negotiate names for an object through pairwise interactions until a shared convention emerges. We simulated the model while sweeping the number of agents $N$ over 32, 64, 128, 256, with 5 independent replicates per setting and 95\% confidence intervals. On the complete graph, convergence time grows as $N^{1.39}$ ($R^{2}$=0.97); the mean-field prediction is $N^{1.5}$. On the small-world network the fitted exponent is 2.09, and the peak memory grows as $N^{1.01}$ versus $N^{1.40}$ on the complete graph. Of the 2 in-silico hypotheses, 2 are supported by the simulation. The scaling exponent quantifies how costly it is for larger communities to agree on a convention. The study was run end-to-end by autonomous agents in offline mode; its results are hypotheses for further work, and companion proposals describe experiments that need human participants.
+\end{abstract}
+
+\noindent\textbf{Keywords:} computational linguistics, LLM, sound symbolism, language evolution, agent-based simulation
+
+\medskip
+\noindent\fcolorbox{muted}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small
+\textbf{AI-generated manuscript.} This preprint was produced autonomously by the Medusa Lab multi-agent
+system (Offline template mode (no language model)) and has not been peer-reviewed by humans. Every number comes from the archived
+simulation (seed 20260901); verify before citing.}}
+
+\section{Introduction}
+This paper is the in-silico part of Medusa Lab's weekly research cycle. The Director chose the theme “LLMはオノマトペを接地・創発できるか”; the Analyst agent translated it into a stylised, simulable mechanism, the Naming Game model of lexical convention formation (computational linguistics / language evolution).
+
+Shared vocabularies can emerge without central coordination, as first shown by agent-based language games \citep{steels1995selforganizing}. The minimal Naming Game captures this self-organisation with a sharp transition towards consensus and a characteristic $N^{3/2}$ scaling of the convergence time in well-mixed populations \citep{baronchelli2006sharp}. Contact topology strongly affects the dynamics \citep{dallasta2006nonequilibrium}, and experiments with human groups confirm that conventions emerge spontaneously in networked populations \citep{centola2015spontaneous}.
+
+The Scout agent identified the following open questions:
+\begin{itemize}
+  \item How does the structure of real (online) social networks change how fast new words become conventions?
+  \item Do human groups follow the $N^{3/2}$ consensus-time scaling predicted for well-mixed naming games?
+  \item How much lexical memory do speakers need during the negotiation phase?
+\end{itemize}
+
+Our contributions are:
+\begin{itemize}
+  \item a reproducible simulation of the model with a systematic parameter sweep;
+  \item tests of 2 in-silico hypotheses;
+  \item 2 human-experiment proposal(s) that confront the model with human behaviour.
+\end{itemize}
+
+\section{Related work}
+Shared vocabularies can emerge without central coordination, as first shown by agent-based language games \citep{steels1995selforganizing}. The minimal Naming Game captures this self-organisation with a sharp transition towards consensus and a characteristic $N^{3/2}$ scaling of the convergence time in well-mixed populations \citep{baronchelli2006sharp}. Contact topology strongly affects the dynamics \citep{dallasta2006nonequilibrium}, and experiments with human groups confirm that conventions emerge spontaneously in networked populations \citep{centola2015spontaneous}.
+
+Literature retrieval was unavailable in this run, so the discussion relies on the foundational references of the model.
+
+\section{Model}
+Each agent holds an inventory of candidate names. At every step a random speaker utters a name from its inventory (inventing a new one if empty) to a random neighbour. If the hearer already knows the name, the interaction succeeds and both agents discard all competing names; otherwise the hearer adds the name to its inventory.
+
+Assumptions:
+\begin{itemize}
+  \item Agents have unbounded memory and no preference among names.
+  \item Interactions are pairwise, random and sequential.
+  \item A single object (meaning) is being named; there is no homonymy.
+\end{itemize}
+
+The governing equations are given in Equations (1)--(3) and the parameters in Table~\ref{tab:params}.
+
+\begin{equation}\label{eq:1}
+N_w(t) = \sum_{i=1}^{N} |\mathcal{I}_i(t)|
+\end{equation}
+\begin{equation}\label{eq:2}
+t_{\mathrm{conv}} \sim N^{\alpha}, \quad \alpha_{\mathrm{MF}} = 3/2
+\end{equation}
+\begin{equation}\label{eq:3}
+N_w^{\max} \sim N^{\beta}, \quad \beta_{\mathrm{MF}} = 3/2
+\end{equation}
+\begin{table}[ht]
+\centering\small
+\caption{Model parameters.}\label{tab:params}
+\begin{tabular}{l l p{0.36\linewidth} l p{0.2\linewidth}}
+\toprule
+Symbol & Name & Description & Default & Sweep\\
+\midrule
+$N$ & population & number of agents & 256 & 32, 64, 128, 256\\
+$k$ & sw\_degree & degree of the small-world ring lattice & 6 & --\\
+$p$ & sw\_rewire & Watts-Strogatz rewiring probability & 0.1 & --\\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Methods}
+We swept the number of agents $N$ over 32, 64, 128, 256. For every setting we ran 5 independent replicates with seeds derived from the base seed 20260901, and report means with 95\% t-intervals.
+
+The simulation (coder/sim.py) was executed in Medusa Lab's sandbox (isolation: strict); the full run took 2.0 seconds. The code, parameters and raw data tables are archived with this paper, so every number and figure can be regenerated.
+
+\paragraph{Hypotheses tested in silico.}
+\begin{itemize}
+  \item[\textbf{H1}] In a well-mixed population the time to lexical consensus grows super-linearly with population size, with an exponent close to the mean-field value 3/2.
+  \item[\textbf{H2}] Local small-world contact structure lowers the peak lexical memory but slows the final agreement compared with a well-mixed population.
+\end{itemize}
+\section{Results}
+Figure~\ref{fig:fig_convergence}, Figure~\ref{fig:fig_success} summarise the parameter sweep.
+
+\begin{itemize}
+  \item On the complete graph, convergence time grows as $N^{1.39}$ ($R^{2}$=0.97); the mean-field prediction is $N^{1.5}$.
+  \item On the small-world network the fitted exponent is 2.09, and the peak memory grows as $N^{1.01}$ versus $N^{1.40}$ on the complete graph.
+  \item At N=256, consensus took 30.3 interactions per agent on the complete graph and 412.4 on the small-world network.
+\end{itemize}
+
+Table~\ref{tab:metrics} lists the summary metrics.
+
+\textbf{H1} is supported: fitted exponent 1.39 vs. the expected 1.3-1.6 (mean field: 1.5).
+
+\textbf{H2} is supported: peak-memory exponent 1.014 (small-world) vs 1.396 (complete); time per agent 412.41 vs 30.27.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.84\linewidth, height=0.52\linewidth,
+  xlabel={Population size $N$}, ylabel={Convergence time per agent $t_{conv}/N$},
+  xmode=log, log ticks with fixed point, xtick=data,
+  ymode=log, log ticks with fixed point,
+  grid=major, major grid style={line width=0.2pt, draw=black!12},
+  axis line style={draw=black!45}, tick style={draw=black!45},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={font=\small, draw=none, fill=none, at={(0.5,-0.24)}, anchor=north, legend columns=-1},
+  every axis plot/.append style={line width=1.1pt}, mark size=1.7pt,
+]
+\addplot[draw=none, forget plot, name path=lo0] table[x=N, y=t_mf_lo] {data/convergence.dat};
+\addplot[draw=none, forget plot, name path=hi0] table[x=N, y=t_mf_hi] {data/convergence.dat};
+\addplot[c1, fill opacity=0.15, draw=none, forget plot] fill between[of=hi0 and lo0];
+\addplot[c1, mark=*, mark options={solid}] table[x=N, y=t_mf] {data/convergence.dat};
+\addlegendentry{complete graph}
+\addplot[draw=none, forget plot, name path=lo1] table[x=N, y=t_sw_lo] {data/convergence.dat};
+\addplot[draw=none, forget plot, name path=hi1] table[x=N, y=t_sw_hi] {data/convergence.dat};
+\addplot[c2, fill opacity=0.15, draw=none, forget plot] fill between[of=hi1 and lo1];
+\addplot[c2, mark=*, mark options={solid}] table[x=N, y=t_sw] {data/convergence.dat};
+\addlegendentry{small-world}
+\end{axis}
+\end{tikzpicture}
+\caption{Time to lexical consensus per agent versus population size (mean and 95\% CI over 5 runs).}\label{fig:fig_convergence}
+\end{figure}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.84\linewidth, height=0.52\linewidth,
+  xlabel={Interactions per agent}, ylabel={Communicative success rate},
+  grid=major, major grid style={line width=0.2pt, draw=black!12},
+  axis line style={draw=black!45}, tick style={draw=black!45},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={font=\small, draw=none, fill=none, at={(0.5,-0.24)}, anchor=north, legend columns=-1},
+  every axis plot/.append style={line width=1.1pt}, mark size=1.7pt,
+]
+\addplot[c1, mark=none] table[x=t, y=success_mf] {data/success.dat};
+\addlegendentry{complete graph}
+\addplot[c2, mark=none] table[x=t, y=success_sw] {data/success.dat};
+\addlegendentry{small-world}
+\end{axis}
+\end{tikzpicture}
+\caption{Success rate of interactions over time for $N=256$ (sliding window).}\label{fig:fig_success}
+\end{figure}
+\begin{table}[ht]
+\centering\small
+\caption{Summary metrics reported by the simulation.}\label{tab:metrics}
+\begin{tabular}{p{0.3\linewidth} l p{0.46\linewidth}}
+\toprule
+Metric & Value & Description\\
+\midrule
+alpha\_\allowbreak{}complete & 1.386 & exponent of convergence time t\_conv $\sim$ $N^{\alpha}$ (complete graph)\\
+alpha\_\allowbreak{}small\_\allowbreak{}world & 2.094 & exponent of t\_conv $\sim$ $N^{\alpha}$ (small-world network)\\
+r2\_\allowbreak{}complete & 0.973 & $R^{2}$ of the log-log fit (complete graph)\\
+peak\_\allowbreak{}exponent\_\allowbreak{}complete & 1.396 & exponent of peak memory $N_{\mathrm{w}}^{max}$ $\sim$ $N^{\beta}$\\
+peak\_\allowbreak{}exponent\_\allowbreak{}small\_\allowbreak{}world & 1.014 & exponent of peak memory (small-world)\\
+t\_\allowbreak{}per\_\allowbreak{}agent\_\allowbreak{}complete\_\allowbreak{}maxN & 30.27 & convergence time per agent at the largest N\\
+t\_\allowbreak{}per\_\allowbreak{}agent\_\allowbreak{}small\_\allowbreak{}world\_\allowbreak{}maxN & 412.4 & convergence time per agent at the largest N (SW)\\
+consensus\_\allowbreak{}rate & 1 & fraction of runs that reached consensus\\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Discussion}
+\begin{itemize}
+  \item The scaling exponent quantifies how costly it is for larger communities to agree on a convention.
+  \item Sparse local contacts trade memory load against speed: agents juggle fewer names but competing local conventions survive longer.
+  \item Online platforms that reshuffle contacts behave more like well-mixed populations, which predicts faster adoption of neologisms.
+\end{itemize}
+
+Several questions cannot be settled in silico. We therefore propose human experiments: E1 “Online naming-game experiment: does network structure speed up agreement on new words?”; E2 “Intuition vs simulation: can people foresee macro outcomes from micro rules?”. Their designs use this simulation to set conditions and expected effect sizes.
+
+\subsection*{Proposed human experiments}
+Questions that simulation alone cannot settle were written up for the Director as separate experiment protocols:
+\begin{itemize}
+  \item \textbf{E1}: Online naming-game experiment: does network structure speed up agreement on new words? ($n = 12$ per condition from a power analysis).
+  \item \textbf{E2}: Intuition vs simulation: can people foresee macro outcomes from micro rules? ($n = 64$ per condition from a power analysis).
+\end{itemize}
+\section{Limitations}
+\begin{itemize}
+  \item The minimal Naming Game ignores meaning, memory decay and prestige-biased imitation.
+  \item Population sizes are small; asymptotic exponents may differ from the fitted finite-size values.
+  \item A single topology per class (complete graph, one small-world ensemble) was studied.
+\end{itemize}
+
+The paper was written by Medusa Lab's template writer (offline mode, no language model); the mapping from the theme to the model is a deliberate simplification, and hypothesis verdicts follow pre-specified numerical criteria.
+
+\section{Conclusion}
+Within the Naming Game model of lexical convention formation, on the complete graph, convergence time grows as $N^{1.39}$ ($R^{2}$=0.97); the mean-field prediction is $N^{1.5}$. In short: consensus takes disproportionately longer as the group grows. The companion human-experiment proposals outline how to test the mechanism with people.
+
+\section*{Reproducibility statement}
+The simulation script, its parameters, the raw data tables and the run log are archived next to this paper in the
+Medusa Lab repository (cycle 2026-W39-2). The run used seed 20260901, took 2.0\,s and was
+executed in the strict sandbox (code source: recipe).
+
+\begin{thebibliography}{99}
+\bibitem[Steels(1995)]{steels1995selforganizing} Luc Steels (1995). A self-organizing spatial vocabulary. \emph{Artificial Life 2(3):319-332}.
+\bibitem[Baronchelli et al.(2006)]{baronchelli2006sharp} Andrea Baronchelli, Maddalena Felici, Vittorio Loreto, Emanuele Caglioti, Luc Steels (2006). Sharp transition towards shared vocabularies in multi-agent systems. \emph{Journal of Statistical Mechanics: Theory and Experiment, P06014}. \url{https://doi.org/10.1088/1742-5468/2006/06/P06014}
+\bibitem[Dall'Asta et al.(2006)]{dallasta2006nonequilibrium} Luca Dall'Asta, Andrea Baronchelli, Alain Barrat, Vittorio Loreto (2006). Nonequilibrium dynamics of language games on complex networks. \emph{Physical Review E 74, 036105}.
+\bibitem[Centola and Baronchelli(2015)]{centola2015spontaneous} Damon Centola, Andrea Baronchelli (2015). The spontaneous emergence of conventions: An experimental study of cultural evolution. \emph{PNAS 112(7):1989-1994}. \url{https://doi.org/10.1073/pnas.1418838112}
+\end{thebibliography}
+\end{document}

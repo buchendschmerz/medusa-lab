@@ -1,0 +1,32 @@
+[
+  {
+    "cycle_id": "2026-W39-2",
+    "theme": "LLMはオノマトペを接地・創発できるか",
+    "mode": "hybrid",
+    "status": "done",
+    "decision": "minor_revision",
+    "review_score": 3.37,
+    "paper_title": "Naming Game model of lexical convention formation: an in-silico study",
+    "paper_pdf": "paper/paper.pdf",
+    "paper_tex": "paper/paper.tex",
+    "proposals": [
+      {
+        "idea_id": "E1",
+        "title": "オンライン・ネーミングゲーム実験：つながり方で「新語の合意」は速くなるか",
+        "path": "proposals/E1-online-naming-game-experiment-does-netwo.md",
+        "sample_size": 12
+      },
+      {
+        "idea_id": "E2",
+        "title": "直感 vs シミュレーション：人はミクロなルールからマクロな帰結を予測できるか",
+        "path": "proposals/E2-intuition-vs-simulation-can-people-fores.md",
+        "sample_size": 64
+      }
+    ],
+    "recipe": "naming_game",
+    "llm": "offline (llm.provider = offline)",
+    "finished_at": "2026-09-24T23:23:25+00:00",
+    "pr_url": "",
+    "open_question": "How does the structure of real (online) social networks change how fast new words become conventions?"
+  }
+]
