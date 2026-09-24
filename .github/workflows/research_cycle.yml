@@ -21,6 +21,11 @@ name: "🧪 Research cycle (研究サイクル)"
 on:
   issue_comment:
     types: [created]
+  # Slack など外部からの依頼で起動（GitHub API に client_payload でテーマを渡す）:
+  #   POST /repos/<owner>/<repo>/dispatches  {"event_type":"medusa-theme",
+  #     "client_payload":{"theme":"...","keywords":"...","mode":"hybrid"}}
+  repository_dispatch:
+    types: [medusa-theme]
   workflow_dispatch:
     inputs:
       theme:
@@ -85,15 +90,16 @@ jobs:
       - name: Resolve this week's theme
         id: theme
         env:
-          EVENT_NAME: ${{ github.event_name }}
+          # a repository_dispatch is handled just like a manual dispatch (theme comes from client_payload)
+          EVENT_NAME: ${{ github.event_name == 'repository_dispatch' && 'workflow_dispatch' || github.event_name }}
           COMMENT_BODY: ${{ github.event.comment.body }}
           COMMENT_ID: ${{ github.event.comment.id }}
           COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
-          INPUT_THEME: ${{ inputs.theme }}
-          INPUT_KEYWORDS: ${{ inputs.keywords }}
-          INPUT_MODE: ${{ inputs.mode }}
+          INPUT_THEME: ${{ github.event.inputs.theme || github.event.client_payload.theme }}
+          INPUT_KEYWORDS: ${{ github.event.inputs.keywords || github.event.client_payload.keywords }}
+          INPUT_MODE: ${{ github.event.inputs.mode || github.event.client_payload.mode }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m medusa resolve-theme --out "$RUNNER_TEMP/medusa-theme.json"
 
