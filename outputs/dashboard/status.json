@@ -20,35 +20,35 @@
       "state": "sleeping",
       "message": "所長のテーマ待ち",
       "progress": 0.0,
-      "updated_at": "2026-09-24T17:33:25+00:00"
+      "updated_at": "2026-09-24T23:36:41+00:00"
     },
     "analyst": {
       "agent": "analyst",
       "state": "sleeping",
       "message": "所長のテーマ待ち",
       "progress": 0.0,
-      "updated_at": "2026-09-24T17:33:25+00:00"
+      "updated_at": "2026-09-24T23:36:41+00:00"
     },
     "coder": {
       "agent": "coder",
       "state": "sleeping",
       "message": "所長のテーマ待ち",
       "progress": 0.0,
-      "updated_at": "2026-09-24T17:33:25+00:00"
+      "updated_at": "2026-09-24T23:36:41+00:00"
     },
     "writer": {
       "agent": "writer",
       "state": "sleeping",
       "message": "所長のテーマ待ち",
       "progress": 0.0,
-      "updated_at": "2026-09-24T17:33:25+00:00"
+      "updated_at": "2026-09-24T23:36:41+00:00"
     },
     "reviewer": {
       "agent": "reviewer",
       "state": "sleeping",
       "message": "所長のテーマ待ち",
       "progress": 0.0,
-      "updated_at": "2026-09-24T17:33:25+00:00"
+      "updated_at": "2026-09-24T23:36:41+00:00"
     }
   },
   "director": {
@@ -63,7 +63,13 @@
       "agent": "director",
       "state": "waiting",
       "message": "Issueで /theme を待っています"
+    },
+    {
+      "at": "2026-09-24T23:36:41+00:00",
+      "agent": "director",
+      "state": "waiting",
+      "message": "Issueで /theme を待っています"
     }
   ],
-  "updated_at": "2026-09-24T17:33:25+00:00"
+  "updated_at": "2026-09-24T23:36:41+00:00"
 }

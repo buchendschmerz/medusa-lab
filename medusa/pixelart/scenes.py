@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from ..state import AgentState
+from ..state import AGENT_PROFILES, AgentState
 from . import sprites as sp
 from .canvas import Canvas
 from .font import fit_text, text_width
@@ -387,7 +387,8 @@ def _base(role: str, state: AgentState, i: int, *, pose: str = "rest", face: str
 
 def _finish(c: Canvas, pal: dict[str, Color], state: AgentState, i: int, role: str = "") -> Canvas:
     if role:
-        _nameplate(c, pal, role)
+        # the desk nameplate shows the researcher's name (Kepler, Hypatia, ...), keyed by role
+        _nameplate(c, pal, AGENT_PROFILES[role].name if role in AGENT_PROFILES else role)
     _overlay_state(c, pal, state, i, role)
     if state == AgentState.IDLE:
         steam = sp.COFFEE if i == 0 else sp.COFFEE_STEAM_B

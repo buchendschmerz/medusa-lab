@@ -97,7 +97,7 @@ def test_badges_markdown_ansi_html() -> None:
     for agent in AGENT_KEYS:
         ET.fromstring(render_badge_svg(agent, snap.agents[agent]))
     md = render_status_markdown(snap, lang="ja")
-    assert "| 🔍 | **Scout**" in md and "SEARCHING" in md and "パイプライン" in md
+    assert "| 🔍 | **Kepler**" in md and "SEARCHING" in md and "パイプライン" in md
     ansi = render_status_ansi(snap, agent="coder")
     assert "\x1b[38;2;" in ansi and "▀" in ansi
     page = render_dashboard_html(snap, lang="ja")

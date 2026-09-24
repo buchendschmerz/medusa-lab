@@ -77,16 +77,16 @@ class AgentProfile:
 
 
 AGENT_PROFILES: dict[str, AgentProfile] = {
-    "scout": AgentProfile("scout", "Scout", "🔍", "スカウト", "論文収集と課題抽出",
-                          "literature search & gap finding", "#eb6834"),
-    "analyst": AgentProfile("analyst", "Analyst", "🧠", "アナリスト", "理論モデル構築と仮説・実験デザイン",
-                            "theory building & experiment design", "#6a4fd6"),
-    "coder": AgentProfile("coder", "Coder", "💻", "コーダー", "数理・計算シミュレーション",
-                          "computational simulation", "#1baf7a"),
-    "writer": AgentProfile("writer", "Writer", "📝", "ライター", "LaTeX論文と実験プロトコル執筆",
-                           "LaTeX paper & protocol writing", "#2a78d6"),
-    "reviewer": AgentProfile("reviewer", "Reviewer", "🖍️", "レビュアー", "エージェント間ピアレビュー",
-                             "inter-agent peer review", "#d03b3b"),
+    "scout": AgentProfile("scout", "Kepler", "🔍", "ケプラー", "偵察 · 論文収集と課題抽出",
+                          "Scout · literature search & gap finding", "#eb6834"),
+    "analyst": AgentProfile("analyst", "Hypatia", "🧠", "ヒパティア", "分析 · 理論モデル構築と仮説・実験デザイン",
+                            "Analyst · theory building & experiment design", "#6a4fd6"),
+    "coder": AgentProfile("coder", "Turing", "💻", "チューリング", "実装 · 数理・計算シミュレーション",
+                          "Coder · computational simulation", "#1baf7a"),
+    "writer": AgentProfile("writer", "Sagan", "📝", "セーガン", "執筆 · LaTeX論文と実験プロトコル",
+                           "Writer · LaTeX paper & protocol writing", "#2a78d6"),
+    "reviewer": AgentProfile("reviewer", "Tycho", "🖍️", "チコ", "査読 · エージェント間ピアレビュー",
+                             "Reviewer · inter-agent peer review", "#d03b3b"),
 }
 AGENT_KEYS: tuple[str, ...] = tuple(AGENT_PROFILES)
 

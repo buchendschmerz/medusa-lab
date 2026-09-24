@@ -12,7 +12,7 @@
 
 lab:
   name: "Medusa Lab"
-  director: "所長"            # 人間（あなた）の呼び名。Issue・通知・提案書で使われます
+  director: "Dai Miyazaki"    # 人間（所長）の呼び名。Issue・通知・提案書で使われます
   language: ja                # ダッシュボード・通知・実験提案書の言語 (ja | en)
   timezone: "Asia/Tokyo"      # 週番号 (ISO week) を決めるタイムゾーン
 

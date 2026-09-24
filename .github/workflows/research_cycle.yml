@@ -123,6 +123,30 @@ jobs:
           THEME_FILE: ${{ steps.theme.outputs.theme_file }}
         run: python -m medusa run --theme-file "$THEME_FILE"
 
+      # The artifact and job summary MUST run before the PR step: create-pull-request commits the
+      # per-cycle outputs to the medusa/<id> branch and then checks the workspace back out to the
+      # base branch, which removes outputs/weeks/<id> (including paper.pdf) from the working tree.
+      - name: Job summary
+        if: always() && steps.theme.outputs.should_run == 'true'
+        env:
+          CYCLE_ID: ${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+        run: |
+          if [ -f "outputs/weeks/$CYCLE_ID/summary.md" ]; then
+            cat "outputs/weeks/$CYCLE_ID/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          cat outputs/dashboard/status.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+
+      - name: Upload the cycle outputs (paper PDF, proposals, dashboard)
+        if: always() && steps.theme.outputs.should_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: medusa-${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+          path: |
+            outputs/weeks/${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+            outputs/dashboard
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Open / update the Pull Request
         id: pr
         if: steps.cycle.outcome == 'success'
@@ -151,24 +175,3 @@ jobs:
         run: |
           python -m medusa notify-complete --cycle-id "$CYCLE_ID" --pr-url "$PR_URL" \
             ${ISSUE_NUMBER:+--issue "$ISSUE_NUMBER"} ${COMMENT_ID:+--comment-id "$COMMENT_ID"}
-
-      - name: Job summary
-        if: always() && steps.theme.outputs.should_run == 'true'
-        env:
-          CYCLE_ID: ${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
-        run: |
-          if [ -f "outputs/weeks/$CYCLE_ID/summary.md" ]; then
-            cat "outputs/weeks/$CYCLE_ID/summary.md" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          cat outputs/dashboard/status.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
-
-      - name: Upload the cycle outputs
-        if: always() && steps.theme.outputs.should_run == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: medusa-${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
-          path: |
-            outputs/weeks/${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
-            outputs/dashboard
-          if-no-files-found: ignore
-          retention-days: 30
