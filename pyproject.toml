@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medusa-lab"
+version = "0.1.0"
+description = "Autonomous multi-agent research lab with a weekly human-in-the-loop cycle and a pixel-art status dashboard"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Dai Miyazaki" }]
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+    "Jinja2>=3.1",
+]
+keywords = ["multi-agent", "research-automation", "llm", "pixel-art", "human-in-the-loop"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Intended Audience :: Science/Research",
+]
+
+[project.optional-dependencies]
+# Claude-powered agents (without it, Medusa Lab runs in deterministic offline mode)
+llm = ["anthropic>=1.8,<2"]
+# Libraries made available to LLM-generated simulation code
+science = ["numpy>=1.26", "scipy>=1.11", "networkx>=3.2"]
+dev = ["pytest>=8", "ruff>=0.6", "pillow>=10"]
+
+[project.scripts]
+medusa = "medusa.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["medusa*"]
+
+[tool.setuptools.package-data]
+medusa = ["recipes/scripts/*.py", "runtime/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["outputs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = ["E501", "SIM108"]
+
+[tool.ruff.lint.per-file-ignores]
+# Simulation recipes are standalone scripts executed inside the sandbox.
+"medusa/recipes/scripts/*.py" = ["E402", "I001"]

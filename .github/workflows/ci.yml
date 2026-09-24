@@ -1,0 +1,80 @@
+name: "✅ CI"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: pip install -e ".[llm,dev]"
+      - name: Lint
+        run: ruff check .
+      - name: Tests
+        run: pytest
+
+  # Full offline research cycle with a real LaTeX build — no API key or network needed.
+  offline-demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install Medusa Lab and TeX Live
+        run: |
+          pip install -e .
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends latexmk \
+            texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended \
+            texlive-science texlive-pictures texlive-luatex texlive-lang-japanese
+      - name: Run the offline demo cycle (strict sandbox)
+        env:
+          MEDUSA_SANDBOX: strict
+          MEDUSA_REQUIRE_ISOLATION: "1"
+        run: python -m medusa demo --outputs demo-outputs
+      - name: Check the paper PDF and the strict sandbox
+        run: |
+          ls -la demo-outputs/weeks/*/paper/paper.pdf
+          python - <<'PY'
+          import glob, json
+          sim = json.load(open(glob.glob("demo-outputs/weeks/*/coder/simulation.json")[0]))
+          assert sim["status"] == "success", sim
+          assert sim["isolation"] == "strict", f"strict sandbox not active: {sim['isolation']}"
+          print("strict sandbox OK")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: medusa-offline-demo
+          path: demo-outputs
+          retention-days: 14

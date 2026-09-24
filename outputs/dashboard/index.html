@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medusa Lab — dashboard</title>
+<style>
+:root{--bg:#0f0d18;--panel:#1e1b2e;--ink:#f7f3e9;--ink2:#c3bdd0;--ink3:#8c85a0;--line:#2c2842;
+--idle:#6e6378;--active:#2a78d6;--wait:#fab219;--done:#0ca30c;--error:#d03b3b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif}
+main{max-width:980px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:20px;margin:0 0 4px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.lab{width:100%;height:auto;image-rendering:pixelated;border:1px solid var(--line);border-radius:8px;background:#141220}
+table{width:100%;border-collapse:collapse;margin-top:20px;background:var(--panel);border-radius:8px;overflow:hidden}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--ink3);font-weight:600;font-size:13px}
+td.msg{color:var(--ink2)}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700;color:#0b0b0b}
+.tag.idle{background:var(--idle);color:#fff}.tag.active{background:var(--active);color:#fff}
+.tag.wait{background:var(--wait)}.tag.done{background:var(--done);color:#fff}.tag.error{background:var(--error);color:#fff}
+.bar{height:6px;background:#2a2638;border-radius:3px;min-width:80px}
+.bar>span{display:block;height:100%;border-radius:3px;background:var(--active)}
+ol.events{list-style:none;padding:0;margin:20px 0 0;color:var(--ink2);font-size:13px}
+ol.events li{padding:4px 0;border-bottom:1px dashed var(--line)}
+ol.events time{color:var(--ink3);margin-right:8px;font-variant-numeric:tabular-nums}
+.live{font-size:12px;color:var(--ink3)}
+@media (max-width:640px){td.role,th.role{display:none}}
+</style>
+</head>
+<body>
+<main>
+<h1 id="title"></h1>
+<p class="sub" id="theme"></p>
+<img class="lab" id="lab" src="lab.svg" alt="pixel-art lab dashboard">
+<p class="live" id="live"></p>
+<table><thead><tr><th>Agent</th><th class="role">Role</th><th>State</th><th>Activity</th><th>Progress</th></tr></thead>
+<tbody id="agents"></tbody></table>
+<ol class="events" id="events"></ol>
+</main>
+<script>
+const INITIAL = {"lab_name": "Medusa Lab", "cycle_id": "2026-W39", "theme": "", "mode": "hybrid", "cycle_status": "waiting", "stage": "theme", "stages": {"theme": "active", "scout": "pending", "analyst": "pending", "coder": "pending", "writer": "pending", "review": "pending", "publish": "pending"}, "agents": {"scout": {"agent": "scout", "state": "sleeping", "message": "所長のテーマ待ち", "progress": 0.0, "updated_at": "2026-09-24T17:33:25+00:00"}, "analyst": {"agent": "analyst", "state": "sleeping", "message": "所長のテーマ待ち", "progress": 0.0, "updated_at": "2026-09-24T17:33:25+00:00"}, "coder": {"agent": "coder", "state": "sleeping", "message": "所長のテーマ待ち", "progress": 0.0, "updated_at": "2026-09-24T17:33:25+00:00"}, "writer": {"agent": "writer", "state": "sleeping", "message": "所長のテーマ待ち", "progress": 0.0, "updated_at": "2026-09-24T17:33:25+00:00"}, "reviewer": {"agent": "reviewer", "state": "sleeping", "message": "所長のテーマ待ち", "progress": 0.0, "updated_at": "2026-09-24T17:33:25+00:00"}}, "director": {"state": "waiting", "message": "Issueで /theme を待っています"}, "counters": {}, "links": {}, "events": [{"at": "2026-09-24T17:33:25+00:00", "agent": "director", "state": "waiting", "message": "Issueで /theme を待っています"}], "updated_at": "2026-09-24T17:33:25+00:00"};
+const PROFILES = {"scout": {"name": "Scout", "emoji": "🔍", "role": "論文収集と課題抽出"}, "analyst": {"name": "Analyst", "emoji": "🧠", "role": "理論モデル構築と仮説・実験デザイン"}, "coder": {"name": "Coder", "emoji": "💻", "role": "数理・計算シミュレーション"}, "writer": {"name": "Writer", "emoji": "📝", "role": "LaTeX論文と実験プロトコル執筆"}, "reviewer": {"name": "Reviewer", "emoji": "🖍️", "role": "エージェント間ピアレビュー"}};
+const STYLES = {"sleeping": {"en": "SLEEPING", "ja": "おやすみ中", "tone": "idle"}, "idle": {"en": "IDLE", "ja": "待機中", "tone": "idle"}, "searching": {"en": "SEARCHING", "ja": "論文棚を探索中", "tone": "active"}, "reading": {"en": "READING", "ja": "論文を読解中", "tone": "active"}, "thinking": {"en": "THINKING", "ja": "思考中", "tone": "active"}, "coding": {"en": "CODING", "ja": "コーディング中", "tone": "active"}, "running": {"en": "RUNNING", "ja": "計算実行中", "tone": "active"}, "debugging": {"en": "DEBUGGING", "ja": "デバッグ中", "tone": "active"}, "writing": {"en": "WRITING", "ja": "執筆中", "tone": "active"}, "building": {"en": "BUILDING", "ja": "ビルド中", "tone": "active"}, "reviewing": {"en": "REVIEWING", "ja": "査読中", "tone": "active"}, "waiting": {"en": "WAITING", "ja": "所長待ち", "tone": "wait"}, "done": {"en": "DONE", "ja": "完了", "tone": "done"}, "error": {"en": "ERROR", "ja": "エラー", "tone": "error"}};
+const STAGES = [{"key": "theme", "en": "THEME", "ja": "テーマ受付"}, {"key": "scout", "en": "SCOUT", "ja": "文献調査"}, {"key": "analyst", "en": "THEORY", "ja": "理論・仮説"}, {"key": "coder", "en": "SIMULATE", "ja": "計算実験"}, {"key": "writer", "en": "WRITE", "ja": "論文・提案"}, {"key": "review", "en": "REVIEW", "ja": "査読"}, {"key": "publish", "en": "PUBLISH", "ja": "公開"}];
+const LANG = "ja";
+let lastUpdate = null;
+function el(tag, cls, text){const e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e;}
+function render(s){
+  document.getElementById("title").textContent = `🐍 ${s.lab_name} — ${s.cycle_id || "status"}`;
+  document.getElementById("theme").textContent = (LANG==="ja"?"テーマ: ":"Theme: ") + (s.theme || "—") + `  [${s.mode}]`;
+  const body = document.getElementById("agents"); body.replaceChildren();
+  for (const [key, p] of Object.entries(PROFILES)) {
+    const a = s.agents[key] || {state:"sleeping", message:"", progress:0};
+    const st = STYLES[a.state] || STYLES.sleeping;
+    const tr = el("tr");
+    tr.append(el("td", "", `${p.emoji} ${p.name}`), el("td", "role", p.role));
+    const tdState = el("td"); tdState.append(el("span", "tag " + st.tone, st.en)); tr.append(tdState);
+    tr.append(el("td", "msg", a.message || (LANG==="ja"?st.ja:"")));
+    const tdBar = el("td"); const bar = el("div", "bar"); const fill = el("span");
+    fill.style.width = Math.round((st.tone==="active"||st.tone==="done" ? a.progress : 0) * 100) + "%";
+    bar.append(fill); tdBar.append(bar); tr.append(tdBar); body.append(tr);
+  }
+  const ev = document.getElementById("events"); ev.replaceChildren();
+  for (const e of (s.events || []).slice().reverse().slice(0, 15)) {
+    const li = el("li"); li.append(el("time", "", (e.at||"").slice(11,19)), document.createTextNode(`${e.agent} · ${e.state} · ${e.message||""}`));
+    ev.append(li);
+  }
+  if (s.updated_at !== lastUpdate) {
+    lastUpdate = s.updated_at;
+    document.getElementById("lab").src = "lab.svg?t=" + encodeURIComponent(s.updated_at || Date.now());
+  }
+  document.getElementById("live").textContent = (LANG==="ja"?"最終更新: ":"Last update: ") + (s.updated_at || "—");
+}
+render(INITIAL);
+async function poll(){
+  try { const r = await fetch("status.json?t=" + Date.now(), {cache:"no-store"}); if (r.ok) render(await r.json()); }
+  catch (e) { /* file:// or offline: keep the embedded snapshot */ }
+}
+if (location.protocol.startsWith("http")) setInterval(poll, 3000);
+</script>
+</body>
+</html>
