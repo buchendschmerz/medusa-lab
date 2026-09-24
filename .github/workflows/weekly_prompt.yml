@@ -1,0 +1,69 @@
+# ============================================================================
+#  🐍 Medusa Lab — 毎週月曜の朝、所長（人間）に今週の研究テーマを尋ねる
+#
+#  1. 研究室のエージェントを「おやすみ中」にし、所長室を「テーマ待ち」表示にする
+#  2. 「所長、今週のMedusa Labの研究テーマは何にしますか？」という Issue を作成
+#     （先週の未回答の募集 Issue は自動でクローズ）
+#  3. Slack / Discord の Webhook が設定されていれば通知
+#  → 所長がその Issue に `/theme ...` とコメントすると research_cycle.yml が起動します
+# ============================================================================
+name: "🐍 Weekly theme prompt (所長への問いかけ)"
+
+on:
+  schedule:
+    - cron: "0 23 * * 0"   # 毎週月曜 08:00 JST（= 日曜 23:00 UTC）。時刻はここで調整してください
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Issue を作らず、本文をログに表示するだけ"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # only used when the optional dashboard commit below is enabled
+  issues: write
+
+concurrency:
+  group: medusa-weekly-prompt
+  cancel-in-progress: false
+
+jobs:
+  ask-director:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install Medusa Lab
+        run: pip install -e .
+
+      - name: Ask the Director for this week's theme
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DRY_RUN_FLAG: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: python -m medusa prompt $DRY_RUN_FLAG
+
+      # Optional: show the "waiting for the Director" dashboard on the default branch right away.
+      # Enable with the repository variable MEDUSA_COMMIT_DASHBOARD=true
+      # (Settings → Secrets and variables → Actions → Variables).
+      - name: Commit the waiting dashboard
+        if: vars.MEDUSA_COMMIT_DASHBOARD == 'true' && !inputs.dry_run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "medusa-lab[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outputs/dashboard README.md
+          if git diff --cached --quiet; then echo "dashboard unchanged"; exit 0; fi
+          git commit -m "chore(dashboard): waiting for this week's theme"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"

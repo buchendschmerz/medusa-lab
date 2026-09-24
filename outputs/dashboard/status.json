@@ -1,0 +1,69 @@
+{
+  "lab_name": "Medusa Lab",
+  "cycle_id": "2026-W39",
+  "theme": "",
+  "mode": "hybrid",
+  "cycle_status": "waiting",
+  "stage": "theme",
+  "stages": {
+    "theme": "active",
+    "scout": "pending",
+    "analyst": "pending",
+    "coder": "pending",
+    "writer": "pending",
+    "review": "pending",
+    "publish": "pending"
+  },
+  "agents": {
+    "scout": {
+      "agent": "scout",
+      "state": "sleeping",
+      "message": "所長のテーマ待ち",
+      "progress": 0.0,
+      "updated_at": "2026-09-24T17:33:25+00:00"
+    },
+    "analyst": {
+      "agent": "analyst",
+      "state": "sleeping",
+      "message": "所長のテーマ待ち",
+      "progress": 0.0,
+      "updated_at": "2026-09-24T17:33:25+00:00"
+    },
+    "coder": {
+      "agent": "coder",
+      "state": "sleeping",
+      "message": "所長のテーマ待ち",
+      "progress": 0.0,
+      "updated_at": "2026-09-24T17:33:25+00:00"
+    },
+    "writer": {
+      "agent": "writer",
+      "state": "sleeping",
+      "message": "所長のテーマ待ち",
+      "progress": 0.0,
+      "updated_at": "2026-09-24T17:33:25+00:00"
+    },
+    "reviewer": {
+      "agent": "reviewer",
+      "state": "sleeping",
+      "message": "所長のテーマ待ち",
+      "progress": 0.0,
+      "updated_at": "2026-09-24T17:33:25+00:00"
+    }
+  },
+  "director": {
+    "state": "waiting",
+    "message": "Issueで /theme を待っています"
+  },
+  "counters": {},
+  "links": {},
+  "events": [
+    {
+      "at": "2026-09-24T17:33:25+00:00",
+      "agent": "director",
+      "state": "waiting",
+      "message": "Issueで /theme を待っています"
+    }
+  ],
+  "updated_at": "2026-09-24T17:33:25+00:00"
+}

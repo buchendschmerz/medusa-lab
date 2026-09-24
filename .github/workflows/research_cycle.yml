@@ -1,0 +1,167 @@
+# ============================================================================
+#  🧪 Medusa Lab — 研究サイクル
+#
+#  起動条件（いずれか）:
+#    • 所長が「テーマ募集」Issue に `/theme ...` とコメント（OWNER / MEMBER / COLLABORATOR のみ）
+#    • Actions タブから手動実行（workflow_dispatch）
+#    • main ブランチの config.yaml の theme.current を書き換えて push
+#
+#  Scout → Analyst → (In-Silico: Coder → Writer[LaTeX/PDF]) + (Human: Writer[実験提案書])
+#        → Reviewer（ピアレビュー・改訂）→ Pull Request（論文・提案書・ピクセルアート・ダッシュボード）
+#  進捗は Issue のステータスコメントでライブ更新されます。
+#
+#  必要な設定:
+#    • Secrets: ANTHROPIC_API_KEY（未設定ならオフライン＝テンプレートモードで動作）
+#               SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL（任意）
+#    • Settings → Actions → General → Workflow permissions:
+#         "Read and write permissions" と "Allow GitHub Actions to create and approve pull requests"
+# ============================================================================
+name: "🧪 Research cycle (研究サイクル)"
+
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: "研究テーマ（日本語OK）"
+        required: true
+        type: string
+      keywords:
+        description: "文献検索キーワード（英語推奨・カンマ区切り）"
+        required: false
+        type: string
+        default: ""
+      mode:
+        description: "hybrid = 両方 / in-silico = 完全自律で論文まで / human = 人間向け実験提案のみ"
+        type: choice
+        options: [hybrid, in-silico, human]
+        default: hybrid
+      offline:
+        description: "LLM を使わずオフライン（テンプレート）モードで実行"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths: [config.yaml]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: medusa-research-cycle
+  cancel-in-progress: false
+
+jobs:
+  research:
+    # Issue comments: only `/theme` comments by trusted collaborators on theme-request Issues
+    # (never on pull requests) may start a cycle — cycles spend API credits and run generated code.
+    if: >-
+      github.event_name != 'issue_comment' || (
+        !github.event.issue.pull_request &&
+        contains(github.event.issue.labels.*.name, 'medusa:theme-request') &&
+        contains(github.event.comment.body, '/theme') &&
+        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # generated code must never see a git credential
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install Medusa Lab
+        run: pip install -e ".[llm,science]"
+
+      # Untrusted text (comment body, issue title, inputs) is passed through env vars, never inlined.
+      - name: Resolve this week's theme
+        id: theme
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          INPUT_THEME: ${{ inputs.theme }}
+          INPUT_KEYWORDS: ${{ inputs.keywords }}
+          INPUT_MODE: ${{ inputs.mode }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m medusa resolve-theme --out "$RUNNER_TEMP/medusa-theme.json"
+
+      - name: Install TeX Live (LaTeX → PDF, incl. Japanese via LuaLaTeX)
+        if: steps.theme.outputs.should_run == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends latexmk \
+            texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended \
+            texlive-science texlive-pictures texlive-luatex texlive-lang-japanese
+
+      - name: Run the research cycle
+        id: cycle
+        if: steps.theme.outputs.should_run == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MEDUSA_SANDBOX: strict      # generated code: no network, runs as `nobody`
+          MEDUSA_OFFLINE: ${{ inputs.offline && '1' || '' }}
+          THEME_FILE: ${{ steps.theme.outputs.theme_file }}
+        run: python -m medusa run --theme-file "$THEME_FILE"
+
+      - name: Open / update the Pull Request
+        id: pr
+        if: steps.cycle.outcome == 'success'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: medusa/${{ steps.cycle.outputs.cycle_id }}
+          title: "🐍 [Medusa Lab] ${{ steps.cycle.outputs.cycle_id }} — ${{ steps.cycle.outputs.paper_title }}"
+          body-path: ${{ steps.cycle.outputs.pr_body }}
+          commit-message: "research(${{ steps.cycle.outputs.cycle_id }}): paper, proposals and pixel-art dashboard"
+          add-paths: |
+            outputs/**
+            README.md
+          labels: medusa:paper
+          delete-branch: true
+
+      - name: Report back to the Director (Issue / Slack / Discord)
+        if: always() && steps.theme.outputs.should_run == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CYCLE_ID: ${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+          ISSUE_NUMBER: ${{ steps.theme.outputs.issue_number }}
+          COMMENT_ID: ${{ steps.theme.outputs.comment_id }}
+        run: |
+          python -m medusa notify-complete --cycle-id "$CYCLE_ID" --pr-url "$PR_URL" \
+            ${ISSUE_NUMBER:+--issue "$ISSUE_NUMBER"} ${COMMENT_ID:+--comment-id "$COMMENT_ID"}
+
+      - name: Job summary
+        if: always() && steps.theme.outputs.should_run == 'true'
+        env:
+          CYCLE_ID: ${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+        run: |
+          if [ -f "outputs/weeks/$CYCLE_ID/summary.md" ]; then
+            cat "outputs/weeks/$CYCLE_ID/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          cat outputs/dashboard/status.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+
+      - name: Upload the cycle outputs
+        if: always() && steps.theme.outputs.should_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: medusa-${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+          path: |
+            outputs/weeks/${{ steps.cycle.outputs.cycle_id || steps.theme.outputs.cycle_id }}
+            outputs/dashboard
+          if-no-files-found: ignore
+          retention-days: 30

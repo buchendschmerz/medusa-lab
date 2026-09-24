@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------- Medusa Lab
+# local demo runs and CI scratch files
+demo-outputs/
+.medusa/
+# LaTeX build by-products (the .tex and .pdf are kept)
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+*.xdv
+paper.out

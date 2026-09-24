@@ -1,0 +1,202 @@
+%# ==========================================================================
+%#  Medusa Lab — arXiv-style preprint template
+%#  Jinja2 with LaTeX-friendly delimiters (see medusa/latex.py):
+%#    \VAR{x}        prints x (escaped unless it is pre-sanitised TexSafe)
+%#    %% statement   line statements (if / for / endif / endfor)
+%#    \BLOCK{...}    inline statements;  %# comment  template comments
+%#  Figures are pgfplots charts read directly from the simulation's data tables.
+%# ==========================================================================
+\documentclass[11pt,a4paper]{article}
+%% if unicode
+\usepackage{luatexja}
+%% else
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%% endif
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{fillbetween}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+\definecolor{medusablue}{HTML}{2A78D6}
+\definecolor{c1}{HTML}{2A78D6}
+\definecolor{c2}{HTML}{EB6834}
+\definecolor{c3}{HTML}{1BAF7A}
+\definecolor{muted}{HTML}{52514E}
+\usepackage[colorlinks=true,linkcolor=medusablue,citecolor=medusablue,urlcolor=medusablue]{hyperref}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\small\scshape A Preprint \textemdash{} \VAR{lab_name} \VAR{cycle_id}}
+\rhead{\small\scshape \VAR{date}}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+\title{\VAR{title}}
+\author{%
+  \VAR{lab_name} agents: Scout, Analyst, Coder, Writer and Reviewer\\
+  {\small Autonomous multi-agent research lab \quad Director: \VAR{director}}}
+\date{\VAR{date}\\[2pt] {\small Weekly theme: \VAR{theme}}}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{abstract}
+\VAR{abstract}
+\end{abstract}
+
+\noindent\textbf{Keywords:} \VAR{keywords|join(', ')}
+
+\medskip
+\noindent\fcolorbox{muted}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small
+\textbf{AI-generated manuscript.} This preprint was produced autonomously by the \VAR{lab_name} multi-agent
+system (\VAR{model_line}) and has not been peer-reviewed by humans. Every number comes from the archived
+simulation (seed \VAR{sim.seed}); verify before citing.}}
+
+\section{Introduction}
+\VAR{sections.introduction}
+
+\section{Related work}
+\VAR{sections.related_work}
+
+\section{Model}
+\VAR{sections.model}
+
+%% for eq in equations
+\begin{equation}\label{eq:\VAR{loop.index}}
+\VAR{eq}
+\end{equation}
+%% endfor
+
+%% if parameters
+\begin{table}[ht]
+\centering\small
+\caption{Model parameters.}\label{tab:params}
+\begin{tabular}{l l p{0.36\linewidth} l p{0.2\linewidth}}
+\toprule
+Symbol & Name & Description & Default & Sweep\\
+\midrule
+%% for p in parameters
+$\VAR{p.symbol}$ & \VAR{p.name} & \VAR{p.description} & \VAR{p.default} & \VAR{p.sweep}\\
+%% endfor
+\bottomrule
+\end{tabular}
+\end{table}
+%% endif
+
+\section{Methods}
+\VAR{sections.methods}
+
+%% if hypotheses
+\paragraph{Hypotheses tested in silico.}
+\begin{itemize}
+%% for h in hypotheses
+  \item[\textbf{\VAR{h.id}}] \VAR{h.statement}
+%% endfor
+\end{itemize}
+%% endif
+
+\section{Results}
+\VAR{sections.results}
+
+%% for fig in figures
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.84\linewidth, height=0.52\linewidth,
+  xlabel={\VAR{fig.xlabel}}, ylabel={\VAR{fig.ylabel}},
+%% if fig.logx
+  xmode=log, log ticks with fixed point, xtick=data,
+%% endif
+%% if fig.logy
+  ymode=log, log ticks with fixed point,
+%% endif
+  grid=major, major grid style={line width=0.2pt, draw=black!12},
+  axis line style={draw=black!45}, tick style={draw=black!45},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={font=\small, draw=none, fill=none, at={(0.5,-0.24)}, anchor=north, legend columns=-1},
+  every axis plot/.append style={line width=1.1pt}, mark size=1.7pt,
+]
+%% for s in fig.series
+%% if s.lower
+\addplot[draw=none, forget plot, name path=lo\VAR{s.n}] table[x=\VAR{fig.x}, y=\VAR{s.lower}] {\VAR{fig.table}};
+\addplot[draw=none, forget plot, name path=hi\VAR{s.n}] table[x=\VAR{fig.x}, y=\VAR{s.upper}] {\VAR{fig.table}};
+\addplot[\VAR{s.color}, fill opacity=0.15, draw=none, forget plot] fill between[of=hi\VAR{s.n} and lo\VAR{s.n}];
+%% endif
+\addplot[\VAR{s.color}, \BLOCK{ if s.marks }mark=*, mark options={solid}\BLOCK{ else }mark=none\BLOCK{ endif }] table[x=\VAR{fig.x}, y=\VAR{s.y}] {\VAR{fig.table}};
+%% if fig.legend
+\addlegendentry{\VAR{s.label}}
+%% endif
+%% endfor
+\end{axis}
+\end{tikzpicture}
+\caption{\VAR{fig.caption}}\label{\VAR{fig.label}}
+\end{figure}
+%% endfor
+
+%% if metrics
+\begin{table}[ht]
+\centering\small
+\caption{Summary metrics reported by the simulation.}\label{tab:metrics}
+\begin{tabular}{p{0.3\linewidth} l p{0.46\linewidth}}
+\toprule
+Metric & Value & Description\\
+\midrule
+%% for m in metrics
+\VAR{m.name} & \VAR{m.value} & \VAR{m.description}\\
+%% endfor
+\bottomrule
+\end{tabular}
+\end{table}
+%% endif
+
+\section{Discussion}
+\VAR{sections.discussion}
+
+%% if proposals
+\subsection*{Proposed human experiments}
+Questions that simulation alone cannot settle were written up for the Director as separate experiment protocols:
+\begin{itemize}
+%% for p in proposals
+  \item \textbf{\VAR{p.id}}: \VAR{p.title} ($n = \VAR{p.n}$ per condition from a power analysis).
+%% endfor
+\end{itemize}
+%% endif
+
+\section{Limitations}
+\VAR{sections.limitations}
+
+\section{Conclusion}
+\VAR{sections.conclusion}
+
+\section*{Reproducibility statement}
+The simulation script, its parameters, the raw data tables and the run log are archived next to this paper in the
+\VAR{lab_name} repository (cycle \VAR{cycle_id}). The run used seed \VAR{sim.seed}, took \VAR{sim.runtime}\,s and was
+executed in the \VAR{sim.isolation} sandbox (code source: \VAR{sim.source}).
+
+%% if response
+\appendix
+\section{Response to reviewers (revision \VAR{revision})}
+\VAR{response}
+%% endif
+
+%% if references
+\begin{thebibliography}{99}
+%% for r in references
+\bibitem[\VAR{r.label}]{\VAR{r.key}} \VAR{r.authors} (\VAR{r.year}). \VAR{r.title}. \emph{\VAR{r.venue}}.\BLOCK{ if r.url } \url{\VAR{r.url}}\BLOCK{ endif }
+
+%% endfor
+\end{thebibliography}
+%% endif
+
+\end{document}

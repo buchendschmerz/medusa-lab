@@ -1,0 +1,89 @@
+# =====================================================================
+#  🐍 Medusa Lab — 研究室設定ファイル (config.yaml)
+# ---------------------------------------------------------------------
+#  すべての項目は省略可能です（省略時は medusa/config.py の既定値）。
+#  環境変数による上書き:
+#    MEDUSA_OFFLINE=1      … LLMを使わずオフライン(決定論的テンプレート)モードで実行
+#    MEDUSA_NO_NETWORK=1   … 文献検索(arXiv/OpenAlex)を行わない
+#    MEDUSA_SANDBOX=strict … 生成コードをネットワーク遮断＋非特権ユーザーで実行 (CI推奨)
+#    MEDUSA_MODEL=...      … 使用する Claude モデルIDを上書き
+#    MEDUSA_QUICK=1        … シミュレーション規模を縮小（動作確認用）
+# =====================================================================
+
+lab:
+  name: "Medusa Lab"
+  director: "所長"            # 人間（あなた）の呼び名。Issue・通知・提案書で使われます
+  language: ja                # ダッシュボード・通知・実験提案書の言語 (ja | en)
+  timezone: "Asia/Tokyo"      # 週番号 (ISO week) を決めるタイムゾーン
+
+# ---------------------------------------------------------------------
+#  今週の研究テーマ（config.yaml から直接投入する場合）
+#  ここを書き換えて main ブランチに push すると研究サイクルが起動します。
+#  通常は、毎週月曜朝に作成される Issue に `/theme ...` とコメントしてください。
+# ---------------------------------------------------------------------
+theme:
+  current: ""                 # 例: "SNSにおける新語の拡散と言語進化"
+  keywords: []                # 例: ["naming game", "language evolution"]  ※英語推奨（文献検索に使用）
+  mode: hybrid                # in-silico | human | hybrid
+  notes: ""                   # 所長からの補足メモ（任意）
+
+# ---------------------------------------------------------------------
+#  LLM（Claude）設定
+#   provider: auto … 認証情報 (ANTHROPIC_API_KEY 等) があれば Claude、無ければオフライン
+# ---------------------------------------------------------------------
+llm:
+  provider: auto              # auto | anthropic | offline
+  model: "claude-opus-5"
+  effort: high                # low | medium | high | xhigh | max
+  max_tokens: 64000           # ストリーミングで取得するため大きめで問題ありません
+  thinking: adaptive          # adaptive | none
+  fallbacks: default          # 安全性分類器による拒否時のサーバー側フォールバック (null で無効。Bedrock/Vertex では null に)
+  timeout_sec: 900
+
+scout:
+  sources: [arxiv, openalex]  # 文献ソース
+  max_papers: 12
+  network: true
+  timeout_sec: 30
+
+analyst:
+  max_hypotheses: 4
+  max_human_proposals: 2
+
+coder:
+  timeout_sec: 300            # 1回のシミュレーション実行の制限時間
+  max_attempts: 3             # 生成コードの自己デバッグ回数
+  sandbox: basic              # basic | strict
+  memory_mb: 2048
+  quick: false
+
+writer:
+  paper_language: en          # en | ja  (ja の場合は LuaLaTeX + luatexja でビルド)
+  compile_pdf: true
+  latex_engine: auto          # auto | latexmk | pdflatex | lualatex | tectonic
+
+reviewer:
+  personas: [methodologist, domain_expert, skeptic]
+  max_revision_rounds: 2
+  accept_threshold: 3.5       # 平均スコアがこれ未満なら改訂ラウンドへ
+
+notify:
+  github_issue: true
+  issue_label: "medusa:theme-request"
+  slack_webhook_env: SLACK_WEBHOOK_URL
+  discord_webhook_env: DISCORD_WEBHOOK_URL
+  live_status_comment: true   # 研究サイクル中、Issue のステータスコメントを随時更新
+  dashboard_url: ""           # 通知に載せるダッシュボード画像のURL（公開リポジトリなら例:
+                              #   https://raw.githubusercontent.com/<owner>/<repo>/main/outputs/dashboard/lab.gif ）
+                              # GIF/PNG は Slack・Discord に、GIF/PNG/SVG は Issue に表示されます
+
+dashboard:
+  scale: 4                    # ピクセルアートの拡大率 (SVG)
+  gif_scale: 3                # アニメーションGIFの拡大率
+  animate: true
+  gif: true
+  update_readme: true         # README.md の <!-- MEDUSA:STATUS --> ブロックを自動更新
+
+paths:
+  outputs: outputs
+  templates: templates
