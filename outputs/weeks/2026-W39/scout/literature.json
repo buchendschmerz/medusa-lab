@@ -1,0 +1,400 @@
+{
+  "queries": [
+    "LLM",
+    "sound symbolism",
+    "language evolution",
+    "naming game language convergence"
+  ],
+  "literature": [
+    {
+      "key": "steels1995selforganizing",
+      "title": "A self-organizing spatial vocabulary",
+      "authors": [
+        "Luc Steels"
+      ],
+      "year": 1995,
+      "venue": "Artificial Life 2(3):319-332",
+      "url": "",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "baronchelli2006sharp",
+      "title": "Sharp transition towards shared vocabularies in multi-agent systems",
+      "authors": [
+        "Andrea Baronchelli",
+        "Maddalena Felici",
+        "Vittorio Loreto",
+        "Emanuele Caglioti",
+        "Luc Steels"
+      ],
+      "year": 2006,
+      "venue": "Journal of Statistical Mechanics: Theory and Experiment, P06014",
+      "url": "https://doi.org/10.1088/1742-5468/2006/06/P06014",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "10.1088/1742-5468/2006/06/P06014",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "dallasta2006nonequilibrium",
+      "title": "Nonequilibrium dynamics of language games on complex networks",
+      "authors": [
+        "Luca Dall'Asta",
+        "Andrea Baronchelli",
+        "Alain Barrat",
+        "Vittorio Loreto"
+      ],
+      "year": 2006,
+      "venue": "Physical Review E 74, 036105",
+      "url": "",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "centola2015spontaneous",
+      "title": "The spontaneous emergence of conventions: An experimental study of cultural evolution",
+      "authors": [
+        "Damon Centola",
+        "Andrea Baronchelli"
+      ],
+      "year": 2015,
+      "venue": "PNAS 112(7):1989-1994",
+      "url": "https://doi.org/10.1073/pnas.1418838112",
+      "abstract": "",
+      "source": "foundational",
+      "doi": "10.1073/pnas.1418838112",
+      "arxiv_id": "",
+      "citations": null,
+      "relevance": 0.0,
+      "foundational": true
+    },
+    {
+      "key": "imai2014sound",
+      "title": "The sound symbolism bootstrapping hypothesis for language acquisition and language evolution",
+      "authors": [
+        "Mutsumi Imai",
+        "Sotaro Kita"
+      ],
+      "year": 2014,
+      "venue": "Philosophical Transactions of the Royal Society B Biological Sciences",
+      "url": "https://doi.org/10.1098/rstb.2013.0298",
+      "abstract": "Sound symbolism is a non-arbitrary relationship between speech sounds and meaning. We review evidence that, contrary to the traditional view in linguistics, sound symbolism is an important design feature of language, which affects online processing of language, and most importantly, language acquisition. We propose the sound symbolism bootstrapping hypothesis, claiming that (i) pre-verbal infants are sensitive to sound symbolism, due to a biologically endowed ability to map and integrate multi-modal input, (ii) sound symbolism helps infants gain referential insight for speech sounds, (iii) sound symbolism helps infants and toddlers associate speech sounds with their referents to establish a lexical representation and (iv) sound symbolism helps toddlers learn words by allowing them to focus on referents embedded in a complex scene, alleviating Quine's problem. We further explore the possibility that sound symbolism is deeply related to language evolution, drawing the parallel between historical development of language across generations and ontogenetic development within individuals. Finally, we suggest that sound symbolism bootstrapping is a part of a more general phenomenon of bootstrapping by means of iconic representations, drawing on similarities and close behavioural links between sound symbolism and speech-accompanying iconic gesture.",
+      "source": "openalex",
+      "doi": "10.1098/rstb.2013.0298",
+      "arxiv_id": "",
+      "citations": 549,
+      "relevance": 0.687,
+      "foundational": false
+    },
+    {
+      "key": "singhal2023large",
+      "title": "Large language models encode clinical knowledge",
+      "authors": [
+        "Karan Singhal",
+        "Shekoofeh Azizi",
+        "Tao Tu",
+        "S. Sara Mahdavi",
+        "JASON KAI WEI LEE",
+        "Hyung Won Chung",
+        "Nathan B. Scales",
+        "Ajay Kumar Tanwani",
+        "Heather J. Cole-Lewis",
+        "Stephen Pfohl",
+        "Perry W. Payne",
+        "Martin G. Seneviratne"
+      ],
+      "year": 2023,
+      "venue": "Nature",
+      "url": "https://doi.org/10.1038/s41586-023-06291-2",
+      "abstract": "Abstract Large language models (LLMs) have demonstrated impressive capabilities, but the bar for clinical applications is high. Attempts to assess the clinical knowledge of models typically rely on automated evaluations based on limited benchmarks. Here, to address these limitations, we present MultiMedQA, a benchmark combining six existing medical question answering datasets spanning professional medicine, research and consumer queries and a new dataset of medical questions searched online, HealthSearchQA. We propose a human evaluation framework for model answers along multiple axes including factuality, comprehension, reasoning, possible harm and bias. In addition, we evaluate Pathways Language Model 1 (PaLM, a 540-billion parameter LLM) and its instruction-tuned variant, Flan-PaLM 2 on MultiMedQA. Using a combination of prompting strategies, Flan-PaLM achieves state-of-the-art accuracy on every MultiMedQA multiple-choice dataset (MedQA 3 , MedMCQA 4 , PubMedQA 5 and Measuring Massive Multitask Language Understanding (MMLU) clinical topics 6 ), including 67.6% accuracy on MedQA (US Medical Licensing Exam-style questions), surpassing the prior state of the art by more than 17%. However, human evaluation reveals key gaps. To resolve this, we introduce instruction prompt tuning, a parameter-efficient approach for aligning LLMs to new domains using a few exemplars. The resulting model, Med-PaLM, performs encouragingly, but remains inferior to clinicians. We show that comprehension, knowledge recall and reasoning improve with model scale and instruction prompt tuning, suggesting the potential utility of LLMs in medicine. Our human evaluations reveal limitations of today’s models, reinforcing the importance of both evaluation frameworks and method development in creating safe, helpful LLMs for clinical applications.",
+      "source": "openalex",
+      "doi": "10.1038/s41586-023-06291-2",
+      "arxiv_id": "",
+      "citations": 3874,
+      "relevance": 0.5794,
+      "foundational": false
+    },
+    {
+      "key": "hu2021lora",
+      "title": "LoRA Fine-Tuning of a 3B Code LLM for Algorithmic Efficiency",
+      "authors": [
+        "J. Edward Hu",
+        "Yelong Shen",
+        "Phillip Wallis",
+        "Zeyuan Allen-Zhu",
+        "Yuanzhi Li",
+        "Shean Wang",
+        "Wang, Lu",
+        "Chen, Weizhu"
+      ],
+      "year": 2021,
+      "venue": "arXiv (Cornell University)",
+      "url": "https://doi.org/10.48550/arxiv.2106.09685",
+      "abstract": "An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example -- deploying independent instances of fine-tuned models, each with 175B parameters, is prohibitively expensive. We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks. Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number of trainable parameters by 10,000 times and the GPU memory requirement by 3 times. LoRA performs on-par or better than fine-tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, a higher training throughput, and, unlike adapters, no additional inference latency. We also provide an empirical investigation into rank-deficiency in language model adaptation, which sheds light on the efficacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models and provide our implementations and model checkpoints for RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA.",
+      "source": "openalex",
+      "doi": "10.48550/arxiv.2106.09685",
+      "arxiv_id": "",
+      "citations": 2551,
+      "relevance": 0.5703,
+      "foundational": false
+    },
+    {
+      "key": "christian2025neuromodulatory",
+      "title": "Neuromodulatory Control Networks (NCNs): A Biologically Inspired Architecture for Dynamic LLM Processing",
+      "authors": [
+        "Morgan, Michael Christian"
+      ],
+      "year": 2025,
+      "venue": "Zenodo (CERN European Organization for Nuclear Research)",
+      "url": "https://doi.org/10.5281/zenodo.17575540",
+      "abstract": "Large Language Models (LLMs) based on the Transformer architecture have achieved remarkable success, yet their core processing mechanisms remain largely static after training. While powerful, this static nature limits their ability to dynamically adapt their processing strategy based on nuanced contextual cues, task demands, or desired operational modes (e.g., shifting between exploration and exploitation). We propose Neuromodulatory Control Networks (NCNs), a novel architectural modification inspired by the neuromodulatory systems in the vertebrate brain (e.g., those utilizing dopamine, acetylcholine, norepinephrine). NCNs are small, parallel networks that receive contextual input, summarizing the global state, task information, or external control signals, and compute dynamic \"modulatory signals\". These signals are broadcast to the main LLM to influence its computational properties during a forward pass, analogous to how neuromodulators alter neuronal gain, plasticity, and network states. Instead of merely routing information, NCNs aim to change how information is processed throughout the base model by modulating key components like attention mechanisms (e.g., temperature), layer gains, and activation functions. This paper introduces the NCN architecture, details its components and potential mechanisms, discusses its conceptual advantages for enhancing LLM adaptability, controllability, and efficiency, and provides an open-source PyTorch implementation to facilitate community exploration and future empirical validation.",
+      "source": "openalex",
+      "doi": "10.5281/zenodo.17575540",
+      "arxiv_id": "",
+      "citations": 1425,
+      "relevance": 0.5577,
+      "foundational": false
+    },
+    {
+      "key": "yao2024survey",
+      "title": "A survey on large language model (LLM) security and privacy: The Good, The Bad, and The Ugly",
+      "authors": [
+        "Yifan Yao",
+        "Jinhao Duan",
+        "Kaidi Xu",
+        "Yuanfang Cai",
+        "Zhibo Sun",
+        "Yue Zhang"
+      ],
+      "year": 2024,
+      "venue": "High-Confidence Computing",
+      "url": "https://doi.org/10.1016/j.hcc.2024.100211",
+      "abstract": "Large Language Models (LLMs), such as ChatGPT and Bard, have revolutionized natural language understanding and generation. They possess deep language comprehension, human-like text generation capabilities, contextual awareness, and robust problem-solving skills, making them invaluable in various domains (e.g., search engines, customer support, translation). In the meantime, LLMs have also gained traction in the security community, revealing security vulnerabilities and showcasing their potential in security-related tasks. This paper explores the intersection of LLMs with security and privacy. Specifically, we investigate how LLMs positively impact security and privacy, potential risks and threats associated with their use, and inherent vulnerabilities within LLMs. Through a comprehensive literature review, the paper categorizes the papers into “The Good” (beneficial LLM applications), “The Bad” (offensive applications), and “The Ugly” (vulnerabilities of LLMs and their defenses). We have some interesting findings. For example, LLMs have proven to enhance code security (code vulnerability detection) and data privacy (data confidentiality protection), outperforming traditional methods. However, they can also be harnessed for various attacks (particularly user-level attacks) due to their human-like reasoning abilities. We have identified areas that require further research efforts. For example, Research on model and parameter extraction attacks is limited and often theoretical, hindered by LLM parameter scale and confidentiality. Safe instruction tuning, a recent development, requires more exploration. We hope that our work can shed light on the LLMs’ potential to both bolster and jeopardize cybersecurity.",
+      "source": "openalex",
+      "doi": "10.1016/j.hcc.2024.100211",
+      "arxiv_id": "",
+      "citations": 1010,
+      "relevance": 0.5502,
+      "foundational": false
+    },
+    {
+      "key": "kantartzis2011japanese",
+      "title": "Japanese Sound‐Symbolism Facilitates Word Learning in English‐Speaking Children",
+      "authors": [
+        "Katerina Kantartzis",
+        "Mutsumi Imai",
+        "Sotaro Kita"
+      ],
+      "year": 2011,
+      "venue": "Cognitive Science",
+      "url": "https://doi.org/10.1111/j.1551-6709.2010.01169.x",
+      "abstract": "Abstract Sound‐symbolism is the nonarbitrary link between the sound and meaning of a word. Japanese‐speaking children performed better in a verb generalization task when they were taught novel sound‐symbolic verbs, created based on existing Japanese sound‐symbolic words, than novel nonsound‐symbolic verbs ( Imai, Kita, Nagumo, & Okada, 2008 ). A question remained as to whether the Japanese children had picked up regularities in the Japanese sound‐symbolic lexicon or were sensitive to universal sound‐symbolism. The present study aimed to provide support for the latter. In a verb generalization task, English‐speaking 3‐year‐olds were taught novel sound‐symbolic verbs, created based on Japanese sound‐symbolism, or novel nonsound‐symbolic verbs. English‐speaking children performed better with the sound‐symbolic verbs, just like Japanese‐speaking children. We concluded that children are sensitive to universal sound‐symbolism and can utilize it in word learning and generalization, regardless of their native language.",
+      "source": "openalex",
+      "doi": "10.1111/j.1551-6709.2010.01169.x",
+      "arxiv_id": "",
+      "citations": 247,
+      "relevance": 0.5447,
+      "foundational": false
+    },
+    {
+      "key": "paradis2004analyses",
+      "title": "APE: Analyses of Phylogenetics and Evolution in R language",
+      "authors": [
+        "Emmanuel Paradis",
+        "Julien Claude",
+        "Korbinian Strimmer"
+      ],
+      "year": 2004,
+      "venue": "Bioinformatics",
+      "url": "https://doi.org/10.1093/bioinformatics/btg412",
+      "abstract": "UNLABELLED: Analysis of Phylogenetics and Evolution (APE) is a package written in the R language for use in molecular evolution and phylogenetics. APE provides both utility functions for reading and writing data and manipulating phylogenetic trees, as well as several advanced methods for phylogenetic and evolutionary analysis (e.g. comparative and population genetic methods). APE takes advantage of the many R functions for statistics and graphics, and also provides a flexible framework for developing and implementing further statistical methods for the analysis of evolutionary processes. AVAILABILITY: The program is free and available from the official R package archive at http://cran.r-project.org/src/contrib/PACKAGES.html#ape. APE is licensed under the GNU General Public License.",
+      "source": "openalex",
+      "doi": "10.1093/bioinformatics/btg412",
+      "arxiv_id": "",
+      "citations": 12868,
+      "relevance": 0.5055,
+      "foundational": false
+    },
+    {
+      "key": "william1995evolution",
+      "title": "The evolution of grammar: tense, aspect, and modality in the languages of the world",
+      "authors": [
+        "Bybee, Joan L. and Perkins, Revere and Pagliuca, William"
+      ],
+      "year": 1995,
+      "venue": "Choice Reviews Online",
+      "url": "https://doi.org/10.5860/choice.32-4321",
+      "abstract": "Joan Bybee and her colleagues present a new theory of the evolution of grammar that links structure and meaning in a way that directly challenges most contemporary versions of generative grammar. This study focuses on the use and meaning of grammatical markers of tense, aspect and modality and identifies a universal set of grammatical categories. The authors demonstrate that the semantic content of these categories evolves gradually and that this process of evolution is strikingly similar across unrelated languages. Through a survey of 76 languages in 25 different phyla, the authors show that the same paths of change occur universally and that movement along these paths is in one direction only. This analysis reveals that lexical substance evolves into grammatical substance through various mechanisms of change, such as metaphorical extension and the conventionalization of implicature. Grammaticization is always accompanied by an increase in frequency of the grammatical marker, providing clear evidence that language use is a major factor in the evolution of synchronic language states.",
+      "source": "openalex",
+      "doi": "10.5860/choice.32-4321",
+      "arxiv_id": "",
+      "citations": 3840,
+      "relevance": 0.4792,
+      "foundational": false
+    },
+    {
+      "key": "mufwene2001ecology",
+      "title": "The Ecology of Language Evolution",
+      "authors": [
+        "Salikoko S. Mufwene"
+      ],
+      "year": 2001,
+      "venue": "Cambridge University Press eBooks",
+      "url": "https://doi.org/10.1017/cbo9780511612862",
+      "abstract": "This major 2001 work explores the development of creoles and other new languages, focusing on the conceptual and methodological issues they raise for genetic linguistics. Written by an internationally renowned linguist, the book discusses the nature and significance of internal and external factors or 'ecologies' that bear on the evolution of a language. The book surveys a wide range of examples of changes in the structure, function and vitality of languages, and suggests that similar ecologies have played the same kinds of roles in all cases of language evolution. Drawing on major theories of language formation, macroecology and population genetics, Mufwene proposes a common approach to the development of creoles and other new languages. The Ecology of Language Evolution will be welcomed by students and researchers in sociolinguistics, creolistics, theoretical linguistics and theories of evolution.",
+      "source": "openalex",
+      "doi": "10.1017/cbo9780511612862",
+      "arxiv_id": "",
+      "citations": 2406,
+      "relevance": 0.4691,
+      "foundational": false
+    },
+    {
+      "key": "nadkarni2011natural",
+      "title": "Natural language processing: an introduction",
+      "authors": [
+        "Prakash M. Nadkarni",
+        "Lucila Ohno‐Machado",
+        "Wendy W. Chapman"
+      ],
+      "year": 2011,
+      "venue": "Journal of the American Medical Informatics Association",
+      "url": "https://doi.org/10.1136/amiajnl-2011-000464",
+      "abstract": "OBJECTIVES: To provide an overview and tutorial of natural language processing (NLP) and modern NLP-system design. TARGET AUDIENCE: This tutorial targets the medical informatics generalist who has limited acquaintance with the principles behind NLP and/or limited knowledge of the current state of the art. SCOPE: We describe the historical evolution of NLP, and summarize common NLP sub-problems in this extensive field. We then provide a synopsis of selected highlights of medical NLP efforts. After providing a brief description of common machine-learning approaches that are being used for diverse NLP sub-problems, we discuss how modern NLP architectures are designed, with a summary of the Apache Foundation's Unstructured Information Management Architecture. We finally consider possible future directions for NLP, and reflect on the possible impact of IBM Watson on the medical field.",
+      "source": "openalex",
+      "doi": "10.1136/amiajnl-2011-000464",
+      "arxiv_id": "",
+      "citations": 2018,
+      "relevance": 0.4653,
+      "foundational": false
+    },
+    {
+      "key": "team2000language",
+      "title": "R: A Language and Environment for Statistical Computing",
+      "authors": [
+        "R Core Team"
+      ],
+      "year": 2000,
+      "venue": "",
+      "url": "https://doi.org/10.32614/r.manuals",
+      "abstract": "This introduction to R is derived from an original set of notes describing the S and S-Plus environments written in 1990-2 by Bill Venables and David M",
+      "source": "openalex",
+      "doi": "10.32614/r.manuals",
+      "arxiv_id": "",
+      "citations": 353318,
+      "relevance": 0.4524,
+      "foundational": false
+    },
+    {
+      "key": "lewis2020affordancecompiled",
+      "title": "Affordance-Compiled Intelligence: Observable-Only Cognitive Impedance Matching for No-Meta LLM-Integrated Systems",
+      "authors": [
+        "Patrick Lewis",
+        "Ethan Perez",
+        "Aleksandara Piktus",
+        "Fabio Petroni",
+        "Vladimir Karpukhin",
+        "Naman Goyal",
+        "Heinrich Küttler",
+        "Mike Lewis",
+        "Wen-tau Yih",
+        "Tim Rocktäschel",
+        "Sebastian Riedel",
+        "Douwe Kiela"
+      ],
+      "year": 2020,
+      "venue": "arXiv (Cornell University)",
+      "url": "https://doi.org/10.48550/arxiv.2005.11401",
+      "abstract": "Affordance-Compiled Intelligence develops Cognitive Impedance Matching Theory (CIMT), an observable-only and no-meta protected compiler theory for LLM-integrated systems. The paper studies how a fixed model-policy can exhibit different operational capability when the surrounding world is redesigned through observations, typed action handles, validators, repair paths, rollback modes, authority scopes, context summaries, and auditable receipts. CIMT treats system-level capability amplification as a world-side compilation problem rather than a model-weight improvement problem. It defines operational claims through explicit claim objects and evidence objects, using committed observable ledgers, target-evaluation channels, deterministic reducers, validity budget ledgers, evidence dependency graphs, artifact I/O manifests, conformance envelopes, and finite-sample or sequential certificates. Human reviewers, LLM judges, benchmarks, and external auditors are not treated as privileged evaluators; they are modeled as named, fallible measurement channels. The theory provides a conservative certification framework for paired target-channel improvement, vector debt accounting, forbidden-coordinate zero certificates, target-firewall discipline, scope simulation, dynamic widening, runtime and model-policy conformance, macro reliability, repair contraction, distribution-shift transfer, and receipt sufficiency. It also includes worked examples for code-editing agents and retrieval-augmented generation systems. The intended contribution is a practical formal foundation for making fixed-model LLM systems more reliable through observable world-side interface, authority, validation, repair, and audit design.",
+      "source": "openalex",
+      "doi": "10.48550/arxiv.2005.11401",
+      "arxiv_id": "",
+      "citations": 3081,
+      "relevance": 0.4494,
+      "foundational": false
+    }
+  ],
+  "problems": [
+    {
+      "id": "P1",
+      "statement": "Here, to address these limitations, we present MultiMedQA, a benchmark combining six existing medical question answering datasets spanning professional medicine, research and consumer queries and a new dataset of medical questions searched online, HealthSearchQA.",
+      "motivation": "Stated as open in the literature.",
+      "evidence": [
+        "singhal2023large"
+      ],
+      "kind": "gap"
+    },
+    {
+      "id": "P2",
+      "statement": "However, they can also be harnessed for various attacks (particularly user-level attacks) due to their human-like reasoning abilities.",
+      "motivation": "Stated as open in the literature.",
+      "evidence": [
+        "yao2024survey"
+      ],
+      "kind": "gap"
+    },
+    {
+      "id": "P3",
+      "statement": "Joan Bybee and her colleagues present a new theory of the evolution of grammar that links structure and meaning in a way that directly challenges most contemporary versions of generative grammar.",
+      "motivation": "Stated as open in the literature.",
+      "evidence": [
+        "william1995evolution"
+      ],
+      "kind": "gap"
+    },
+    {
+      "id": "P4",
+      "statement": "How does the structure of real (online) social networks change how fast new words become conventions?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    },
+    {
+      "id": "P5",
+      "statement": "Do human groups follow the N^{3/2} consensus-time scaling predicted for well-mixed naming games?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    },
+    {
+      "id": "P6",
+      "statement": "How much lexical memory do speakers need during the negotiation phase?",
+      "motivation": "Agents negotiate names for an object through pairwise interactions until a shared convention emerges.",
+      "evidence": [
+        "steels1995selforganizing",
+        "baronchelli2006sharp"
+      ],
+      "kind": "open_question"
+    }
+  ],
+  "summary": "Offline scouting: 12 retrieved paper(s) plus the foundational literature of Naming Game model of lexical convention formation. Gaps were extracted heuristically from abstract sentences that state open questions.",
+  "sources_used": [
+    "openalex"
+  ],
+  "notes": [
+    "arxiv search failed for 'LLM': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'sound symbolism': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'language evolution': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'naming game language convergence': HTTPError: HTTP Error 406: Not Acceptable"
+  ]
+}

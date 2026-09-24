@@ -1,0 +1,117 @@
+{
+  "status": "success",
+  "source": "recipe",
+  "attempts": 1,
+  "runtime_sec": 1.678,
+  "script": "coder/sim.py",
+  "seed": 20260901,
+  "params": {
+    "seed": 20260901,
+    "sizes": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "replicates": 5
+  },
+  "metrics": {
+    "alpha_complete": 1.386,
+    "alpha_small_world": 2.094,
+    "r2_complete": 0.973,
+    "peak_exponent_complete": 1.396,
+    "peak_exponent_small_world": 1.014,
+    "t_per_agent_complete_maxN": 30.27,
+    "t_per_agent_small_world_maxN": 412.41,
+    "consensus_rate": 1.0
+  },
+  "metric_notes": {
+    "alpha_complete": "exponent of convergence time t_conv ~ N^alpha (complete graph)",
+    "alpha_small_world": "exponent of t_conv ~ N^alpha (small-world network)",
+    "r2_complete": "R^2 of the log-log fit (complete graph)",
+    "peak_exponent_complete": "exponent of peak memory N_w^max ~ N^beta",
+    "peak_exponent_small_world": "exponent of peak memory (small-world)",
+    "t_per_agent_complete_maxN": "convergence time per agent at the largest N",
+    "t_per_agent_small_world_maxN": "convergence time per agent at the largest N (SW)",
+    "consensus_rate": "fraction of runs that reached consensus"
+  },
+  "tables": {
+    "convergence": [
+      "N",
+      "t_mf",
+      "t_mf_lo",
+      "t_mf_hi",
+      "t_sw",
+      "t_sw_lo",
+      "t_sw_hi",
+      "peak_mf",
+      "peak_sw",
+      "conv_mf",
+      "conv_sw"
+    ],
+    "success": [
+      "t",
+      "success_mf",
+      "success_sw"
+    ]
+  },
+  "figures": [
+    {
+      "id": "fig_convergence",
+      "table": "convergence",
+      "x": "N",
+      "y": [
+        "t_mf",
+        "t_sw"
+      ],
+      "title": "",
+      "xlabel": "Population size $N$",
+      "ylabel": "Convergence time per agent $t_{conv}/N$",
+      "caption": "Time to lexical consensus per agent versus population size (mean and 95\\% CI over 5 runs).",
+      "labels": [
+        "complete graph",
+        "small-world"
+      ],
+      "lower": [
+        "t_mf_lo",
+        "t_sw_lo"
+      ],
+      "upper": [
+        "t_mf_hi",
+        "t_sw_hi"
+      ],
+      "logx": true,
+      "logy": true
+    },
+    {
+      "id": "fig_success",
+      "table": "success",
+      "x": "t",
+      "y": [
+        "success_mf",
+        "success_sw"
+      ],
+      "title": "",
+      "xlabel": "Interactions per agent",
+      "ylabel": "Communicative success rate",
+      "caption": "Success rate of interactions over time for $N=256$ (sliding window).",
+      "labels": [
+        "complete graph",
+        "small-world"
+      ],
+      "lower": [],
+      "upper": [],
+      "logx": false,
+      "logy": false
+    }
+  ],
+  "summary": "Naming game: t_conv ~ N^1.39 (complete) vs N^2.09 (small-world).",
+  "findings": [
+    "On the complete graph, convergence time grows as N^1.39 (R^2=0.97); the mean-field prediction is N^1.5.",
+    "On the small-world network the fitted exponent is 2.09, and the peak memory grows as N^1.01 versus N^1.40 on the complete graph.",
+    "At N=256, consensus took 30.3 interactions per agent on the complete graph and 412.4 on the small-world network."
+  ],
+  "log_tail": "[medusa-progress] 0.106 complete N=32\n[medusa-progress] 0.212 complete N=64\n[medusa-progress] 0.319 complete N=128\n[medusa-progress] 0.425 complete N=256\n[medusa-progress] 0.531 small_world N=32\n[medusa-progress] 0.637 small_world N=64\n[medusa-progress] 0.744 small_world N=128\n[medusa-progress] 0.850 small_world N=256\n[medusa-progress] 1.000 done",
+  "error": "",
+  "isolation": "strict"
+}

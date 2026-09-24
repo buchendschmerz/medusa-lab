@@ -1,0 +1,71 @@
+{
+  "cycle_id": "2026-W39",
+  "theme": {
+    "title": "LLMはオノマトペを接地・創発できるか",
+    "keywords": [
+      "LLM",
+      "sound symbolism",
+      "language evolution"
+    ],
+    "mode": "hybrid",
+    "notes": "",
+    "cycle_id": "2026-W39",
+    "source": "dispatch",
+    "issue_number": null,
+    "requested_by": ""
+  },
+  "status": "done",
+  "started_at": "2026-09-24T22:39:13+00:00",
+  "finished_at": "2026-09-24T22:39:45+00:00",
+  "phases_done": [
+    "scout",
+    "analyst",
+    "coder"
+  ],
+  "llm_mode": "offline",
+  "model": "offline (llm.provider = offline)",
+  "recipe": "naming_game",
+  "paper_title": "Naming Game model of lexical convention formation: an in-silico study",
+  "paper_pdf": "paper/paper.pdf",
+  "paper_tex": "paper/paper.tex",
+  "decision": "minor_revision",
+  "review_score": 3.37,
+  "proposals": [
+    {
+      "idea_id": "E1",
+      "title": "オンライン・ネーミングゲーム実験：つながり方で「新語の合意」は速くなるか",
+      "path": "proposals/E1-online-naming-game-experiment-does-netwo.md",
+      "sample_size": 12
+    },
+    {
+      "idea_id": "E2",
+      "title": "直感 vs シミュレーション：人はミクロなルールからマクロな帰結を予測できるか",
+      "path": "proposals/E2-intuition-vs-simulation-can-people-fores.md",
+      "sample_size": 64
+    }
+  ],
+  "counts": {
+    "papers": 16,
+    "hypotheses": 4,
+    "in_silico": 2,
+    "human": 2,
+    "figures": 2,
+    "proposals": 2
+  },
+  "usage": {
+    "model": "offline",
+    "offline": true,
+    "by_agent": {},
+    "total": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "estimated_cost_usd": null
+  },
+  "error": "",
+  "pr_url": "",
+  "run_url": ""
+}

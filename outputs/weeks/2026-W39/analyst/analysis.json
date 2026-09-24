@@ -1,0 +1,228 @@
+{
+  "model": {
+    "name": "Naming Game model of lexical convention formation",
+    "summary": "Each agent holds an inventory of candidate names. At every step a random speaker utters a name from its inventory (inventing a new one if empty) to a random neighbour. If the hearer already knows the name, the interaction succeeds and both agents discard all competing names; otherwise the hearer adds the name to its inventory.",
+    "equations": [
+      "N_w(t) = \\sum_{i=1}^{N} |\\mathcal{I}_i(t)|",
+      "t_{\\mathrm{conv}} \\sim N^{\\alpha}, \\quad \\alpha_{\\mathrm{MF}} = 3/2",
+      "N_w^{\\max} \\sim N^{\\beta}, \\quad \\beta_{\\mathrm{MF}} = 3/2"
+    ],
+    "assumptions": [
+      "Agents have unbounded memory and no preference among names.",
+      "Interactions are pairwise, random and sequential.",
+      "A single object (meaning) is being named; there is no homonymy."
+    ],
+    "parameters": [
+      {
+        "name": "population",
+        "symbol": "N",
+        "description": "number of agents",
+        "default": 256,
+        "sweep": [
+          32.0,
+          64.0,
+          128.0,
+          256.0
+        ]
+      },
+      {
+        "name": "sw_degree",
+        "symbol": "k",
+        "description": "degree of the small-world ring lattice",
+        "default": 6,
+        "sweep": []
+      },
+      {
+        "name": "sw_rewire",
+        "symbol": "p",
+        "description": "Watts-Strogatz rewiring probability",
+        "default": 0.1,
+        "sweep": []
+      }
+    ],
+    "observables": [
+      "convergence time t_conv (interactions until global consensus)",
+      "peak number of words N_w^max stored in the population",
+      "communicative success rate S(t)"
+    ],
+    "recipe": "naming_game"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "In a well-mixed population the time to lexical consensus grows super-linearly with population size, with an exponent close to the mean-field value 3/2.",
+      "rationale": "Every agent must first accumulate and then prune competing names; the pruning phase slows down as the population grows.",
+      "track": "in_silico",
+      "predictions": [
+        "log t_conv is linear in log N with slope between 1.3 and 1.6",
+        "all runs reach consensus"
+      ],
+      "independent_variable": "population size N",
+      "dependent_variable": "convergence time t_conv",
+      "human_cues": [],
+      "routing_reason": "The claim concerns the model's own dynamics and is settled by simulation."
+    },
+    {
+      "id": "H2",
+      "statement": "Local small-world contact structure lowers the peak lexical memory but slows the final agreement compared with a well-mixed population.",
+      "rationale": "Local interactions create competing domains that coarsen slowly, while each agent only meets a few names.",
+      "track": "in_silico",
+      "predictions": [
+        "peak memory per agent is lower on the small-world network",
+        "convergence time per agent is higher on the small-world network"
+      ],
+      "independent_variable": "network topology",
+      "dependent_variable": "convergence time and peak memory",
+      "human_cues": [],
+      "routing_reason": "The claim concerns the model's own dynamics and is settled by simulation."
+    },
+    {
+      "id": "H3",
+      "statement": "誰とでも話せる集団（完全混合）は、近所としか話さない集団（スモールワールド）より早く呼び名の合意に達する。",
+      "rationale": "モデルのエージェントは記憶も好みも持たない。実際の人間は覚えやすさ・面白さ・評判で語を選ぶため、予測が人間集団でも成り立つかは人間で確かめるしかない。",
+      "track": "human",
+      "predictions": [
+        "合意に至るまでのラウンド数（主要指標）"
+      ],
+      "independent_variable": "完全混合：毎ラウンド相手をランダムに割り当て, スモールワールド：固定の近傍（次数4）＋10%の遠距離リンク",
+      "dependent_variable": "合意に至るまでのラウンド数（主要指標）",
+      "human_cues": [],
+      "routing_reason": "Needs human participants: モデルのエージェントは記憶も好みも持たない。実際の人間は覚えやすさ・面白さ・評判で語を選ぶため、予測が人間集団でも成り立つかは人間で確かめるしかない。"
+    },
+    {
+      "id": "H4",
+      "statement": "人々はミクロな行動ルールが生むマクロな結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を系統的に読み違える。",
+      "rationale": "直感や予測の偏りは人間からしか測れない。モデルの結果を『正解』として使える稀有な機会でもある。",
+      "track": "human",
+      "predictions": [
+        "予測誤差（主要指標）"
+      ],
+      "independent_variable": "ルール説明のみ, ルール説明＋小規模な例のアニメーション",
+      "dependent_variable": "予測誤差（主要指標）",
+      "human_cues": [],
+      "routing_reason": "Needs human participants: 直感や予測の偏りは人間からしか測れない。モデルの結果を『正解』として使える稀有な機会でもある。"
+    }
+  ],
+  "human_ideas": [
+    {
+      "id": "E1",
+      "title": "オンライン・ネーミングゲーム実験：つながり方で「新語の合意」は速くなるか",
+      "hypothesis_id": "H3",
+      "hypothesis": "誰とでも話せる集団（完全混合）は、近所としか話さない集団（スモールワールド）より早く呼び名の合意に達する。",
+      "why_human": "モデルのエージェントは記憶も好みも持たない。実際の人間は覚えやすさ・面白さ・評判で語を選ぶため、予測が人間集団でも成り立つかは人間で確かめるしかない。",
+      "fun_factor": "見知らぬ図形に名前を付け合うだけで、数分後には誰も決めていない「共通語」が生まれる瞬間を目撃できる。新語・流行語の誕生を実験室で再現！",
+      "title_en": "Online naming-game experiment: does network structure speed up agreement on new words?",
+      "design_type": "between",
+      "participants": "オンライン参加者を12人1グループに編成（グループ単位で分析）",
+      "conditions": [
+        "完全混合：毎ラウンド相手をランダムに割り当て",
+        "スモールワールド：固定の近傍（次数4）＋10%の遠距離リンク"
+      ],
+      "procedure": [
+        "同意取得と練習ラウンド（約2分）",
+        "抽象図形を1枚提示し、ペアで同時に名前を入力（最大25ラウンド）",
+        "一致したら両者に得点、不一致なら相手の語を表示",
+        "終了後、選んだ語の理由を自由記述で回答"
+      ],
+      "measures": [
+        "合意に至るまでのラウンド数（主要指標）",
+        "各時点でのグループ内の語彙数",
+        "一致率の推移"
+      ],
+      "analysis_plan": "グループ単位で合意到達ラウンドを条件間比較（Welchのt検定、両側α=0.05）。補助的に生存時間分析。主要指標・除外基準（途中離脱者のいるグループは除外）を事前登録する。",
+      "effect_size_d": 1.2,
+      "alpha": 0.05,
+      "power": 0.8,
+      "sample_size": 12,
+      "ethics": [
+        "インフォームド・コンセントを取得し、途中離脱の自由を保証する",
+        "個人を特定できる情報は収集しない（匿名IDのみ）",
+        "所属機関の研究倫理審査（IRB）の要否を事前に確認する"
+      ],
+      "materials": [
+        "オンライン実験基盤（oTree など）",
+        "著作権フリーの抽象図形セット",
+        "参加者募集サービス"
+      ],
+      "duration": "準備2週間・実施1週間・分析1週間",
+      "cost_estimate": "1人あたり約300円（15分）",
+      "risks": [
+        "途中離脱でグループが崩れる → 待機要員を確保",
+        "既存の単語の流用 → 抽象図形で統制"
+      ],
+      "in_silico_link": "今週のシミュレーションでは、完全混合での合意時間がスモールワールドより大幅に短いと予測された。グループ規模と条件はこの予測を直接検証できるよう設計した。"
+    },
+    {
+      "id": "E2",
+      "title": "直感 vs シミュレーション：人はミクロなルールからマクロな帰結を予測できるか",
+      "hypothesis_id": "H4",
+      "hypothesis": "人々はミクロな行動ルールが生むマクロな結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を系統的に読み違える。",
+      "why_human": "直感や予測の偏りは人間からしか測れない。モデルの結果を『正解』として使える稀有な機会でもある。",
+      "fun_factor": "シミュレーション結果を答えにした予想クイズ。研究室メンバーや友人と点数を競える。",
+      "title_en": "Intuition vs simulation: can people foresee macro outcomes from micro rules?",
+      "design_type": "between",
+      "participants": "一般成人のオンライン参加者（個人単位）",
+      "conditions": [
+        "ルール説明のみ",
+        "ルール説明＋小規模な例のアニメーション"
+      ],
+      "procedure": [
+        "モデルのミクロなルールを平易な言葉で説明",
+        "マクロな結果を数値で予想し確信度を回答",
+        "正解（シミュレーション結果）を提示し驚き度を評定"
+      ],
+      "measures": [
+        "予測誤差（主要指標）",
+        "確信度と誤差の関係（過信）",
+        "驚き度"
+      ],
+      "analysis_plan": "予測誤差が0と異なるかを1標本t検定、条件間の差をWelchのt検定（α=0.05）で検討する。",
+      "effect_size_d": 0.5,
+      "alpha": 0.05,
+      "power": 0.8,
+      "sample_size": 64,
+      "ethics": [
+        "インフォームド・コンセントを取得し、途中離脱の自由を保証する",
+        "個人を特定できる情報は収集しない（匿名IDのみ）",
+        "所属機関の研究倫理審査（IRB）の要否を事前に確認する"
+      ],
+      "materials": [
+        "オンライン調査ツール",
+        "モデルの説明図とアニメーション"
+      ],
+      "duration": "準備1週間・実施1週間",
+      "cost_estimate": "1人あたり約200円（10分）",
+      "risks": [
+        "説明が難しすぎる → パイロットで理解度を確認"
+      ],
+      "in_silico_link": "今週の ネーミングゲーム（語彙の慣習形成モデル） の結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を正解として用いる。"
+    }
+  ],
+  "plan": {
+    "sweep_parameter": "population",
+    "sweep_values": [
+      32.0,
+      64.0,
+      128.0,
+      256.0
+    ],
+    "replicates": 5,
+    "params": {
+      "sizes": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "replicates": 5
+    },
+    "metrics": [
+      "convergence time t_conv (interactions until global consensus)",
+      "peak number of words N_w^max stored in the population",
+      "communicative success rate S(t)"
+    ],
+    "notes": "Recipe 'naming_game' (naming_game.py)."
+  },
+  "recipe": "naming_game",
+  "summary": "The theme maps onto the Naming Game model of lexical convention formation (matched terms: language). Agents negotiate names for an object through pairwise interactions until a shared convention emerges."
+}

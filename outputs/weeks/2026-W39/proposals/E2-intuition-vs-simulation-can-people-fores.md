@@ -1,0 +1,113 @@
+# 【実験提案書】直感 vs シミュレーション：人はミクロなルールからマクロな帰結を予測できるか
+
+> 🐍 **Medusa Lab** · 週次サイクル `2026-W39` · テーマ: 「LLMはオノマトペを接地・創発できるか」<br>
+> 作成: 🧠 Analyst（設計） · 📝 Writer（執筆） · 🖍️ Reviewer（査読） · 生成日時: 2026-09-24 22:39 UTC<br>
+> **ステータス:** ⏳ 所長の承認待ち
+
+> [!NOTE]
+> 本提案書は Medusa Lab のAIエージェントが自動生成した草案です。実施前に内容・倫理面を必ず人間が確認してください。
+
+## 0. TL;DR（30秒で読める要約）
+
+- **仮説:** 人々はミクロな行動ルールが生むマクロな結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を系統的に読み違える。
+- **デザイン:** 被験者間（条件ごとに別の参加者） ／ **サンプルサイズ（検出力分析）:** 各条件 n = 64
+- **なぜ面白いのか（Fun Factor）:** シミュレーション結果を答えにした予想クイズ。研究室メンバーや友人と点数を競える。
+
+## 1. なぜ面白いのか（Fun Factor）
+
+シミュレーション結果を答えにした予想クイズ。研究室メンバーや友人と点数を競える。
+
+## 2. 仮説
+
+**H4** — 人々はミクロな行動ルールが生むマクロな結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を系統的に読み違える。
+
+## 3. なぜ人間の手が必要なのか
+
+直感や予測の偏りは人間からしか測れない。モデルの結果を『正解』として使える稀有な機会でもある。
+
+## 4. 実験デザイン
+
+| | |
+|---|---|
+| デザイン | 被験者間（条件ごとに別の参加者） |
+| 参加者 | 一般成人のオンライン参加者（個人単位） |
+| サンプルサイズ（検出力分析） | 各条件 **n = 64** 単位（Cohen's d = 0.5, α = 0.05, 1−β = 0.8） |
+
+### 4.1 条件
+
+- ルール説明のみ
+- ルール説明＋小規模な例のアニメーション
+
+### 4.2 手続き（プロトコル）
+
+1. モデルのミクロなルールを平易な言葉で説明
+2. マクロな結果を数値で予想し確信度を回答
+3. 正解（シミュレーション結果）を提示し驚き度を評定
+
+### 4.3 測定項目
+
+- 予測誤差（主要指標）
+- 確信度と誤差の関係（過信）
+- 驚き度
+
+### 4.4 分析計画（事前登録用）
+
+予測誤差が0と異なるかを1標本t検定、条件間の差をWelchのt検定（α=0.05）で検討する。
+
+## 5. In-Silico研究との接続
+
+今週の ネーミングゲーム（語彙の慣習形成モデル） の結果（集団が大きくなるほど、共通語ができるまでの時間は人数の増え方以上に長くなる）を正解として用いる。
+
+**今週のシミュレーション結果:**
+
+- On the complete graph, convergence time grows as N^1.39 (R^2=0.97); the mean-field prediction is N^1.5.
+- On the small-world network the fitted exponent is 2.09, and the peak memory grows as N^1.01 versus N^1.40 on the complete graph.
+- At N=256, consensus took 30.3 interactions per agent on the complete graph and 412.4 on the small-world network.
+
+## 6. 倫理的配慮チェックリスト
+
+- [ ] インフォームド・コンセントを取得し、途中離脱の自由を保証する
+- [ ] 個人を特定できる情報は収集しない（匿名IDのみ）
+- [ ] 所属機関の研究倫理審査（IRB）の要否を事前に確認する
+
+## 7. 必要なもの
+
+- オンライン調査ツール
+- モデルの説明図とアニメーション
+
+**期間:** 準備1週間・実施1週間 ／ **コスト目安:** 1人あたり約200円（10分）
+
+## 8. リスクと対策
+
+- 説明が難しすぎる → パイロットで理解度を確認
+
+## 9. 所長へのお願い（次のアクション）
+
+- [ ] 実施するかどうかを判断する
+- [ ] 所属機関の倫理審査（IRB）の要否を確認する
+- [ ] 予算と募集方法を決める
+- [ ] 事前登録（OSF等）の文面を確定する
+
+## 10. Reviewer Agent の査読コメント
+
+> **Reviewer 1 (Methodologist)** — `accept`（3.6/5）<br>
+> 実施可能性の高い提案です（平均 3.6/5）。パイロットと事前登録を経て実施を推奨します。
+
+**良い点**
+
+- 検出力分析に基づくサンプルサイズ（各条件 n=64）が示されている。
+- 倫理的配慮のチェックリストが具体的。
+- シミュレーション予測との接続が明確で、理論と実証の往復になっている。
+
+**修正依頼**
+
+- [ ] 主要指標・除外基準・分析を実施前に事前登録する。
+- [ ] 条件への割り当てを完全ランダム化し、割り当て手続きを記録する。
+
+## 関連文献
+
+- Steels (1995). *A self-organizing spatial vocabulary*. Artificial Life 2(3):319-332
+- Baronchelli et al. (2006). *Sharp transition towards shared vocabularies in multi-agent systems*. Journal of Statistical Mechanics: Theory and Experiment, P06014 <https://doi.org/10.1088/1742-5468/2006/06/P06014>
+- Dall'Asta et al. (2006). *Nonequilibrium dynamics of language games on complex networks*. Physical Review E 74, 036105
+- Centola and Baronchelli (2015). *The spontaneous emergence of conventions: An experimental study of cultural evolution*. PNAS 112(7):1989-1994 <https://doi.org/10.1073/pnas.1418838112>
+- Imai and Kita (2014). *The sound symbolism bootstrapping hypothesis for language acquisition and language evolution*. Philosophical Transactions of the Royal Society B Biological Sciences <https://doi.org/10.1098/rstb.2013.0298>
