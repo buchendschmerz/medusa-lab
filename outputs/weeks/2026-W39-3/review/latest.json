@@ -1,0 +1,223 @@
+{
+  "reviews": [
+    {
+      "reviewer": "Reviewer 1 (Methodologist)",
+      "persona": "methodologist",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 2.0,
+        "clarity": 4.0,
+        "reproducibility": 3.0,
+        "significance": 2.0
+      },
+      "summary": "The paper proposes the Trace-Based Checking Agent (TBCA), a TD(\\u03bb) agent over discretised belief states in a partially observable checking task, plus a transferred reversal task, and runs a 8(\\u03bb)x2(trace type)x3(q) factorial (960 agents) plus a recovery grid (1572 total) under a single seed. The headline hypothesis (accumulating-trace escalation) yields a null (F(7,304)=0.92, \\u03b7\\u00b2=0.0197, MDE \\u2248 0.04), which the authors now reframe as most likely untested because the check count is part of the state, making same-cell revisitation rare, and because eligibility magnitudes were never logged. H2 and H3 are partially supported with heavy caveats; the perseveration result is withdrawn as confounded with effective learning rate. The revision is exemplary in candour but the load-bearing empirical test of the central mechanism is still absent.",
+      "strengths": [
+        "Outstanding epistemic hygiene for a round-2 revision: the three-way distinction between supported, null-within-a-bound, and unadjudicable is applied consistently across abstract, results, discussion, limitations and conclusion, and the abstract does not oversell.",
+        "The authors correctly diagnose, analytically, why H1 may never have been instantiated (check count in the state vector forces n to increment, so exact (n, bin) revisitation requires N_max saturation plus an unchanged bin) and say so prominently rather than reporting a clean-looking null.",
+        "Prior overclaims are explicitly retracted rather than quietly dropped: the '-143%' recovery statistic, the 'large effect' automated summary, the three-point r=0.96, and the OCD/SUD dissociation framing are all named and withdrawn.",
+        "A quantitative detection bound (\\u03b7\\u00b2 \\u2248 0.04 at 80% power for F(7,304)) is supplied and correctly labelled as a bound rather than an equivalence demonstration.",
+        "Missing quantities are enumerated rather than elided: absent CIs for residual doubt, Q gaps, win-stay/lose-shift and the perseveration index are flagged as a reporting failure; the non-reconstructible index normalisation is admitted.",
+        "Pre-specification versus post-hoc labelling is now explicit and the confound analysis for the perseveration effect (\\u03b1 multiplying the trace raises the effective learning rate) is honest and mechanistically correct."
+      ],
+      "weaknesses": [
+        "The stated reason for not running the decisive analyses ('not permitted to generate new simulation data for this version') sits uneasily against a reported total runtime of ~8 s for 1572 agents. The fair test of H1 (no cap, coarse binning, logged max e(x,CHECK) and same-cell revisitation fraction) is, by the paper's own account, seconds of compute. A paper whose headline result is 'probably untested' when the test costs 8 s is a manuscript that is one run short of being publishable, not a finished contribution.",
+        "Single seed for every headline quantity. With 20 replicates/cell and CIs of \\u00b10.2 checks against effects of 0.01-0.18 checks, essentially all discussed contrasts are within noise; \\u03bb* is read off an 8-point grid with two of three optima on the boundary; \\u03b7\\u00b2 itself has no seed-to-seed interval. Multi-seed replication is also seconds of compute.",
+        "The recovery analysis is uninterpretable as evidence: summary-statistic grid search with an objective, tolerance and resolution the authors cannot reconstruct, no self-recovery sanity check, no intervals, two generator settings. Yet the 'practical message for computational psychiatry' in the conclusion (an estimated trace/habit parameter is not evidence of habit bias) still rests entirely on \\u03bb\\u0302=0.37 from that analysis. This is the one remaining place where the claim outruns the evidence.",
+        "Provenance/reproducibility gaps are structural, not cosmetic: the ANOVA main effects and residuals were not retained, the perseveration index normalisation is not recoverable from stored outputs, and matched-checking statistics were not stored paired. This indicates the logging pipeline, not just the analysis, needs redesign; and it means the archived artefacts cannot support re-analysis by a reader.",
+        "No normative benchmark means the one surviving positive claim ('credit assignment alone builds positive value for CHECK') is not separable from 'checking is partly rational at q=0.8 and the agent learned that'. The belief MDP here is tiny and solvable by value iteration in well under a second.",
+        "Related work engages the two-step/goal-directed compulsivity literature 'descriptively and without attribution' because the references were unavailable. For a paper whose arbitration weight w is the parameter that literature implicates, this is a substantive coverage gap, not a formatting one."
+      ],
+      "requests": [
+        "Run the H1 diagnostic condition and report it in this paper: log the within-episode distribution of max e(x,CHECK) and the empirical fraction of consecutive checks mapping to the same (n, belief-bin) cell, for at least the \\u03bb\\u2208{0,0.9,0.99} x {accumulating, replacing} cells at each q. State the fraction of episodes in which accumulating eligibility exceeded 1. If it is near zero, say so as a measurement, which converts the central claim of the paper from an inference to a result.",
+        "Add the fair-test condition: N_max removed (or raised well above observed rates) and coarse belief binning (e.g. K\\u2208{2,4} versus the current value), with the checks-vs-\\u03bb curve by trace type reported for the coarsest and finest binning. Report whether the ~2-3 checks/episode clustering is a binding ceiling.",
+        "Replicate the full primary design under >=5 master seeds and report between-seed distributions (not just point estimates) for the interaction \\u03b7\\u00b2, \\u03bb*, checking-at-optimum, and both recovery estimates. Given 8 s runtime this is minutes of compute and removes the largest single objection to the paper.",
+        "Either calibrate the recovery analysis (explicit objective, self-recovery check on a grid of generating (\\u03bb,\\u03b5) pairs, bootstrap or profile intervals) or remove \\u03bb\\u0302=0.37 as support for the conclusion's 'practical message', restating that message as a conjecture motivated by the iso-checking degeneracy alone.",
+        "Restore full statistical reporting for H1: complete ANOVA table (both main effects, interaction, df, MS, \\u03b7\\u00b2/partial \\u03b7\\u00b2), residual diagnostics on log(1+checks), and a TOST or simulation-based power curve now that per-agent contrasts can be logged on re-run.",
+        "Compute the belief-MDP optimum by value iteration for each q and report checking rate and CHECK-LEAVE value gap as deviations from it; retire 'compulsion-like' in favour of a quantified excess (or state that there is none)."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 2
+    },
+    {
+      "reviewer": "Reviewer 2 (Domain expert)",
+      "persona": "domain_expert",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 2.0,
+        "clarity": 4.0,
+        "reproducibility": 2.0,
+        "significance": 2.0
+      },
+      "summary": "The paper proposes the Trace-Based Checking Agent (TBCA), a TD(\\u03bb) learner over discretised belief states in a partially observable checking task plus a transferred probabilistic reversal task, framed as a bridge between the Bayesian-instability and model-free-habit accounts of OCD. Across 1572 single-seed agents, the headline hypothesis (accumulating-trace-driven escalation of checking) produced no detectable \\u03bb \\u00d7 trace-type interaction, and the authors argue candidly that the mechanism was probably never instantiated because the check count is part of the state, making revisitation (and hence eligibility > 1) rare. H2 and H3 are partially supported with heavy caveats; an exploratory perseveration dissociation is withdrawn as likely confounded with effective learning rate. The revision is exemplary in its transparency but the substantive scientific yield remains thin because no new simulations could be run.",
+      "strengths": [
+        "The conceptual framing \\u2014 eligibility traces as the literal 'memory trace' bridging the inference-pathology and habit-bias accounts of OCD \\u2014 is a genuinely interesting and, to my knowledge, unoccupied niche, and the trace-type/revisitation link to repetition-specific pathology is a well-motivated hook.",
+        "Outstanding epistemic hygiene for round 2: the three-way distinction between supported, null-within-a-detection-limit, and unadjudicable is used consistently; the abstract, results, discussion and limitations are mutually consistent; and the authors explicitly disown an earlier automated summary that mislabelled \\u03b7\\u00b2 = 0.02 as 'large'.",
+        "The analytic argument for why H1 was untested (check count in the state, belief bin moves after each observation at q = 0.8) is correct, clearly stated, and more informative than the simulation itself \\u2014 it converts a null into a concrete precondition ('trace accounts predict escalation only where repeated actions leave the represented state unchanged') that is testable in humans.",
+        "Scoping of the reversed \\u03b5 effect against the omitted components of Fradkin & Ariely (stopping criterion, relief reinforcer, volatility hierarchy, memory-confidence variable) is exactly the right move and yields a defensible negative claim: instability beliefs alone do not generate checking in a cost-sensitive EV agent.",
+        "Withdrawal of the OCD/SUD dissociation claim on the basis of a self-identified effective-learning-rate confound is a model of how to handle an attractive but unsupported result.",
+        "Post-hoc MDE calculation, pre-specification paragraph, and the explicit statement that this is a detection bound and not an equivalence test."
+      ],
+      "weaknesses": [
+        "The central scientific content is now an acknowledged non-test. The state representation (n_t in the state, incrementing on every check) makes the proposed mechanism nearly impossible by construction, and this is derivable on paper before any simulation. A domain reviewer has to ask why an analytic demonstration \\u2014 which requires no new data \\u2014 was not substituted for the missing diagnostic: the eligibility trajectory for CHECK under this representation can be written down in closed form for the no-revisitation case, which would convert 'probably untested' into 'provably untested at these settings'.",
+        "As a model of compulsive checking the TBCA omits essentially everything that makes checking phenomenologically distinctive: no relief/anxiety reinforcer, no certainty-threshold stopping rule, no memory-confidence variable, no intrusions, a fixed true state within episode, and a static arbitration weight. The result is an agent whose 2\\u20133 checks per episode may be entirely normative (as the authors concede, absent a belief-MDP benchmark). The paper therefore does not yet demonstrate that it captures the phenomenon at all, only that a cost-sensitive EV agent checks a bit.",
+        "Positioning remains incomplete in a way that matters for the argument. The two-step / goal-directed compulsivity literature is engaged only descriptively and without primary citations; since the authors themselves note that this literature predicts a shift in w rather than \\u03bb, and w is held fixed, the paper's claim to adjudicate between the 'two dominant accounts' is weakened. Similarly, the trace-vs-uncertainty degeneracy has close relatives in the identifiability literature on learning-rate/decay trade-offs that are not cited.",
+        "The secondary task's primary outcome (the perseveration index) cannot be defined mathematically from stored outputs and is not recoverable from the reported win-stay/lose-shift rates. Reporting an undefined scalar, even as 'ordinal within-study', is below the bar; it should be removed or replaced with the two defined statistics.",
+        "The recovery analysis is uninterpretable as a claim about identifiability: summary-statistic grid search with an unreconstructible objective, no self-recovery check, two generator settings, no intervals. Yet the conclusion still leans on it for the paper's 'practical message for computational psychiatry'. That message is currently supported by a single unvalidated point estimate.",
+        "Single seed, no sensitivity sweep, confidence intervals of the same order as most discussed effects, and missing main-effect ANOVA terms. Combined, these mean almost no quantity in the paper would survive a demand for replication."
+      ],
+      "requests": [
+        "Add a closed-form analytic treatment of the eligibility trajectory for (n, belief-bin) CHECK pairs under the current representation: show explicitly the conditions (N_max saturation plus bin stability) under which e > 1 is reachable, and the maximum attainable eligibility at each q. This requires no new simulation and would decisively establish that H1 was untested rather than leaving it as an inference.",
+        "Redesign the state representation for the fair test and state it in the model section now: either drop the check count from the model-free state (retaining it only for the cost), or use a coarse belief-only state with no cap, so that revisitation is guaranteed by construction. Present this as the pre-registered condition for the next run.",
+        "Remove the perseveration index from the results, or relegate it to an appendix reporting only win-stay and lose-shift probabilities with intervals, until a pre-registered, explicitly defined index can be computed. Do not carry an unrecoverable statistic into the metrics table.",
+        "Downgrade the 'practical message for computational psychiatry' in the conclusion: with no self-recovery check and two generator settings, the correct claim is that trace/uncertainty degeneracy is a hypothesis worth testing, not a caution that can be issued to the field.",
+        "Add primary citations for the two-step / goal-directed compulsivity literature (Gillan, Daw and colleagues) and for existing work on parameter degeneracy in RL fits of clinical data; if the citation set is genuinely constrained, state the specific constraint rather than describing it as a coverage gap.",
+        "Compute a normative benchmark. Solving the belief MDP for two actions, a scalar belief and a small check cap is cheap and, if new simulation is prohibited, can be done analytically or by value iteration over the discretised belief grid; without it the word 'compulsion-like' should be dropped entirely from the title and abstract."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 2
+    },
+    {
+      "reviewer": "Reviewer 3 (Skeptic)",
+      "persona": "skeptic",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 2.0,
+        "clarity": 4.0,
+        "reproducibility": 3.0,
+        "significance": 2.0
+      },
+      "summary": "The paper proposes an eligibility-trace account of compulsive checking, implemented as a TD(\\u03bb) agent over discretised belief states in a partially observable checking MDP, plus a transferred reversal task, and reports a factorial in-silico study (8 \\u03bb \\u00d7 2 trace types \\u00d7 3 reliabilities, 20 agents/cell, one seed) and a small recovery grid. The headline hypothesis (accumulating-trace escalation) returned a null that the authors now reframe, correctly in my view, as most likely untested because the state representation (check count in state, belief bin shifting each observation) makes revisitation rare and the required diagnostics were never logged. Secondary results are partial: scalar-level \\u03b5\\u2013\\u03bb interchangeability, a reversed \\u03b5 effect, a boundary-limited H3, and an exploratory perseveration effect the authors now attribute to an effective-learning-rate confound. The revision is unusually candid and has removed most prior overclaims, but the scientific yield is currently close to zero load-bearing findings, and the one surviving 'practical message' still rests on an uncalibrated single-point recovery.",
+      "strengths": [
+        "Exemplary epistemic hygiene in round 2: the three-way distinction between supported, null-within-a-detection-limit, and untested is applied consistently, and the authors explicitly retract their own earlier 'large effect' automated summary and the '-143%' statistic.",
+        "The analytic argument for why H1 was probably never instantiated (check count is part of the state, so exact revisitation requires N_max saturation plus an unchanged belief bin) is correct, clearly stated, and more valuable than the null itself; it yields a genuinely testable environmental precondition for any trace account of compulsion.",
+        "The self-identified confound for the perseveration result (\\u03b1 multiplying the trace raises the effective learning rate, predicting exactly the observed accumulating < replacing < \\u03bb=0 ordering) is the right diagnosis and the clinical claim was withdrawn rather than hedged.",
+        "Scoping of the reversed \\u03b5 effect relative to the omitted components of the Fradkin model (stopping criterion, relief reinforcer, hierarchical volatility, memory confidence) is precise and avoids misrepresenting the source account.",
+        "Limitations section is specific and actionable rather than performative; the next-steps list is exactly the right list."
+      ],
+      "weaknesses": [
+        "The central contribution is an admitted non-test. After the reframing, no pre-specified hypothesis is cleanly supported: H1 untested, H2 partially supported at the level of a single scalar with a failed remedy and an uncalibrated recovery, H3 with two of three optima on the grid boundary and reward differences comparable to noise. What remains is a design critique of the authors' own design.",
+        "Residual overclaiming in the conclusion. 'Uncertainty-generated data were fitted with a clearly non-zero trace parameter, so an estimated habit or trace parameter in patient data is not by itself evidence for a habit bias' is presented as the message that 'survives all of the above weakening', yet it rests on a single-seed point estimate from a summary-statistic grid search with no self-recovery check, no interval, and an objective the authors cannot reconstruct. Without a self-recovery baseline, \\u03bb\\u0302=0.37 is not interpretable as bias at all \\u2014 the fitter may simply return mid-grid values.",
+        "An alternative explanation for the flat \\u03bb curves is not considered: the arbitration weight w is fixed and the one-step belief-based module may dominate action selection, in which case Q_MF (and hence \\u03bb and trace type) is largely irrelevant to behaviour regardless of revisitation. This is a second, independent reason H1 could not have been tested, and it is separable from the revisitation argument by a w sweep or by reporting the MF/MB contribution to chosen actions.",
+        "A third alternative: with a fixed within-episode hazard state, zero true flip probability and q=0.8, the Bayesian posterior saturates after one or two checks, so the environment may simply have no dynamic range for escalation independent of the cap. Observed rates of 2\\u20133.2 checks are consistent with this as well as with the N_max ceiling; the paper attributes the compression mainly to the cap.",
+        "The iso-checking result for H2 is near-tautological and is presented with more weight than it can bear: any monotone knob that modulates checking will match a target scalar for most levels. The non-monotone matched-\\u03bb list actively undermines even a weak interchangeability reading, and the one genuinely informative analysis (joint distribution of statistics at matched checking) was not stored.",
+        "The escalation/positive-Q_MF-gap result, described as the 'one positive result', is confounded with ordinary value learning and exploration decay in an environment where some checking is warranted, and no normative benchmark exists. As stated it may be a restatement of 'the agent learned the task'."
+      ],
+      "requests": [
+        "Run the fair test of H1 before the next round: a no-cap, coarse-binning (and ideally guaranteed-revisitation) condition with per-episode logging of max e(x,CHECK) and the fraction of consecutive checks in the same (n, bin) cell. Report the checking-vs-\\u03bb curve for finest and coarsest K. Without this the paper's central question remains unaddressed.",
+        "Sweep the arbitration weight w (including w=0, pure model-free) and report the fraction of actions in which Q_MF changes the argmax. This tests the alternative explanation that the MF module, and hence \\u03bb, was behaviourally inert regardless of trace mechanics.",
+        "Either run a self-recovery sanity check plus a grid of generating (\\u03bb, \\u03b5) pairs with bootstrap intervals, or delete the recovery analysis and the 'habit parameter is not evidence of habit bias' message from the conclusion. As it stands the claim is not supported by anything auditable.",
+        "Reconcile the metrics block with the text: remove bias_reduction_lambda_pct, bias_reduction_eps_pct and corr_lambdastar_compulsivity, or mark them explicitly as retracted/non-inferential in the machine-readable output.",
+        "Compute the belief-MDP optimal policy's check rate and CHECK\\u2212LEAVE value gap per q (cheap, as the authors note) and re-express the 'learned preference for checking' as a deviation from it; otherwise drop the claim to 'the agent learned a positive value for a warranted action'.",
+        "Re-specify the perseveration index formally (or replace it with pre-registered win-stay/lose-shift and post-reversal switch latency only) and re-run the reversal task with effective learning rates matched across \\u03bb and trace type."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 2
+    }
+  ],
+  "meta": {
+    "decision": "major_revision",
+    "mean_score": 2.73,
+    "summary": "Round 2: mean score 2.73/5 across 3 reviewers (votes: major_revision, major_revision, major_revision). Decision: major revision.",
+    "required_changes": [
+      "Run the H1 diagnostic condition and report it in this paper: log the within-episode distribution of max e(x,CHECK) and the empirical fraction of consecutive checks mapping to the same (n, belief-bin) cell, for at least the \\u03bb\\u2208{0,0.9,0.99} x {accumulating, replacing} cells at each q. State the fraction of episodes in which accumulating eligibility exceeded 1. If it is near zero, say so as a measurement, which converts the central claim of the paper from an inference to a result.",
+      "Add the fair-test condition: N_max removed (or raised well above observed rates) and coarse belief binning (e.g. K\\u2208{2,4} versus the current value), with the checks-vs-\\u03bb curve by trace type reported for the coarsest and finest binning. Report whether the ~2-3 checks/episode clustering is a binding ceiling.",
+      "Add a closed-form analytic treatment of the eligibility trajectory for (n, belief-bin) CHECK pairs under the current representation: show explicitly the conditions (N_max saturation plus bin stability) under which e > 1 is reachable, and the maximum attainable eligibility at each q. This requires no new simulation and would decisively establish that H1 was untested rather than leaving it as an inference.",
+      "Redesign the state representation for the fair test and state it in the model section now: either drop the check count from the model-free state (retaining it only for the cost), or use a coarse belief-only state with no cap, so that revisitation is guaranteed by construction. Present this as the pre-registered condition for the next run.",
+      "Run the fair test of H1 before the next round: a no-cap, coarse-binning (and ideally guaranteed-revisitation) condition with per-episode logging of max e(x,CHECK) and the fraction of consecutive checks in the same (n, bin) cell. Report the checking-vs-\\u03bb curve for finest and coarsest K. Without this the paper's central question remains unaddressed.",
+      "Sweep the arbitration weight w (including w=0, pure model-free) and report the fraction of actions in which Q_MF changes the argmax. This tests the alternative explanation that the MF module, and hence \\u03bb, was behaviourally inert regardless of trace mechanics."
+    ],
+    "checks": [
+      {
+        "id": "simulation",
+        "label": "Simulation ran successfully",
+        "passed": true,
+        "detail": "llm, 8.5s",
+        "severity": "major"
+      },
+      {
+        "id": "figures",
+        "label": "At least one figure from archived data",
+        "passed": true,
+        "detail": "3 figure(s)",
+        "severity": "major"
+      },
+      {
+        "id": "replicates",
+        "label": "Three or more replicates per setting",
+        "passed": true,
+        "detail": "20 replicates",
+        "severity": "major"
+      },
+      {
+        "id": "uncertainty",
+        "label": "Uncertainty reported (confidence bands)",
+        "passed": true,
+        "detail": "95% intervals in figures",
+        "severity": "minor"
+      },
+      {
+        "id": "seed",
+        "label": "Random seed recorded",
+        "passed": true,
+        "detail": "seed 20260901",
+        "severity": "minor"
+      },
+      {
+        "id": "references",
+        "label": "Three or more references",
+        "passed": true,
+        "detail": "12 references",
+        "severity": "minor"
+      },
+      {
+        "id": "sections",
+        "label": "All sections written",
+        "passed": true,
+        "detail": "complete",
+        "severity": "major"
+      },
+      {
+        "id": "limitations",
+        "label": "Limitations discussed",
+        "passed": true,
+        "detail": "785 words",
+        "severity": "minor"
+      },
+      {
+        "id": "hypotheses",
+        "label": "Every in-silico hypothesis discussed",
+        "passed": true,
+        "detail": "all mentioned",
+        "severity": "minor"
+      },
+      {
+        "id": "overclaiming",
+        "label": "No overclaiming language",
+        "passed": true,
+        "detail": "none found",
+        "severity": "minor"
+      },
+      {
+        "id": "pdf",
+        "label": "PDF compiled",
+        "passed": true,
+        "detail": "latexmk/lualatex",
+        "severity": "minor"
+      },
+      {
+        "id": "own_code",
+        "label": "Simulation written for this study (not a fallback)",
+        "passed": true,
+        "detail": "llm",
+        "severity": "minor"
+      }
+    ],
+    "round": 2
+  }
+}

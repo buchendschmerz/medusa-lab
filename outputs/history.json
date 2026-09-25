@@ -1,0 +1,32 @@
+[
+  {
+    "cycle_id": "2026-W39-3",
+    "theme": "強迫症の記憶トレースモデルの発展",
+    "mode": "hybrid",
+    "status": "done",
+    "decision": "major_revision",
+    "review_score": 2.73,
+    "paper_title": "Eligibility Traces as a Memory-Trace Substrate for Compulsive Checking: A Partially Observable Trace-Based Checking Agent and a Candid In-Silico Test",
+    "paper_pdf": "paper/paper.pdf",
+    "paper_tex": "paper/paper.tex",
+    "proposals": [
+      {
+        "idea_id": "E1",
+        "title": "遅延・集約フィードバックはヒトの「確認」を増やすか：適格度トレース仮説の行動検証",
+        "path": "proposals/E1-does-delayed-aggregated-feedback-inflate.md",
+        "sample_size": 41
+      },
+      {
+        "idea_id": "E2",
+        "title": "同じ景色をもう一度見るか、違う角度から見るか：累積型トレースと置換型トレースを人で切り分ける",
+        "path": "proposals/E2-same-view-or-new-angle-dissociating-accu.md",
+        "sample_size": 34
+      }
+    ],
+    "recipe": "sir_network",
+    "llm": "claude-opus-5",
+    "finished_at": "2026-09-25T00:23:46+00:00",
+    "pr_url": "",
+    "open_question": "Can eligibility-trace parameters (trace decay lambda, trace type, learning rate alpha) be identified from OCD patients' sequential choice data, and does OCD correspond to abnormally persistent (or abn"
+  }
+]
