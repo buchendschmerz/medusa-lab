@@ -1,0 +1,334 @@
+{
+  "queries": [
+    "OCD",
+    "eligibility trace",
+    "modeling",
+    "obsessive-compulsive disorder computational model",
+    "eligibility trace reinforcement learning credit assignment"
+  ],
+  "literature": [
+    {
+      "key": "kanen2019computational",
+      "title": "Computational modelling reveals contrasting effects on reinforcement learning and cognitive flexibility in stimulant use disorder and obsessive-compulsive disorder: remediating effects of dopaminergic D2/3 receptor agents",
+      "authors": [
+        "Jonathan W. Kanen",
+        "Karen D. Ersche",
+        "Naomi Anne Fineberg",
+        "Trevor William Robbins",
+        "Rudolf N. Cardinal"
+      ],
+      "year": 2019,
+      "venue": "Psychopharmacology",
+      "url": "https://doi.org/10.1007/s00213-019-05325-w",
+      "abstract": "Rationale Disorders of compulsivity such as stimulant use disorder (SUD) and obsessive-compulsive disorder (OCD) are characterised by deficits in behavioural flexibility, some of which have been captured using probabilistic reversal learning (PRL) paradigms. Objectives This study used computational modelling to characterise the reinforcement learning processes underlying patterns of PRL behaviour observed in SUD and OCD and to show how the dopamine D2/3 receptor agonist pramipexole and the D2/3 antagonist amisulpride affected these responses. Methods We applied a hierarchical Bayesian method to PRL data across three groups: individuals with SUD, OCD, and healthy controls. Participants completed three sessions where they received placebo, pramipexole, and amisulpride, in a double-blind placebo-controlled, randomised design. We compared seven models using a bridge sampling estimate of the marginal likelihood. Results Stimulus-bound perseveration, a measure of the degree to which participants responded to the same stimulus as before irrespective of outcome, was significantly increased in SUD, but decreased in OCD, compared to controls (on placebo). Individuals with SUD also exhibited reduced reward-driven learning, whilst both the SUD and OCD groups showed increased learning from punishment (nonreward). Pramipexole and amisulpride had similar effects on the control and OCD groups; both increased punishment-driven learning. These D2/3-modulating drugs affected the SUD group differently, remediating reward-driven learning and reducing aspects of perseverative behaviour, amongst other effects. Conclusions We provide a parsimonious computational account of how perseverative tendencies and reward- and punishment-driven learning differentially contribute to PRL in SUD and OCD. D2/3 agents modulated these processes and remediated deficits in SUD in particular, which may inform therapeutic effects.",
+      "source": "openalex",
+      "doi": "10.1007/s00213-019-05325-w",
+      "arxiv_id": "",
+      "citations": 110,
+      "relevance": 0.7977,
+      "foundational": false
+    },
+    {
+      "key": "fradkin2020searching",
+      "title": "Searching for an anchor in an unpredictable world: A computational model of obsessive compulsive disorder.",
+      "authors": [
+        "Isaac Fradkin",
+        "Rick A. Adams",
+        "Thomas R. Parr Jr.",
+        "Jonathan Paul Roiser",
+        "Jonathan D. Huppert"
+      ],
+      "year": 2020,
+      "venue": "Psychological Review",
+      "url": "https://doi.org/10.1037/rev0000188",
+      "abstract": "In this article, we develop a computational model of obsessive-compulsive disorder (OCD). We propose that OCD is characterized by a difficulty in relying on past events to predict the consequences of patients' own actions and the unfolding of possible events. Clinically, this corresponds both to patients' difficulty in trusting their own actions (and therefore repeating them), and to their common preoccupation with unlikely chains of events. Critically, we develop this idea on the basis of the well-developed framework of the Bayesian brain, where this impairment is formalized as excessive uncertainty regarding state transitions. We illustrate the validity of this idea using quantitative simulations and use these to form specific empirical predictions. These predictions are evaluated in relation to existing evidence, and are used to delineate directions for future research. We show how seemingly unrelated findings and phenomena in OCD can be explained by the model, including a persistent experience that actions were not adequately performed and a tendency to repeat actions; excessive information gathering (i.e., checking); indecisiveness and pathological doubt; overreliance on habits at the expense of goal-directed behavior; and overresponsiveness to sensory stimuli, thoughts, and feedback. We discuss the relationship and interaction between our model and other prominent models of OCD, including models focusing on harm-avoidance, not-just-right experiences, or impairments in goal-directed behavior. Finally, we outline potential clinical implications and suggest lines for future research. (PsycInfo Database Record (c) 2020 APA, all rights reserved).",
+      "source": "openalex",
+      "doi": "10.1037/rev0000188",
+      "arxiv_id": "",
+      "citations": 94,
+      "relevance": 0.6125,
+      "foundational": false
+    },
+    {
+      "key": "voon2014disorders",
+      "title": "Disorders of compulsivity: a common bias towards learning habits",
+      "authors": [
+        "Valerie Voon",
+        "Katherine L. Derbyshire",
+        "Christian Rück",
+        "Mairi Irvine",
+        "Yulia Worbe",
+        "Jesper Enander",
+        "L R N Schreiber",
+        "Claire M. Gillan",
+        "Naomi Anne Fineberg",
+        "Barbara Jacquelyn Sahakian",
+        "Trevor William Robbins",
+        "Neil Andrew Harrison"
+      ],
+      "year": 2014,
+      "venue": "Molecular Psychiatry",
+      "url": "https://doi.org/10.1038/mp.2014.44",
+      "abstract": "Why do we repeat choices that we know are bad for us? Decision making is characterized by the parallel engagement of two distinct systems, goal-directed and habitual, thought to arise from two computational learning mechanisms, model-based and model-free. The habitual system is a candidate source of pathological fixedness. Using a decision task that measures the contribution to learning of either mechanism, we show a bias towards model-free (habit) acquisition in disorders involving both natural (binge eating) and artificial (methamphetamine) rewards, and obsessive-compulsive disorder. This favoring of model-free learning may underlie the repetitive behaviors that ultimately dominate in these disorders. Further, we show that the habit formation bias is associated with lower gray matter volumes in caudate and medial orbitofrontal cortex. Our findings suggest that the dysfunction in a common neurocomputational mechanism may underlie diverse disorders involving compulsion.",
+      "source": "openalex",
+      "doi": "10.1038/mp.2014.44",
+      "arxiv_id": "",
+      "citations": 676,
+      "relevance": 0.5552,
+      "foundational": false
+    },
+    {
+      "key": "precup2000eligibility",
+      "title": "Eligibility Traces for Off-Policy Policy Evaluation",
+      "authors": [
+        "Doina Precup",
+        "Richard S. Sutton",
+        "Satinder Pal Singh"
+      ],
+      "year": 2000,
+      "venue": "ScholarWorks@UMassAmherst (University of Massachusetts Amherst)",
+      "url": "https://openalex.org/W1514587017",
+      "abstract": "Eligibility traces have been shown to speed reinforcement learning, to make it more robust to hidden states, and to provide a link between Monte Carlo and temporal-difference methods. Here we generalize eligibility traces to off-policy learning, in which one learns about a policy different from the policy that generates the data. Off-policy methods can greatly multiply learning, as many policies can be learned about from the same data stream, and have been identified as particularly useful for learning about subgoals and temporally extended macro-actions. In this paper we consider the off-policy version of the policy evaluation problem, for which only one eligibility trace algorithm is known, a Monte Carlo method. We analyze and compare this and four new eligibility trace algorithms, emphasizing their relationships to the classical statistical technique known as importance sampling. Our main results are 1) to establish the consistency and bias properties of the new methods and 2) to empirically rank the new methods, showing improvement over one-step and Monte Carlo methods. Our results are restricted to model-free, table-lookup methods and to offline updating (at the end of each episode) although several of the algorithms could be applied more generally. 1.",
+      "source": "openalex",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": 458,
+      "relevance": 0.5467,
+      "foundational": false
+    },
+    {
+      "key": "radua2009voxelwise",
+      "title": "Voxel-wise meta-analysis of grey matter changes in obsessive–compulsive disorder",
+      "authors": [
+        "Joaquim Raduà",
+        "David Mataix‐Cols"
+      ],
+      "year": 2009,
+      "venue": "The British Journal of Psychiatry",
+      "url": "https://doi.org/10.1192/bjp.bp.108.055046",
+      "abstract": "BACKGROUND: Specific cortico-striato-thalamic circuits are hypothesised to mediate the symptoms of obsessive-compulsive disorder (OCD), but structural neuroimaging studies have been inconsistent. AIMS: To conduct a meta-analysis of published and unpublished voxel-based morphometry studies in OCD. METHOD: Twelve data-sets comprising 401 people with OCD and 376 healthy controls met inclusion criteria. A new improved voxel-based meta-analytic method, signed differential mapping (SDM), was developed to examine regions of increased and decreased grey matter volume in the OCD group v. control group. Results No between-group differences were found in global grey matter volumes. People with OCD had increased regional grey matter volumes in bilateral lenticular nuclei, extending to the caudate nuclei, as well as decreased volumes in bilateral dorsal medial frontal/anterior cingulate gyri. A descriptive analysis of quartiles, a sensitivity analysis as well as analyses of subgroups further confirmed these findings. Meta-regression analyses showed that studies that included individuals with more severe OCD were significantly more likely to report increased grey matter volumes in the basal ganglia. No effect of current antidepressant treatment was observed. Conclusions The results support a dorsal prefrontal-striatal model of the disorder and raise the question of whether functional alterations in other brain regions commonly associated with OCD, such as the orbitofrontal cortex, may reflect secondary compensatory strategies. Whether the reported differences between participants with OCD and controls precede the onset of the symptoms and whether they are specific to OCD remains to be established.",
+      "source": "openalex",
+      "doi": "10.1192/bjp.bp.108.055046",
+      "arxiv_id": "",
+      "citations": 878,
+      "relevance": 0.4699,
+      "foundational": false
+    },
+    {
+      "key": "moerland2023modelbased",
+      "title": "Model-based Reinforcement Learning: A Survey",
+      "authors": [
+        "Thomas M. Moerland",
+        "Joost Broekens",
+        "Aske Plaat",
+        "Catholijn M. Jonker"
+      ],
+      "year": 2023,
+      "venue": "Foundations and Trends® in Machine Learning",
+      "url": "https://doi.org/10.1561/2200000086",
+      "abstract": "Sequential decision making, commonly formalized as Markov Decision Process (MDP) optimization, is an important challenge in artificial intelligence. Two key approaches to this problem are reinforcement learning (RL) and planning. This survey is an integration of both fields, better known as model-based reinforcement learning. Model-based RL has two main steps. First, we systematically cover approaches to dynamics model learning, including challenges like dealing with stochasticity, uncertainty, partial observability, and temporal abstraction. Second, we present a systematic categorization of planning-learning integration, including aspects like: where to start planning, what budgets to allocate to planning and real data collection, how to plan, and how to integrate planning in the learning and acting loop. After these two sections, we also discuss implicit model-based RL as an end-to-end alternative for model learning and planning, and we cover the potential benefits of model-based RL. Along the way, the survey also draws connections to several related RL fields, like hierarchical RL and transfer learning. Altogether, the survey presents a broad conceptual overview of the combination of planning and learning for MDP optimization.",
+      "source": "openalex",
+      "doi": "10.1561/2200000086",
+      "arxiv_id": "",
+      "citations": 523,
+      "relevance": 0.4678,
+      "foundational": false
+    },
+    {
+      "key": "fu2020datasets",
+      "title": "D4RL: Datasets for Deep Data-Driven Reinforcement Learning",
+      "authors": [
+        "Justin Fu",
+        "Aviral Kumar",
+        "Ofir Nachum",
+        "George Tucker",
+        "Sergey Levine"
+      ],
+      "year": 2020,
+      "venue": "arXiv (Cornell University)",
+      "url": "https://doi.org/10.48550/arxiv.2004.07219",
+      "abstract": "The offline reinforcement learning (RL) setting (also known as full batch RL), where a policy is learned from a static dataset, is compelling as progress enables RL methods to take advantage of large, previously-collected datasets, much like how the rise of large datasets has fueled results in supervised learning. However, existing online RL benchmarks are not tailored towards the offline setting and existing offline RL benchmarks are restricted to data generated by partially-trained agents, making progress in offline RL difficult to measure. In this work, we introduce benchmarks specifically designed for the offline setting, guided by key properties of datasets relevant to real-world applications of offline RL. With a focus on dataset collection, examples of such properties include: datasets generated via hand-designed controllers and human demonstrators, multitask datasets where an agent performs different tasks in the same environment, and datasets collected with mixtures of policies. By moving beyond simple benchmark tasks and data collected by partially-trained RL agents, we reveal important and unappreciated deficiencies of existing algorithms. To facilitate research, we have released our benchmark tasks and datasets with a comprehensive evaluation of existing algorithms, an evaluation protocol, and open-source examples. This serves as a common starting point for the community to identify shortcomings in existing offline RL methods and a collaborative route for progress in this emerging area.",
+      "source": "openalex",
+      "doi": "10.48550/arxiv.2004.07219",
+      "arxiv_id": "",
+      "citations": 330,
+      "relevance": 0.4578,
+      "foundational": false
+    },
+    {
+      "key": "pan2005dopamine",
+      "title": "Dopamine Cells Respond to Predicted Events during Classical Conditioning: Evidence for Eligibility Traces in the Reward-Learning Network",
+      "authors": [
+        "Wei‐Xing Pan",
+        "Robert Schmidt",
+        "Jeffery R. Wickens",
+        "Brian I. Hyland"
+      ],
+      "year": 2005,
+      "venue": "Journal of Neuroscience",
+      "url": "https://doi.org/10.1523/jneurosci.1478-05.2005",
+      "abstract": "Behavioral conditioning of cue-reward pairing results in a shift of midbrain dopamine (DA) cell activity from responding to the reward to responding to the predictive cue. However, the precise time course and mechanism underlying this shift remain unclear. Here, we report a combined single-unit recording and temporal difference (TD) modeling approach to this question. The data from recordings in conscious rats showed that DA cells retain responses to predicted reward after responses to conditioned cues have developed, at least early in training. This contrasts with previous TD models that predict a gradual stepwise shift in latency with responses to rewards lost before responses develop to the conditioned cue. By exploring the TD parameter space, we demonstrate that the persistent reward responses of DA cells during conditioning are only accurately replicated by a TD model with long-lasting eligibility traces (nonzero values for the parameter lambda) and low learning rate (alpha). These physiological constraints for TD parameters suggest that eligibility traces and low per-trial rates of plastic modification may be essential features of neural circuits for reward learning in the brain. Such properties enable rapid but stable initiation of learning when the number of stimulus-reward pairings is limited, conferring significant adaptive advantages in real-world environments.",
+      "source": "openalex",
+      "doi": "10.1523/jneurosci.1478-05.2005",
+      "arxiv_id": "",
+      "citations": 452,
+      "relevance": 0.4555,
+      "foundational": false
+    },
+    {
+      "key": "clark2003cognitivebehavioral",
+      "title": "Cognitive-Behavioral Therapy for OCD",
+      "authors": [
+        "David A. Clark"
+      ],
+      "year": 2003,
+      "venue": "",
+      "url": "https://openalex.org/W2172055652",
+      "abstract": "Part 1: The Nature of OCD. Obsessive-Compulsive Disorder: A Diagnostic Enigma. Phenomenology of Obsessions and Compulsions. Part 2: Cognitive-Behavioural Theory and Research. Behavioural Perspectives. Neuropsychology and Information Processing in OCD. Cognitive Appraisals Theories of OCD. Thought Suppression and Obsessions. Cognitive Control: A New Model of Obsessions. Part 3: Cognitive-Behavioural Therapy. Cognitive Behavioural Assessment. Getting Started: Basic Elements and Rationale. Cognitive Restructuring and Generating Alternatives. Behavioural Interventions. Modifying Secondary Appraisals of Control. Empirical Status and Future Directions.",
+      "source": "openalex",
+      "doi": "",
+      "arxiv_id": "",
+      "citations": 387,
+      "relevance": 0.4522,
+      "foundational": false
+    },
+    {
+      "key": "kaelbling1996reinforcement",
+      "title": "Reinforcement Learning: A Survey",
+      "authors": [
+        "Leslie Pack Kaelbling",
+        "Michael L. Littman",
+        "Andrew Moore"
+      ],
+      "year": 1996,
+      "venue": "Journal of Artificial Intelligence Research",
+      "url": "https://doi.org/10.1613/jair.301",
+      "abstract": "This paper surveys the field of reinforcement learning from a computer-science perspective. It is written to be accessible to researchers familiar with machine learning. Both the historical basis of the field and a broad selection of current work are summarized. Reinforcement learning is the problem faced by an agent that learns behavior through trial-and-error interactions with a dynamic environment. The work described here has a resemblance to work in psychology, but differs considerably in the details and in the use of the word ``reinforcement.'' The paper discusses central issues of reinforcement learning, including trading off exploration and exploitation, establishing the foundations of the field via Markov decision theory, learning from delayed reinforcement, constructing empirical models to accelerate learning, making use of generalization and hierarchy, and coping with hidden state. It concludes with a survey of some implemented systems and an assessment of the practical utility of current methods for reinforcement learning.",
+      "source": "openalex",
+      "doi": "10.1613/jair.301",
+      "arxiv_id": "",
+      "citations": 8976,
+      "relevance": 0.4295,
+      "foundational": false
+    },
+    {
+      "key": "bates2015fitting",
+      "title": "Fitting Linear Mixed-Effects Models Using lme4",
+      "authors": [
+        "Douglas M. Bates",
+        "Martin Mächler",
+        "Benjamin M. Bolker",
+        "Steve Walker"
+      ],
+      "year": 2015,
+      "venue": "Journal of Statistical Software",
+      "url": "https://doi.org/10.18637/jss.v067.i01",
+      "abstract": "Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the lmer function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an lmer call by a formula, in this case including both fixed- and random-effects terms. The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in R, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.",
+      "source": "openalex",
+      "doi": "10.18637/jss.v067.i01",
+      "arxiv_id": "",
+      "citations": 89218,
+      "relevance": 0.3975,
+      "foundational": false
+    },
+    {
+      "key": "singh1996reinforcement",
+      "title": "Reinforcement learning with replacing eligibility traces",
+      "authors": [
+        "Satinder Pal Singh",
+        "Richard S. Sutton"
+      ],
+      "year": 1996,
+      "venue": "Machine Learning",
+      "url": "https://doi.org/10.1007/bf00114726",
+      "abstract": "",
+      "source": "openalex",
+      "doi": "10.1007/bf00114726",
+      "arxiv_id": "",
+      "citations": 587,
+      "relevance": 0.3112,
+      "foundational": false
+    }
+  ],
+  "problems": [
+    {
+      "id": "P1",
+      "statement": "Can eligibility-trace parameters (trace decay lambda, trace type, learning rate alpha) be identified from OCD patients' sequential choice data, and does OCD correspond to abnormally persistent (or abnormally short) traces?",
+      "motivation": "Existing OCD computational models parameterize transition uncertainty or model-based weight but never trace persistence, even though trace duration is the most direct formalization of how long a past action stays 'eligible' for credit — a candidate memory-trace account of compulsive repetition.",
+      "evidence": [
+        "fradkin2020searching",
+        "kanen2019computational",
+        "pan2005dopamine",
+        "singh1996reinforcement"
+      ],
+      "kind": "gap"
+    },
+    {
+      "id": "P2",
+      "statement": "Do accumulating versus replacing eligibility traces produce dissociable signatures of repetitive and stimulus-bound behaviour, and can a replacing/accumulating trace model reproduce the finding that stimulus-bound perseveration is increased in stimulant use disorder but decreased in OCD?",
+      "motivation": "Repeated selection of the same stimulus is exactly the regime in which accumulating and replacing traces diverge, so this contrast offers a principled, falsifiable mechanistic explanation for an otherwise puzzling opposite-sign perseveration result within the 'compulsivity' spectrum.",
+      "evidence": [
+        "singh1996reinforcement",
+        "kanen2019computational",
+        "voon2014disorders"
+      ],
+      "kind": "contradiction"
+    },
+    {
+      "id": "P3",
+      "statement": "Are the Bayesian 'excessive state-transition uncertainty' account and the 'model-free habit bias' account of OCD mutually exclusive, or can both be generated by a single trace-based agent (e.g., a TD(lambda)/off-policy-trace agent) in which trace and model-learning parameters trade off?",
+      "motivation": "Two influential models predict overlapping phenomena (repetition, checking, habitual control) from apparently opposite mechanisms; eligibility traces formally interpolate between one-step TD and Monte-Carlo/model-like credit assignment and could unify them.",
+      "evidence": [
+        "fradkin2020searching",
+        "voon2014disorders",
+        "precup2000eligibility",
+        "moerland2023modelbased"
+      ],
+      "kind": "open_question"
+    },
+    {
+      "id": "P4",
+      "statement": "Under partial observability — where the agent cannot verify whether its own action was executed — do longer eligibility traces trade off between compensating for hidden state and producing pathological repeated re-checking?",
+      "motivation": "OCD is clinically characterized by distrust of one's own just-performed actions, i.e., a hidden-state problem, and traces are known to make RL more robust to hidden state; simulating this trade-off yields concrete predictions about when checking becomes maladaptive.",
+      "evidence": [
+        "precup2000eligibility",
+        "kaelbling1996reinforcement",
+        "fradkin2020searching"
+      ],
+      "kind": "gap"
+    },
+    {
+      "id": "P5",
+      "statement": "Do D2/3 agonists and antagonists (pramipexole, amisulpride) shift estimated trace-decay and learning-rate parameters in OCD patients in the direction predicted by dopaminergic eligibility-trace physiology?",
+      "motivation": "Rodent recordings imply long traces and low learning rates are physiological constraints on dopaminergic reward learning, and a within-subject pharmacological OCD dataset design already exists; linking drug effects to trace parameters would give a mechanistic treatment target. This requires human participants under a double-blind pharmacological protocol.",
+      "evidence": [
+        "pan2005dopamine",
+        "kanen2019computational"
+      ],
+      "kind": "extension"
+    },
+    {
+      "id": "P6",
+      "statement": "Do individual trace-based model parameters predict structural abnormalities (caudate/lenticular enlargement, dorsomedial frontal/ACC reduction) and response to cognitive-behavioural therapy in OCD?",
+      "motivation": "Habit-bias parameters have already been tied to caudate and medial OFC grey matter, and grey-matter changes in OCD are meta-analytically robust, so testing whether trace parameters carry the same or additional neural and clinical predictive value would validate the model. This needs human imaging cohorts and longitudinal treatment/field data rather than simulation alone.",
+      "evidence": [
+        "voon2014disorders",
+        "radua2009voxelwise",
+        "clark2003cognitivebehavioral",
+        "bates2015fitting"
+      ],
+      "kind": "gap"
+    }
+  ],
+  "summary": "The literature contains two largely separate strands. On the clinical-computational side, OCD has been formalized either as excessive uncertainty about state transitions within a Bayesian-brain framework, which reproduces doubt, checking, repetition and over-reliance on habit (fradkin2020searching), or as a shift in the arbitration between model-based and model-free control, with a habit-learning bias shared across compulsivity disorders and linked to reduced caudate and medial OFC grey matter (voon2014disorders; radua2009voxelwise). Hierarchical Bayesian fits of probabilistic reversal learning show that OCD and stimulant use disorder dissociate on perseveration parameters and are differentially modulated by D2/3 agents (kanen2019computational). On the machine-learning/neuroscience side, eligibility traces are a well-characterized mechanism for credit assignment over time, with accumulating vs. replacing variants, off-policy generalizations, and robustness to hidden state (singh1996reinforcement; precup2000eligibility; kaelbling1996reinforcement), and electrophysiological evidence in rats constrains dopaminergic learning to long-lasting traces with low learning rates (pan2005dopamine). What is missing is an explicit bridge: no retrieved work estimates eligibility-trace parameters in OCD patients or uses trace dynamics as the memory-trace substrate for obsessive repetition, despite traces being the natural formal link between model-free and Monte-Carlo/model-based-like credit assignment (precup2000eligibility; moerland2023modelbased).",
+  "sources_used": [
+    "openalex"
+  ],
+  "notes": [
+    "arxiv search failed for 'OCD': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'eligibility trace': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'modeling': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'obsessive-compulsive disorder computational model': HTTPError: HTTP Error 406: Not Acceptable",
+    "arxiv search failed for 'eligibility trace reinforcement learning credit assignment': HTTPError: HTTP Error 406: Not Acceptable"
+  ]
+}

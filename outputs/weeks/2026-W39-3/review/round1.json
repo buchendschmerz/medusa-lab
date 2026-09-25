@@ -1,0 +1,222 @@
+{
+  "reviews": [
+    {
+      "reviewer": "Reviewer 1 (Methodologist)",
+      "persona": "methodologist",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 3.0,
+        "clarity": 4.0,
+        "reproducibility": 4.0,
+        "significance": 3.0
+      },
+      "summary": "The paper proposes a TD(\\u03bb) agent with accumulating/replacing eligibility traces over discretised belief states in a partially observable checking task, plus a transferred reversal task, as a candidate memory-trace account of compulsive checking. A 8\\u00d72\\u00d73 factorial simulation (1572 agents, 20 per cell) finds the headline hypothesis (trace-type \\u00d7 \\u03bb interaction on checking) unsupported, partial support for uncertainty/trace degeneracy (with a reversed \\u03b5 effect and a failed disambiguation design), and an unexpected reduction in perseveration with longer accumulating traces. The reporting is unusually candid, explicitly correcting an automated summary that mischaracterised a null effect as large.",
+      "strengths": [
+        "Exceptional candour: the paper explicitly flags that the automated run summary mislabelled \\u03b7\\u00b2=0.0197 (F(7,304)=0.92, p=0.49) as 'large' and as supporting H1, and instructs readers to rely on the reported statistics. This is exactly the behaviour reviewers should reward.",
+        "Hypotheses are pre-stated and each is adjudicated with an explicit verdict, including a clear negative for the headline claim and a failed remedy (multi-q design increased recovery bias from 0.37 to 0.90).",
+        "The model is minimal and well-motivated: no relief reinforcer is built in, so the emergence of a positive Q_MF(CHECK)-Q_MF(LEAVE) gap is a genuine demonstration that credit assignment alone can manufacture a checking preference.",
+        "Limitations are unusually specific and mechanistically diagnostic (N_max cap, belief binning K controlling state revisitation, boundary optima on the \\u03bb grid, r=0.96 over three points), and they feed concrete design constraints back into the proposed human experiments.",
+        "Reproducibility basics are in place: single recorded seed, fixed parameter table, 20 replicates/cell, CIs on figures, deterministic short runtime."
+      ],
+      "weaknesses": [
+        "The null for H1 is confounded with design choices the authors themselves identify as potentially decisive (N_max, K, \\u03b1, w, c/R_dis were never varied). As stated, H1 is not so much falsified as untested in a regime where the mechanism could operate; a single sensitivity sweep over K and N_max would have converted a weak null into an informative one.",
+        "No power analysis or equivalence test accompanies the null. With CIs of roughly \\u00b10.2 checks and 20 agents/cell, the paper cannot distinguish 'no effect' from 'effect smaller than we can detect'. A TOST or a minimum detectable effect calculation is needed before the null is interpretable.",
+        "Single seed. Replicates are within-run agents, not independent pipeline seeds; nothing rules out seed-specific behaviour, particularly for the parameter-recovery grid searches where a single point estimate is reported per generator setting.",
+        "The parameter-recovery analysis rests on two generator settings and grid-search point estimates with no uncertainty at all (\\u03bb\\u0302=0.37, \\u03b5\\u0302=0.075 are reported bare). The headline practical caution ('inference pathology masquerades as long traces') therefore rests on n=1 per direction. The authors acknowledge this, but the claim still propagates into the abstract and conclusion.",
+        "Multiple hypothesis tests and many derived metrics are reported without any correction or explicit statement that analyses were pre-specified; the 'clearest positive result was not one of our numbered hypotheses' (perseveration) is by construction a post-hoc finding and is somewhat foregrounded in the abstract.",
+        "ANOVA on log(1+checks) is reported without any check of residual normality/variance homogeneity, and only \\u03b7\\u00b2 for the interaction is given \\u2014 main effects of \\u03bb, trace type and q are not tabulated, so the reader cannot see the full model."
+      ],
+      "requests": [
+        "Run a sensitivity sweep over at least K (belief bins) and N_max (checking cap), and ideally \\u03b1 and c/R_dis, to test whether the H1 null is robust or is an artefact of state-revisitation frequency and the cap. Report checking-vs-\\u03bb curves for the regime with the finest binning and no cap.",
+        "Add an equivalence test (e.g. TOST) or a minimum-detectable-effect / power curve for the \\u03bb \\u00d7 trace-type interaction, so the null can be interpreted quantitatively rather than as 'p=0.49'.",
+        "Repeat the whole design under at least 3-5 independent master seeds and report between-seed variability for the headline metrics (interaction \\u03b7\\u00b2, \\u03bb*, \\u03bb\\u0302 recovery bias).",
+        "Put uncertainty on the recovery estimates: bootstrap or profile the grid-search objective to give intervals on \\u03bb\\u0302 and \\u03b5\\u0302, and expand beyond two generator settings (e.g. a 3\\u00d73 grid of generating (\\u03bb, \\u03b5)) before asserting a directional confound.",
+        "Give the full ANOVA table (main effects, interaction, df, \\u03b7\\u00b2, residual diagnostics) and state explicitly which analyses were pre-specified and which are post-hoc; move the perseveration result to a clearly labelled exploratory framing in the abstract.",
+        "Provide the mathematical definition of the stimulus-bound perseveration index, and state how it relates (or does not) to the hierarchically estimated parameters it is compared with."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 1
+    },
+    {
+      "reviewer": "Reviewer 2 (Domain expert)",
+      "persona": "domain_expert",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 3.0,
+        "clarity": 4.0,
+        "reproducibility": 4.0,
+        "significance": 3.0
+      },
+      "summary": "The paper proposes the Trace-Based Checking Agent (TBCA), a TD(\\u03bb) agent with accumulating/replacing eligibility traces over discretised belief states in a partially observable checking MDP, statically arbitrated with a one-step belief-based module, and transferred unchanged to a probabilistic reversal task. Across 1572 simulated agents the headline hypothesis (accumulating traces \\u2192 runaway checking) is clearly falsified; uncertainty and trace length are shown to be partially degenerate (with a directional recovery confound), the \\u03b5 effect runs opposite to expectation, and an unexpected finding is that longer accumulating traces reduce stimulus-bound perseveration. The reporting is unusually candid, including explicit correction of an automated summary that mischaracterised a null effect as large.",
+      "strengths": [
+        "The conceptual bridge \\u2014 eligibility traces as the shared substrate linking Fradkin-style inference pathology and Voon-style habit bias \\u2014 is a genuinely underexplored framing, and the paper is honest that the link is a proposal rather than an established result.",
+        "Exceptional candour: the null on H1 is reported prominently, the reversed \\u03b5 effect is analysed mechanistically rather than buried, the proposed disambiguation design is declared not validated, and the authors explicitly correct their own automated run summary's mischaracterisation of \\u03b7\\u00b2=0.02 as 'large'. This is exactly the behaviour the venue should reward.",
+        "The design decision to exclude any relief reinforcer is well motivated and makes the emergence of a positive Q_MF(CHECK)-Q_MF(LEAVE) gap a meaningful (if modest) result: compulsion-like preference is manufactured by credit assignment alone.",
+        "The directional recovery confound (uncertainty-generated data fitted as \\u03bb\\u0302=0.37) is a practically useful caution for anyone fitting habit/trace parameters to patient choice data, and it is framed with appropriate hedging as an existence demonstration.",
+        "Running the identical parameter vector on a second task to address the Kanen dissociation constraint is good methodological discipline, and the perseveration result is correctly labelled a hypothesis rather than a reproduction.",
+        "Limitations section is thorough and identifies the most likely design-level causes of the null (N_max cap, belief binning, single-check diagnosticity)."
+      ],
+      "weaknesses": [
+        "The central mechanistic claim \\u2014 that repeated checks map to the same discretised state-action pair so an accumulating trace can super-credit repetition \\u2014 is never verified in the simulation. The authors themselves list 'if the belief bin changes after each check, accumulating and replacing traces coincide' as a post hoc explanation, but no diagnostic (e.g. distribution of max eligibility values, fraction of consecutive checks staying in the same bin) is reported. Without this, the paper cannot distinguish 'traces do not cause compulsion' from 'our state representation never let traces act'. This is the single most important gap.",
+        "The null is therefore confounded with a known-binding ceiling: checking clusters at 2-3 with N_max capping, and neither N_max, K, \\u03b1, w nor c/R_dis was varied. A one-line sensitivity sweep over K and N_max would have been cheap (8 s runtime) and would substantially change how much weight the H1 null can bear. As it stands the negative result is informative about this environment only, which the authors concede but which limits significance.",
+        "The 'model-based' module is a one-step lookahead, so the arbitration is not really a model-based/model-free arbitration in the sense used by Voon or Gillan; equating w with habit bias in the discussion is a stretch. Relatedly, the Gillan/Daw two-step literature on goal-directed deficits in compulsivity is not cited, which is a notable positioning gap for a paper claiming to unify the habit account.",
+        "Parameter recovery uses grid-search point estimates on two generator settings only; the multi-q 'bias grew from 0.37 to 0.90' result could easily be an artefact of the fitting procedure (e.g. likelihood surface flatness, objective definition) rather than a property of the design. The fitting objective is never specified.",
+        "The perseveration finding, which is the most interesting positive result, has no mechanistic account. Why should longer accumulating traces reduce stimulus-bound perseveration? Without an explanation (or a control showing it is not simply a value-noise/learning-instability effect), the mapping onto the OCD vs SUD dissociation is decorative.",
+        "Single seed with 20 replicates/cell; CIs are acknowledged to be the same order as the effects discussed. Given an 8 s runtime, there is no good reason not to run several seeds and many more replicates."
+      ],
+      "requests": [
+        "Report a direct diagnostic of the proposed mechanism: distribution of maximum eligibility e(x,a) reached for the CHECK action, and the empirical fraction of consecutive checks that remain in the same (n, belief-bin) cell, split by \\u03bb and trace type. If accumulating traces rarely exceed eligibility 1, say so explicitly \\u2014 it reframes H1 as untested rather than falsified.",
+        "Add a sensitivity sweep over the belief-bin count K and the checking cap N_max (and ideally the cost ratio c/R_dis), at least at q=0.8, to establish whether the H1 null survives when the ceiling and binning are relaxed. This is the minimum needed to support the abstract's framing.",
+        "Specify the fitting objective and search procedure used in the recovery analysis, and add at least a handful of generator settings plus a sanity check that each model recovers its own parameters before reporting cross-model bias. Soften or drop the '-143% bias reduction' number unless it survives this.",
+        "Increase replicates and run \\u22653 seeds; report seed-to-seed variability for the headline null and for the perseveration effect.",
+        "Add a mechanistic explanation (and a control analysis) for why longer accumulating traces lower the perseveration index; without this the OCD/SUD mapping should be labelled speculative in the abstract as well as in the results.",
+        "Expand related work to engage the Gillan/Daw two-step goal-directed literature on compulsivity, and state explicitly which components of Fradkin et al.'s model the TBCA omits (termination/confidence criterion, relief), so that the reversed \\u03b5 result is correctly scoped as a property of this minimal variant."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 1
+    },
+    {
+      "reviewer": "Reviewer 3 (Skeptic)",
+      "persona": "skeptic",
+      "target": "paper",
+      "scores": {
+        "novelty": 3.0,
+        "rigor": 3.0,
+        "clarity": 4.0,
+        "reproducibility": 4.0,
+        "significance": 3.0
+      },
+      "summary": "The paper proposes TD(\\u03bb) eligibility traces as a mechanistic substrate for compulsive checking, implements a small partially observable checking agent plus a reversal task with shared parameters, and runs a 1572-agent factorial simulation. The headline hypothesis (accumulating traces \\u2192 runaway checking) is clearly falsified, an uncertainty\\u2192trace recovery confound is demonstrated, the proposed multi-q disambiguation fails, and an unexpected reduction in perseveration with long accumulating traces is reported. The reporting is unusually candid and the limitations section is genuinely self-critical, but the informativeness of the central null is limited by an unexplored parameter space, and the one positive finding has a simple untested alternative explanation.",
+      "strengths": [
+        "Exemplary candour: the authors explicitly correct their own automated run summary's mischaracterisation of \\u03b7\\u00b2=0.0197 as 'large', report a failed remedy (multi-q worsening recovery bias), and refuse to claim an inverted-U when two optima lie on grid boundaries. This is the standard other submissions should meet.",
+        "The directional degeneracy result (uncertainty-generated data fitted as \\u03bb\\u0302=0.37 while the converse is weak) is the most practically useful contribution and yields a concrete, falsifiable caution for anyone fitting habit/trace parameters to patient data.",
+        "The design decision to omit an anxiety-relief reinforcer is principled and makes the emergence of a positive Q_MF(CHECK\\u2212LEAVE) gap non-trivial rather than built in.",
+        "Good mechanistic self-diagnosis of the null: the observation that trace over-crediting requires state revisitation within the trace window, and that belief binning may prevent this, converts the failure into a testable environmental precondition that feeds into E1/E2 design.",
+        "Full metric dump, seed, runtime and replicate counts reported; the reversal-task transfer with an identical parameter vector is a sensible way to address the Kanen dissociation constraint."
+      ],
+      "weaknesses": [
+        "The central null is close to uninterpretable given that none of the parameters the authors themselves identify as decisive (N_max, K, \\u03b1, w, c/R_dis, exploration temperature) were varied. A single point in that space cannot distinguish 'traces do not drive checking' from 'this environment cannot express trace effects'. The paper says this in limitations but the conclusion ('the answer in this environment is mostly no') still carries more weight than one cell of a much larger design warrants.",
+        "The perseveration result \\u2014 the paper's main positive claim and the one linked to clinical dissociation \\u2014 has an obvious untested alternative explanation: with fixed \\u03b1, accumulating traces at \\u03bb=0.99 inflate the effective per-update step size and add update variance, which alone can reduce stimulus-bound stickiness. Until \\u03b1 is scaled or effective learning rate is matched across trace types, this is plausibly a step-size artifact rather than a trace-duration mechanism, and should not be offered as a 'formal route' to the OCD/SUD dissociation.",
+        "H2's 'behavioural interchangeability' rests on matching a single scalar (mean checks/episode). Almost any two parameters with overlapping behavioural range will match one summary statistic; the non-monotone \\u03bb sequence (0.26, 0.38, 0.60, 0.46, 0.36, 0.80) suggests the matching is partly fitting noise rather than tracing a genuine equivalence manifold. The claim of 'partially degenerate parameterisations of a single credit-assignment problem' is stronger than a one-statistic match supports.",
+        "Recovery is grid-search point estimation at two generator settings with no sampling variability, no likelihood-based fit, and no recovery of \\u03b1 or trace type. The '\\u2212143% bias change' with multi-q is reported to three figures but is a difference between two single point estimates; it may not survive reseeding.",
+        "Single seed. With CIs of roughly \\u00b10.2 checks and 20 replicates, several reported contrasts (escalation slopes, adjacent \\u03bb, the three-point r=0.96) are within noise; a second seed is cheap (8 s) and its absence is hard to justify.",
+        "The claim that 'pure credit assignment is sufficient to manufacture a compulsion-like tendency' is weakly supported: with c<0 and R_dis\\u226a0 and q<1, checking has genuine instrumental value, so a positive Q gap at n=1 may simply reflect correct valuation of information rather than anything pathological or trace-specific. The paper needs to show the learned gap exceeds the normative/optimal-policy gap before calling it manufactured compulsion."
+      ],
+      "requests": [
+        "Run a sensitivity sweep over the parameters you identify as decisive \\u2014 at minimum K (belief bins) and N_max, ideally also \\u03b1 and w \\u2014 and report whether the \\u03bb \\u00d7 trace-type interaction on checking remains null. A no-cap, coarse-binning condition that guarantees state revisitation is the fair test of H1 and should be in this paper, not deferred to E2.",
+        "Test the step-size confound for the perseveration result: rerun the reversal task with \\u03b1 rescaled (e.g. \\u03b1/(1+\\u03bb\\u03b3 accumulated eligibility) or a matched effective-learning-rate control), and report whether long accumulating traces still lower perseveration. Soften or withdraw the 'candidate formal route to the OCD/SUD dissociation' framing unless it survives.",
+        "Replicate the whole design with at least 3 additional seeds and report seed-to-seed variability on the headline quantities (\\u03b7\\u00b2, \\u03bb\\u0302 recovery bias, perseveration index). State explicitly whether the \\u22124143%\\u2019 multi-q bias change is stable across seeds.",
+        "Strengthen H2: instead of matching one scalar, report the joint distribution of several statistics (checks, residual belief at leaving, escalation slope, disaster rate, check-count histogram shape) under matched-checking \\u03b5 and \\u03bb pairs. If the mechanisms are separable on any of these, say so \\u2014 that would be a more useful design recommendation than the failed multi-q manipulation.",
+        "Add a normative benchmark: compute the optimal (or a belief-MDP-solved) policy's check rate and CHECK\\u2212LEAVE value gap for each q, and report the agent's deviation from it. Only excess checking relative to that benchmark should be described as compulsion-like.",
+        "Report uncertainty (CIs) for every number discussed in the text, including residual doubt, win-stay/lose-shift and the perseveration indices, and drop or explicitly label as non-inferential the three-point r=0.96 and the non-monotone iso-checking \\u03bb list."
+      ],
+      "decision": "major_revision",
+      "confidence": 4,
+      "round": 1
+    }
+  ],
+  "meta": {
+    "decision": "major_revision",
+    "mean_score": 3.4,
+    "summary": "Round 1: mean score 3.40/5 across 3 reviewers (votes: major_revision, major_revision, major_revision). Decision: major revision.",
+    "required_changes": [
+      "Run a sensitivity sweep over at least K (belief bins) and N_max (checking cap), and ideally \\u03b1 and c/R_dis, to test whether the H1 null is robust or is an artefact of state-revisitation frequency and the cap. Report checking-vs-\\u03bb curves for the regime with the finest binning and no cap.",
+      "Add an equivalence test (e.g. TOST) or a minimum-detectable-effect / power curve for the \\u03bb \\u00d7 trace-type interaction, so the null can be interpreted quantitatively rather than as 'p=0.49'.",
+      "Report a direct diagnostic of the proposed mechanism: distribution of maximum eligibility e(x,a) reached for the CHECK action, and the empirical fraction of consecutive checks that remain in the same (n, belief-bin) cell, split by \\u03bb and trace type. If accumulating traces rarely exceed eligibility 1, say so explicitly \\u2014 it reframes H1 as untested rather than falsified.",
+      "Add a sensitivity sweep over the belief-bin count K and the checking cap N_max (and ideally the cost ratio c/R_dis), at least at q=0.8, to establish whether the H1 null survives when the ceiling and binning are relaxed. This is the minimum needed to support the abstract's framing.",
+      "Run a sensitivity sweep over the parameters you identify as decisive \\u2014 at minimum K (belief bins) and N_max, ideally also \\u03b1 and w \\u2014 and report whether the \\u03bb \\u00d7 trace-type interaction on checking remains null. A no-cap, coarse-binning condition that guarantees state revisitation is the fair test of H1 and should be in this paper, not deferred to E2.",
+      "Test the step-size confound for the perseveration result: rerun the reversal task with \\u03b1 rescaled (e.g. \\u03b1/(1+\\u03bb\\u03b3 accumulated eligibility) or a matched effective-learning-rate control), and report whether long accumulating traces still lower perseveration. Soften or withdraw the 'candidate formal route to the OCD/SUD dissociation' framing unless it survives."
+    ],
+    "checks": [
+      {
+        "id": "simulation",
+        "label": "Simulation ran successfully",
+        "passed": true,
+        "detail": "llm, 8.5s",
+        "severity": "major"
+      },
+      {
+        "id": "figures",
+        "label": "At least one figure from archived data",
+        "passed": true,
+        "detail": "3 figure(s)",
+        "severity": "major"
+      },
+      {
+        "id": "replicates",
+        "label": "Three or more replicates per setting",
+        "passed": true,
+        "detail": "20 replicates",
+        "severity": "major"
+      },
+      {
+        "id": "uncertainty",
+        "label": "Uncertainty reported (confidence bands)",
+        "passed": true,
+        "detail": "95% intervals in figures",
+        "severity": "minor"
+      },
+      {
+        "id": "seed",
+        "label": "Random seed recorded",
+        "passed": true,
+        "detail": "seed 20260901",
+        "severity": "minor"
+      },
+      {
+        "id": "references",
+        "label": "Three or more references",
+        "passed": true,
+        "detail": "12 references",
+        "severity": "minor"
+      },
+      {
+        "id": "sections",
+        "label": "All sections written",
+        "passed": true,
+        "detail": "complete",
+        "severity": "major"
+      },
+      {
+        "id": "limitations",
+        "label": "Limitations discussed",
+        "passed": true,
+        "detail": "408 words",
+        "severity": "minor"
+      },
+      {
+        "id": "hypotheses",
+        "label": "Every in-silico hypothesis discussed",
+        "passed": true,
+        "detail": "all mentioned",
+        "severity": "minor"
+      },
+      {
+        "id": "overclaiming",
+        "label": "No overclaiming language",
+        "passed": true,
+        "detail": "none found",
+        "severity": "minor"
+      },
+      {
+        "id": "pdf",
+        "label": "PDF compiled",
+        "passed": true,
+        "detail": "latexmk/lualatex",
+        "severity": "minor"
+      },
+      {
+        "id": "own_code",
+        "label": "Simulation written for this study (not a fallback)",
+        "passed": true,
+        "detail": "llm",
+        "severity": "minor"
+      }
+    ],
+    "round": 1
+  }
+}

@@ -1,0 +1,60 @@
+[medusa-progress] 0.013 primary sweep tau=1.0 q=0.6 lam=0.0
+[medusa-progress] 0.026 primary sweep tau=1.0 q=0.6 lam=0.2
+[medusa-progress] 0.039 primary sweep tau=1.0 q=0.6 lam=0.4
+[medusa-progress] 0.052 primary sweep tau=1.0 q=0.6 lam=0.6
+[medusa-progress] 0.065 primary sweep tau=1.0 q=0.6 lam=0.8
+[medusa-progress] 0.077 primary sweep tau=1.0 q=0.6 lam=0.9
+[medusa-progress] 0.090 primary sweep tau=1.0 q=0.6 lam=0.95
+[medusa-progress] 0.103 primary sweep tau=1.0 q=0.6 lam=0.99
+[medusa-progress] 0.116 primary sweep tau=1.0 q=0.8 lam=0.0
+[medusa-progress] 0.129 primary sweep tau=1.0 q=0.8 lam=0.2
+[medusa-progress] 0.142 primary sweep tau=1.0 q=0.8 lam=0.4
+[medusa-progress] 0.155 primary sweep tau=1.0 q=0.8 lam=0.6
+[medusa-progress] 0.168 primary sweep tau=1.0 q=0.8 lam=0.8
+[medusa-progress] 0.181 primary sweep tau=1.0 q=0.8 lam=0.9
+[medusa-progress] 0.194 primary sweep tau=1.0 q=0.8 lam=0.95
+[medusa-progress] 0.207 primary sweep tau=1.0 q=0.8 lam=0.99
+[medusa-progress] 0.220 primary sweep tau=1.0 q=0.95 lam=0.0
+[medusa-progress] 0.232 primary sweep tau=1.0 q=0.95 lam=0.2
+[medusa-progress] 0.245 primary sweep tau=1.0 q=0.95 lam=0.4
+[medusa-progress] 0.258 primary sweep tau=1.0 q=0.95 lam=0.6
+[medusa-progress] 0.271 primary sweep tau=1.0 q=0.95 lam=0.8
+[medusa-progress] 0.284 primary sweep tau=1.0 q=0.95 lam=0.9
+[medusa-progress] 0.297 primary sweep tau=1.0 q=0.95 lam=0.95
+[medusa-progress] 0.310 primary sweep tau=1.0 q=0.95 lam=0.99
+[medusa-progress] 0.323 primary sweep tau=0.0 q=0.6 lam=0.0
+[medusa-progress] 0.336 primary sweep tau=0.0 q=0.6 lam=0.2
+[medusa-progress] 0.349 primary sweep tau=0.0 q=0.6 lam=0.4
+[medusa-progress] 0.362 primary sweep tau=0.0 q=0.6 lam=0.6
+[medusa-progress] 0.375 primary sweep tau=0.0 q=0.6 lam=0.8
+[medusa-progress] 0.388 primary sweep tau=0.0 q=0.6 lam=0.9
+[medusa-progress] 0.400 primary sweep tau=0.0 q=0.6 lam=0.95
+[medusa-progress] 0.413 primary sweep tau=0.0 q=0.6 lam=0.99
+[medusa-progress] 0.426 primary sweep tau=0.0 q=0.8 lam=0.0
+[medusa-progress] 0.439 primary sweep tau=0.0 q=0.8 lam=0.2
+[medusa-progress] 0.452 primary sweep tau=0.0 q=0.8 lam=0.4
+[medusa-progress] 0.465 primary sweep tau=0.0 q=0.8 lam=0.6
+[medusa-progress] 0.478 primary sweep tau=0.0 q=0.8 lam=0.8
+[medusa-progress] 0.491 primary sweep tau=0.0 q=0.8 lam=0.9
+[medusa-progress] 0.504 primary sweep tau=0.0 q=0.8 lam=0.95
+[medusa-progress] 0.517 primary sweep tau=0.0 q=0.8 lam=0.99
+[medusa-progress] 0.530 primary sweep tau=0.0 q=0.95 lam=0.0
+[medusa-progress] 0.542 primary sweep tau=0.0 q=0.95 lam=0.2
+[medusa-progress] 0.555 primary sweep tau=0.0 q=0.95 lam=0.4
+[medusa-progress] 0.568 primary sweep tau=0.0 q=0.95 lam=0.6
+[medusa-progress] 0.581 primary sweep tau=0.0 q=0.95 lam=0.8
+[medusa-progress] 0.594 primary sweep tau=0.0 q=0.95 lam=0.9
+[medusa-progress] 0.607 primary sweep tau=0.0 q=0.95 lam=0.95
+[medusa-progress] 0.620 primary sweep tau=0.0 q=0.95 lam=0.99
+[medusa-progress] 0.640 H1 analysis done
+[medusa-progress] 0.677 H2 grid lam=0.0
+[medusa-progress] 0.715 H2 grid lam=0.2
+[medusa-progress] 0.752 H2 grid lam=0.4
+[medusa-progress] 0.790 H2 grid lam=0.6
+[medusa-progress] 0.828 H2 grid lam=0.8
+[medusa-progress] 0.865 H2 grid lam=0.9
+[medusa-progress] 0.902 H2 grid lam=0.95
+[medusa-progress] 0.940 H2 grid lam=0.99
+[medusa-progress] 0.960 cross-fitting
+[medusa-progress] 1.000 done
+[medusa-progress] 1.000 done
